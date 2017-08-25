@@ -1,0 +1,12 @@
+DROP DATABASE IF EXISTS woolf;
+CREATE DATABASE woolf;
+
+USE woolf;
+
+DROP TABLE IF EXISTS stocks;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE stocks;
+
+
+
