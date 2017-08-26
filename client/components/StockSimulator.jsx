@@ -56,7 +56,7 @@ export default class StockSimulator extends React.Component {
     return (
 
       <div>
-        <h1>CryptoSim</h1>
+        <h1>Woolfey Sim</h1>
 
         <select id='currencySelector' value={this.state.selectedCurrency} onChange={this.handleCurrencySelectionChange}>
           <option value='btc'>Bitcoin</option>
@@ -71,9 +71,12 @@ export default class StockSimulator extends React.Component {
         <h4> {this.state.currentValue} </h4>
 
         <form onSubmit={this.handleSubmitPriceCheck}>
-          <input type='text' placeholder='Enter amount of bitcoin to buy...' onChange={this.handleInputChange} />
+          <input type='text' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
         </form>
         <p> {this.state.purchasePrice} </p>
+        <div>
+          
+        </div>
 
       </div>
 
