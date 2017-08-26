@@ -17,12 +17,18 @@ const User = db.define('user', {
 
 const Stock = db.define('stocks', {
     ticker: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    name: {
+        type: Sequelize.STRING,
+        allowNull: false
     },
     buyPrice: {
         type: Sequelize.FLOAT,
         allowNull: false
     }
+    
 });
 
 const Portfolio = db.define('portfolio', {
@@ -32,6 +38,10 @@ const Portfolio = db.define('portfolio', {
 });
 
 const PortfolioStock = db.define('portfolio_stock', {
+    shares: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+    },
 
 });
 

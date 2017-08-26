@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-const express = require('express');
 const Model = require('../../database/models/model.js');
 
 const hasher = require('./password.js');
@@ -11,9 +10,8 @@ module.exports = {
         .then(response => {
             if(!response){
                 hasher.generatePassword(req.body.password, hash => {
-                    console.log('hash', hash);
                     let email = req.body.email ? req.body.email : null;
-                
+
                     Model.User.create({handle: req.body.handle, password: hash, email: email})
                     .then(user => res.send(user))
     
