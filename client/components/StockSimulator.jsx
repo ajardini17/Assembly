@@ -48,7 +48,7 @@ export default class StockSimulator extends React.Component {
 
     let tempPrice = this.state.currentValue.slice(1) * parseFloat(this.state.input)
     this.setState({
-      purchasePrice: tempPrice.toFixed(2)
+      purchasePrice: `$${tempPrice.toFixed(2)}`
     })
   }
 
