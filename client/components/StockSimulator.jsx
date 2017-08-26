@@ -75,7 +75,6 @@ export default class StockSimulator extends React.Component {
         </form>
         <p> {this.state.purchasePrice} </p>
         <div>
-          
         </div>
 
       </div>
