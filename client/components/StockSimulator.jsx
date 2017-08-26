@@ -55,43 +55,61 @@ export default class StockSimulator extends React.Component {
   render() {
     return (
 
-      <div>
-        <h1>Woolfey Sim</h1>
-
-        {/* <select id='currencySelector' value={this.state.selectedCurrency} onChange={this.handleCurrencySelectionChange}>
-          <option value='btc'>Bitcoin</option>
-          <option value='bch'>Bitcoin Cash</option>
-          <option value='eth'>Ethereum</option>
-          <option value='ltc'>Litecoin</option>
-          <option value='xrp'>Ripple</option>
-          <option value='xmr'>Monero</option>
-          <option value='zec'>Zcash</option>
-        </select> */}
-        <div>
-          <img src='./images/bitcoinlogo.jpg' className='currencyButton' id='btc' onClick={this.handleCurrencySelectionChange} />
-          <img src='./images/bitcoincashlogo.jpg' className='currencyButton' id='bch' onClick={this.handleCurrencySelectionChange} />
-          <img src='./images/ethereumlogo.jpg' className='currencyButton' id='eth' onClick={this.handleCurrencySelectionChange} />
-          <img src='./images/litecoinlogo.jpg' className='currencyButton' id='ltc' onClick={this.handleCurrencySelectionChange} />
-          <img src='./images/monerologo.jpg' className='currencyButton' id='xmr' onClick={this.handleCurrencySelectionChange} />
-          <img src='./images/ripplelogo.jpg' className='currencyButton' id='xrp' onClick={this.handleCurrencySelectionChange} />
-          <img src='./images/zcashlogo.jpg' className='currencyButton' id='zec' onClick={this.handleCurrencySelectionChange} />
+      <div className='container'>
+        <div className='row'>
+          <div className='col-xs-4 col-xs-offset-4 text-center'>
+            <h1>Woolfey Sim</h1>
+          </div>
         </div>
 
-        <h4> {this.state.currentValue} </h4>
-
-        <form onSubmit={this.handleSubmitPriceCheck}>
-          <input type='text' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
-        </form>
-        {this.state.purchasePrice !== '$NaN' ? <p> {this.state.purchasePrice} </p> : <p></p>}
-        
-        {this.state.purchasePrice !== '' && this.state.input !== '' ? 
-          <div>
-            <button className='btn btn-primary'>Buy</button>
-            <button className='btn btn-danger'>Sell</button>
+        <div className='row'>
+          <div className='col-xs-1 col-xs-offset-2'>
+            <img src='./images/bitcoinlogo.jpg' className='currencyButton' id='btc' onClick={this.handleCurrencySelectionChange} />
           </div>
-          :
-          <div></div>
-        }
+          <div className='col-xs-1'>
+            <img src='./images/bitcoincashlogo.jpg' className='currencyButton' id='bch' onClick={this.handleCurrencySelectionChange} />
+          </div>
+          <div className='col-xs-1'>
+            <img src='./images/ethereumlogo.jpg' className='currencyButton' id='eth' onClick={this.handleCurrencySelectionChange} />
+          </div>
+          <div className='col-xs-1'>
+            <img src='./images/litecoinlogo.jpg' className='currencyButton' id='ltc' onClick={this.handleCurrencySelectionChange} />
+          </div>
+          <div className='col-xs-1'>
+            <img src='./images/monerologo.jpg' className='currencyButton' id='xmr' onClick={this.handleCurrencySelectionChange} />
+          </div>
+          <div className='col-xs-1'>
+            <img src='./images/ripplelogo.jpg' className='currencyButton' id='xrp' onClick={this.handleCurrencySelectionChange} />
+          </div>
+          <div className='col-xs-1'>
+            <img src='./images/zcashlogo.jpg' className='currencyButton' id='zec' onClick={this.handleCurrencySelectionChange} />
+          </div>
+        </div>
+
+        <div className='col-xs-4 col-xs-offset-4 text-center'>
+          <h4> {this.state.currentValue} </h4>
+        </div>
+
+        <div className='col-xs-4 col-xs-offset-4 text-center'>
+          <form onSubmit={this.handleSubmitPriceCheck}>
+            <input type='text' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
+          </form>
+        </div>
+
+        <div className='col-xs-4 col-xs-offset-4 text-center'>
+          {this.state.purchasePrice !== '$NaN' ? <p> {this.state.purchasePrice} </p> : <p></p>}
+        </div>
+        
+        <div className='col-xs-4 col-xs-offset-4 text-center'>
+          {this.state.purchasePrice !== '' && this.state.input !== '' ? 
+            <div>
+              <button className='btn btn-primary'>Buy</button>
+              <button className='btn btn-danger'>Sell</button>
+            </div>
+            :
+            <div></div>
+          }
+        </div>
 
       </div>
 
