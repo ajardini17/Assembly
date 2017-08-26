@@ -39,8 +39,8 @@ export default class StockSimulator extends React.Component {
 
   handleCurrencySelectionChange(e) {
     this.setState({
-      selectedCurrency: e.target.value
-    }, () => {this.handleCurrencyGetRequest()} )
+      selectedCurrency: e.target.id
+    }, () => {this.handleCurrencyGetRequest()})
   }
 
   handleSubmitPriceCheck(e) {
@@ -58,7 +58,7 @@ export default class StockSimulator extends React.Component {
       <div>
         <h1>Woolfey Sim</h1>
 
-        <select id='currencySelector' value={this.state.selectedCurrency} onChange={this.handleCurrencySelectionChange}>
+        {/* <select id='currencySelector' value={this.state.selectedCurrency} onChange={this.handleCurrencySelectionChange}>
           <option value='btc'>Bitcoin</option>
           <option value='bch'>Bitcoin Cash</option>
           <option value='eth'>Ethereum</option>
@@ -66,7 +66,16 @@ export default class StockSimulator extends React.Component {
           <option value='xrp'>Ripple</option>
           <option value='xmr'>Monero</option>
           <option value='zec'>Zcash</option>
-        </select>
+        </select> */}
+        <div>
+          <img src='./images/bitcoinlogo.jpg' className='currencyButton' id='btc' onClick={this.handleCurrencySelectionChange} />
+          <img src='./images/bitcoincashlogo.jpg' className='currencyButton' id='bch' onClick={this.handleCurrencySelectionChange} />
+          <img src='./images/ethereumlogo.jpg' className='currencyButton' id='eth' onClick={this.handleCurrencySelectionChange} />
+          <img src='./images/litecoinlogo.jpg' className='currencyButton' id='ltc' onClick={this.handleCurrencySelectionChange} />
+          <img src='./images/monerologo.jpg' className='currencyButton' id='xmr' onClick={this.handleCurrencySelectionChange} />
+          <img src='./images/ripplelogo.jpg' className='currencyButton' id='xrp' onClick={this.handleCurrencySelectionChange} />
+          <img src='./images/zcashlogo.jpg' className='currencyButton' id='zec' onClick={this.handleCurrencySelectionChange} />
+        </div>
 
         <h4> {this.state.currentValue} </h4>
 
@@ -75,14 +84,14 @@ export default class StockSimulator extends React.Component {
         </form>
         {this.state.purchasePrice !== '$NaN' ? <p> {this.state.purchasePrice} </p> : <p></p>}
         
-          {this.state.purchasePrice !== '' && this.state.input !== '' ? 
-            <div>
-              <button>Buy</button>
-              <button>Sell</button>
-            </div>
-            :
-            <div></div>
-          }
+        {this.state.purchasePrice !== '' && this.state.input !== '' ? 
+          <div>
+            <button>Buy</button>
+            <button>Sell</button>
+          </div>
+          :
+          <div></div>
+        }
 
       </div>
 
