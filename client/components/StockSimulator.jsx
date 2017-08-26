@@ -21,7 +21,7 @@ export default class StockSimulator extends React.Component {
   }
 
   handleCurrencyGetRequest() {
-    axios.get('/api', {params: this.state.selectedCurrency})
+    axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
     .then(result => {
       this.setState({
         currentValue: `$ ${result.data.last_price}`
