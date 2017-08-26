@@ -34,7 +34,7 @@ export default class StockSimulator extends React.Component {
   handleInputChange(e) {
     this.setState({
       input: e.target.value
-    })
+    }, () => {this.handleSubmitPriceCheck()})
   }
 
   handleCurrencySelectionChange(e) {
@@ -44,7 +44,7 @@ export default class StockSimulator extends React.Component {
   }
 
   handleSubmitPriceCheck(e) {
-    e.preventDefault()
+    //e.preventDefault()
 
     let tempPrice = this.state.currentValue.slice(1) * parseFloat(this.state.input)
     this.setState({
@@ -74,7 +74,7 @@ export default class StockSimulator extends React.Component {
           <input type='text' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
         </form>
         <p> {this.state.purchasePrice} </p>
-          {this.state.purchasePrice !== '' ? 
+          {this.state.purchasePrice !== '' && this.state.input !== '' ? 
             <div>
               <button>Buy</button>
               <button>Sell</button>
