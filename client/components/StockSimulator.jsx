@@ -40,7 +40,7 @@ export default class StockSimulator extends React.Component {
   handleCurrencySelectionChange(e) {
     this.setState({
       selectedCurrency: e.target.id
-    }, () => {this.handleCurrencyGetRequest(); console.log(this.state.selectedCurrency)} )
+    }, () => {this.handleCurrencyGetRequest()})
   }
 
   handleSubmitPriceCheck(e) {
