@@ -9,7 +9,7 @@ generatePassword = (password, callback) => {
             callback(hash);
         }
     });
-}
+};
 comparePassword = (password, hash, callback) => {
     bcrypt.compare(password, hash, (err, res) => {
         callback(res);

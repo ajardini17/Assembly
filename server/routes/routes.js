@@ -7,5 +7,7 @@ const portfolio = require('../controller/portfolioController.js');
 
 router.get('/coinQuery', stock.coinQuery);
 
+router.get('/login', user.login);
+router.post('/addProfile', user.addProfile);
 
 module.exports = router;
