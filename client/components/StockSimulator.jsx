@@ -21,10 +21,11 @@ export default class StockSimulator extends React.Component {
   }
 
   handleCurrencyGetRequest() {
-    axios.get('/api', {params: this.state.selectedCurrency})
+    axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
     .then(result => {
+      let price = parseFloat(result.data.last_price).toFixed(2)
       this.setState({
-        currentValue: `$ ${result.data.last_price}`
+        currentValue: `$${price}`
       })
       //console.log(result.data.last_price)
     })
@@ -45,9 +46,9 @@ export default class StockSimulator extends React.Component {
   handleSubmitPriceCheck(e) {
     e.preventDefault()
 
-    let tempPrice = parseFloat(this.state.currentValue.slice(2)) * parseFloat(this.state.input)
+    let tempPrice = this.state.currentValue.slice(1) * parseFloat(this.state.input)
     this.setState({
-      purchasePrice: tempPrice.toString()
+      purchasePrice: `$${tempPrice.toFixed(2)}`
     })
   }
 
@@ -55,7 +56,7 @@ export default class StockSimulator extends React.Component {
     return (
 
       <div>
-        <h1>CryptoSim</h1>
+        <h1>Woolfey Sim</h1>
 
         <select id='currencySelector' value={this.state.selectedCurrency} onChange={this.handleCurrencySelectionChange}>
           <option value='btc'>Bitcoin</option>
@@ -70,9 +71,11 @@ export default class StockSimulator extends React.Component {
         <h4> {this.state.currentValue} </h4>
 
         <form onSubmit={this.handleSubmitPriceCheck}>
-          <input type='text' placeholder='Enter amount of bitcoin to buy...' onChange={this.handleInputChange} />
+          <input type='text' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
         </form>
         <p> {this.state.purchasePrice} </p>
+        <div>
+        </div>
 
       </div>
 

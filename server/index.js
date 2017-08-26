@@ -14,6 +14,10 @@ app.use(express.static(path.join(__dirname, '../static')))
 
 app.use('/api', routes);
 
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, '../static/index.html'))
+})
+
 app.listen(PORT, function() {
   console.log('now serving app on port ', PORT)
 })
