@@ -24,9 +24,8 @@ const Stock = db.define('stocks', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    buyPrice: {
-        type: Sequelize.FLOAT,
-        allowNull: false
+    newsStories: {
+        type: Sequelize.ARRAY(Sequelize.TEXT),
     }
     
 });
@@ -34,7 +33,12 @@ const Stock = db.define('stocks', {
 const Portfolio = db.define('portfolio', {
     name: {
         type: Sequelize.STRING,
+    },
+    balance: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1000000
     }
+
 });
 
 const PortfolioStock = db.define('portfolio_stock', {
@@ -42,17 +46,24 @@ const PortfolioStock = db.define('portfolio_stock', {
         type: Sequelize.FLOAT,
         allowNull: false
     },
+    buyPrice: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+    }
 
 });
 
-Stock.belongsToMany(Portfolio, {through: PortfolioStock});
+Stock.belongsToMany(Portfolio, {as: 'asset', through: PortfolioStock, unique: true});
 Portfolio.belongsToMany(Stock, {through: PortfolioStock});
 Portfolio.belongsTo(User);
+User.hasMany(Portfolio);
 
-User.sync();
-Stock.sync();
-Portfolio.sync();
-PortfolioStock.sync();
+
+
+User.sync({force: true});
+Stock.sync({force: true});
+Portfolio.sync({force: true});
+PortfolioStock.sync({force: true});
 
 module.exports = {
     User,

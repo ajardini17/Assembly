@@ -9,5 +9,8 @@ router.get('/coinQuery', stock.coinQuery);
 
 router.get('/login', user.login);
 router.post('/addProfile', user.addProfile);
+router.post('/addStock', stock.addStock);
+
+router.post('/createPortfolio', portfolio.createPortfolio);
 
 module.exports = router;

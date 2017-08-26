@@ -13,6 +13,23 @@ module.exports = {
             .catch(err => {
               console.log('error in getting info from server side :: ', err)
             })
+    },
+    addStock: (req, res) => {
+
+      //portfolio's id/name
+      Model.Stock.findOrCreate({where: {ticker: req.body.ticker}, 
+        defaults: {
+          name: req.body.name
+        }
+
+      })
+      .then(stock => {
+        Model.PortfolioStock.create({
+          stockId: stock.dataValues.id,
+          portfolioId: req.body.portfolioid,
+          
+        })
+      })
     }
 
 }
