@@ -4,3 +4,4 @@ static/bundle.js
 npm-debug.log
 .DS_Store
 static/.DS_Store
+*__pycache__
