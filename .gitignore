@@ -3,3 +3,4 @@ static/bundle.js
 .env
 npm-debug.log
 .DS_Store
+static/.DS_Store

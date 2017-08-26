@@ -74,8 +74,14 @@ export default class StockSimulator extends React.Component {
           <input type='text' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
         </form>
         <p> {this.state.purchasePrice} </p>
-        <div>
-        </div>
+          {this.state.purchasePrice !== '' ? 
+            <div>
+              <button>Buy</button>
+              <button>Sell</button>
+            </div>
+            :
+            <div></div>
+          }
 
       </div>
 
