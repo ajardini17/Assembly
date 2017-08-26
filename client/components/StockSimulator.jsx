@@ -23,8 +23,9 @@ export default class StockSimulator extends React.Component {
   handleCurrencyGetRequest() {
     axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
     .then(result => {
+      let price = parseFloat(result.data.last_price).toFixed(2)
       this.setState({
-        currentValue: `$ ${result.data.last_price}`
+        currentValue: `$${price}`
       })
       //console.log(result.data.last_price)
     })
@@ -45,9 +46,9 @@ export default class StockSimulator extends React.Component {
   handleSubmitPriceCheck(e) {
     e.preventDefault()
 
-    let tempPrice = parseFloat(this.state.currentValue.slice(2)) * parseFloat(this.state.input)
+    let tempPrice = this.state.currentValue.slice(1) * parseFloat(this.state.input)
     this.setState({
-      purchasePrice: tempPrice.toString()
+      purchasePrice: tempPrice.toFixed(2)
     })
   }
 
