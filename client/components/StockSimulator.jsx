@@ -86,8 +86,8 @@ export default class StockSimulator extends React.Component {
         
         {this.state.purchasePrice !== '' && this.state.input !== '' ? 
           <div>
-            <button>Buy</button>
-            <button>Sell</button>
+            <button className='btn btn-primary'>Buy</button>
+            <button className='btn btn-danger'>Sell</button>
           </div>
           :
           <div></div>
