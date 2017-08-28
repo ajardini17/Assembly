@@ -13,13 +13,13 @@ import json
 
 style.use('ggplot')
 
-urls = ['https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&aggregate=1&toTs=1503536461&allData=true',
-        'https://min-api.cryptocompare.com/data/histoday?fsym=ETH&tsym=USD&aggregate=1&toTs=1503536461&allData=true',
-        'https://min-api.cryptocompare.com/data/histoday?fsym=BCH&tsym=USD&aggregate=1&toTs=1503536461&allData=true',
-        'https://min-api.cryptocompare.com/data/histoday?fsym=LTC&tsym=USD&aggregate=1&toTs=1503536461&allData=true',
-        'https://min-api.cryptocompare.com/data/histoday?fsym=XMR&tsym=USD&aggregate=1&toTs=1503536461&allData=true',
-        'https://min-api.cryptocompare.com/data/histoday?fsym=XRP&tsym=USD&aggregate=1&toTs=1503536461&allData=true',
-        'https://min-api.cryptocompare.com/data/histoday?fsym=ZEC&tsym=USD&aggregate=1&toTs=1503536461&allData=true']
+urls = ['https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&aggregate=1&toTs=1503785623&allData=true',
+        'https://min-api.cryptocompare.com/data/histoday?fsym=ETH&tsym=USD&aggregate=1&toTs=1503785623&allData=true',
+        'https://min-api.cryptocompare.com/data/histoday?fsym=BCH&tsym=USD&aggregate=1&toTs=1503785623&allData=true',
+        'https://min-api.cryptocompare.com/data/histoday?fsym=LTC&tsym=USD&aggregate=1&toTs=1503785623&allData=true',
+        'https://min-api.cryptocompare.com/data/histoday?fsym=XMR&tsym=USD&aggregate=1&toTs=1503785623&allData=true',
+        'https://min-api.cryptocompare.com/data/histoday?fsym=XRP&tsym=USD&aggregate=1&toTs=1503785623&allData=true',
+        'https://min-api.cryptocompare.com/data/histoday?fsym=ZEC&tsym=USD&aggregate=1&toTs=1503785623&allData=true']
 
 def get_historical_cc_data():
     if not os.path.exists('cc_dfs'):
