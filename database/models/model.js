@@ -15,20 +15,24 @@ const User = db.define('user', {
     }
 });
 
-const Stock = db.define('stocks', {
-    ticker: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    name: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    newsStories: {
-        type: Sequelize.ARRAY(Sequelize.TEXT),
-    }
+
+////////////////// THIS SHOULD HAVE ALL THE STOCK INFORMATION, BUT PortfolioStock has the info for an individual's holding//////
+
+
+// const Stock = db.define('stocks', {
+//     ticker: {
+//         type: Sequelize.STRING,
+//         allowNull: false
+//     },
+//     name: {
+//         type: Sequelize.STRING,
+//         allowNull: false
+//     },
+//     newsStories: {
+//         type: Sequelize.ARRAY(Sequelize.TEXT)
+//     }
     
-});
+// });
 
 const Portfolio = db.define('portfolio', {
     name: {
@@ -38,7 +42,6 @@ const Portfolio = db.define('portfolio', {
         type: Sequelize.INTEGER,
         defaultValue: 1000000
     }
-
 });
 
 const PortfolioStock = db.define('portfolio_stock', {
@@ -49,25 +52,33 @@ const PortfolioStock = db.define('portfolio_stock', {
     buyPrice: {
         type: Sequelize.FLOAT,
         allowNull: false
+    },
+    ticker: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    stockName: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
-
 });
 
-Stock.belongsToMany(Portfolio, {as: 'asset', through: PortfolioStock, unique: true});
-Portfolio.belongsToMany(Stock, {through: PortfolioStock});
+
+PortfolioStock.belongsTo(Portfolio);
+
+
 Portfolio.belongsTo(User);
 User.hasMany(Portfolio);
 
 
 
-User.sync({force: true});
-Stock.sync({force: true});
-Portfolio.sync({force: true});
-PortfolioStock.sync({force: true});
+User.sync();
+// Stock.sync();
+Portfolio.sync();
+PortfolioStock.sync();
 
 module.exports = {
     User,
-    Stock,
     Portfolio,
     PortfolioStock
 }

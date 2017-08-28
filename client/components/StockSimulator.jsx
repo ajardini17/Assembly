@@ -8,16 +8,27 @@ export default class StockSimulator extends React.Component {
       input: '',
       currentValue: '',
       purchasePrice: '',
-      selectedCurrency: 'btc'
+      selectedCurrency: 'btc',
+      portfolio: [],
+      stocks: []
     }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this)
     this.handleCurrencySelectionChange = this.handleCurrencySelectionChange.bind(this)
     this.handleCurrencyGetRequest = this.handleCurrencyGetRequest.bind(this)
   }
-
+  
+  
   componentDidMount() {
-    this.handleCurrencyGetRequest()
+    this.handleCurrencyGetRequest();
+    axios.get('/api/login', {params: {handle: 'test', password: 'test'}})
+    .then(info => {
+      console.log(info);
+      // this.setState({
+      //   portfolio: info.data.portfolios,
+      //   stocks: info.data.stocks
+      // })
+    })
   }
 
   handleCurrencyGetRequest() {

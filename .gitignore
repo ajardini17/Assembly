@@ -2,7 +2,7 @@ node_modules
 static/bundle.js
 .env
 npm-debug.log
-.DS_Store
+*.DS_Store
 static/.DS_Store
 *__pycache__
 .vscode
