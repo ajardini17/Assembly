@@ -4,8 +4,8 @@ import {
   BrowserRouter as Router
 } from 'react-router-dom'
 import LandingPage from './LandingPage.jsx'
-import StockSimulator from './StockSimulator.jsx'
 import axios from 'axios'
+import PortfolioPage from './Simulator/PortfolioPage.js'
 
 
 export default class App extends React.Component {
@@ -20,7 +20,7 @@ export default class App extends React.Component {
 
         <div>
           <Route exact path='/' render={() => <LandingPage />} />
-          <Route path='/simulator' render={() => <StockSimulator />} />
+          <Route path='/simulator' render={() => <PortfolioPage />} />
         </div>
 
       </Router>
