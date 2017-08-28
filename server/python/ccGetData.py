@@ -28,6 +28,8 @@ def get_historical_cc_data():
     if not os.path.exists('cc_dfs'):
         os.mkdir('cc_dfs')
 
+    count = 0
+
     for url in urls:
         print('NEW URL :::::: ', url)
         with requests.Session() as s:
@@ -41,5 +43,16 @@ def get_historical_cc_data():
             my_list = list(cr)
             for row in my_list:
                 print(row)
+
+            # if count == 0:
+            #
+            #     newCsv = open('cc_dfs/BTC.csv', 'w+')
+            #     csvwriter = csv.writer(newCsv)
+            #
+            #     for thing in decoded_content:
+            #         header = thing.keys()
+            #         csvwriter.writerow(header)
+            #         count += 1
+            #     csvwriter.writerow(thing.values())
 
 get_historical_cc_data()
