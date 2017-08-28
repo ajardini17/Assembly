@@ -6,6 +6,7 @@ import {
 import LandingPage from './LandingPage.jsx'
 import axios from 'axios'
 import PortfolioPage from './Simulator/PortfolioPage.js'
+import CurrInfo from './CurrInfo.jsx'
 
 
 export default class App extends React.Component {
@@ -21,6 +22,7 @@ export default class App extends React.Component {
         <div>
           <Route exact path='/' render={() => <LandingPage />} />
           <Route path='/simulator' render={() => <PortfolioPage />} />
+          <Route path='/currency/*' render={() => <CurrInfo />} />
         </div>
 
       </Router>
