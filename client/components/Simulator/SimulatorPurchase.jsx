@@ -58,12 +58,7 @@ export default class StockSimulator extends React.Component {
   render() {
     return (
 
-<<<<<<< HEAD
-      <div className='container'>
-        
-=======
       <div>
->>>>>>> added route for currency details page
         <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
             <h1>Woolfey Sim</h1>
