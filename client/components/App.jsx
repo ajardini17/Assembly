@@ -5,10 +5,12 @@ import {
 } from 'react-router-dom'
 import LandingPage from './LandingPage.jsx'
 import StockSimulator from './StockSimulator.jsx'
+import axios from 'axios'
+
 
 export default class App extends React.Component {
   constructor() {
-    super()
+    super();
   }
 
   render() {

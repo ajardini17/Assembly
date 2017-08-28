@@ -1,30 +1,21 @@
 const Sequelize = require('sequelize');
-const express = require('express');
 const Model = require('../../database/models/model.js');
-
 const hasher = require('./password.js');
-
+const auth = require('./authenticateController.js');
 
 module.exports = {
-    addProfile: (req, res) => {
+    signup: (req, res) => {
         Model.User.findOne({where: {handle: req.body.handle}})
         .then(response => {
             if(!response){
                 hasher.generatePassword(req.body.password, hash => {
-                    console.log('hash', hash);
-                    let email = req.body.email ? req.body.email : null;
-                
-                    Model.User.create({handle: req.body.handle, password: hash, email: email})
-                    .then(user => res.send(user))
-    
+                    Model.User.create({handle: req.body.handle, password: hash})
+                    .then(user => auth.getToken(user.dataValues.id, user.dataValues.handle, (token) => res.json(token)))
                 })
-
             } else {
                 res.send('User taken!');
             }
-                
         })
-        
     },
     login: (req, res) => {
         Model.User.findOne({
@@ -36,17 +27,23 @@ module.exports = {
             } else {
                 hasher.comparePassword(req.query.password, user.dataValues.password, (reply) => {
                     if(reply){
-                        //fetchUserInfo
-                        //send user data
-                        res.send('logged in');
+                        Model.Portfolio.findAll({
+                            where: {userId: user.dataValues.id}
+                        })
+                        .then(portfolios => {
+                            Promise.all(portfolios.map(folder => Model.PortfolioStock.findAll({where: {portfolioId: folder.id}})))
+                            .then(results => {
+                                auth.getToken(user.dataValues.id, user.dataValues.handle, token => {token.portfolioStocks = results; res.json(token)})
+                            })
+                        })
                     }else {
                         res.send('invalid password');
                     }
-
                 })
             }
         })
     }
+    
 
 }
 
