@@ -10,7 +10,7 @@ import PortfolioPage from './Simulator/PortfolioPage.js'
 
 export default class App extends React.Component {
   constructor() {
-    super();
+    super()
   }
 
   render() {
