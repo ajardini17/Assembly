@@ -1,7 +1,5 @@
 import React from 'react'
 import axios from 'axios'
-import Signup from '../Auth/Signup.jsx';
-import Login from '../Auth/Login.jsx';
 
 
 export default class StockSimulator extends React.Component {
@@ -11,29 +9,18 @@ export default class StockSimulator extends React.Component {
       input: '',
       currentValue: '',
       purchasePrice: '',
-      selectedCurrency: 'btc',
-      portfolio: [],
-      stocks: []
+      selectedCurrency: 'btc'
     }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this)
     this.handleCurrencySelectionChange = this.handleCurrencySelectionChange.bind(this)
     this.handleCurrencyGetRequest = this.handleCurrencyGetRequest.bind(this)
-    this.handleFetchData = this.handleFetchData.bind(this)
   }
   
   
   componentDidMount() {
     this.handleCurrencyGetRequest();
-    this.handleFetchData();
-  }
-
-  handleFetchData(){
-    let token = localStorage.getItem('token');
-    axios.get('/api/totalPortfolioStockData', {headers: token})
-    .then(reply => console.log(reply.data, 'wuwbuwbwub'))
-    axios.get('/api/Wub')
-    .then(() => console.log('wub'))
+ 
   }
 
   handleCurrencyGetRequest() {
@@ -43,7 +30,6 @@ export default class StockSimulator extends React.Component {
       this.setState({
         currentValue: `$${price}`
       })
-      //console.log(result.data.last_price)
     })
   }
 
@@ -72,8 +58,7 @@ export default class StockSimulator extends React.Component {
     return (
 
       <div className='container'>
-        <Signup/>
-        <Login/>
+        
         <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
             <h1>Woolfey Sim</h1>

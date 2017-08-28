@@ -13,7 +13,8 @@ db.User.sync({force: true})
 .then(() => {
     return db.Portfolio.bulkCreate([
             {name: 'testfolio', userId: 1},
-            {name: 'woolfolio', userId: 1}
+            {name: 'woolfolio', userId: 1},
+            {name: 'ON AN OPEN FIELD', userId: 1}
     ])
 })
 .catch(err => console.log('Portfolio seed unsuccessful'))

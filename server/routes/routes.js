@@ -19,7 +19,7 @@ router.get('/coinQuery', portfolioStock.coinQuery);
 router.get('/login', user.login);
 router.post('/signup', user.signup);
 
-router.get('totalPortfolioStockData', auth.authenticate, portfolioStock.totalPortfolioStockData);
+router.get('/getUserData', auth.authenticate, portfolioStock.getUserData);
 
 router.post('/addStock', auth.authenticate, portfolioStock.addStock);
 

@@ -8,14 +8,28 @@ export default class Auth {
     }
     signup(handle, password, callback){
         axios.post('/api/signup', {handle: handle, password: password})
-        .then(reply => this.setSession(reply.data))
+        .then(reply => {
+            if(reply.data === 'User taken!'){
+                callback(reply.data);
+            } else {
+                this.setSession(reply.data);
+                callback('success');
+            }
+        })
     }
     login(handle, password, callback) {
-        axios.get('/api/login', {query: {handle: handle, password: password}})
-        .then(reply => this.setSession(reply.data));
+        axios.get('/api/login', {params: {handle: handle, password: password}})
+        .then(reply => {
+            if(reply.data === 'User taken!'){
+                callback(reply.data);
+            } else {
+                console.log(reply.data, 'what it is');
+                this.setSession(reply.data);
+                callback('success');
+            }
+        });
     }
     setSession(token){
-        console.log(token, "TOKENENENENEN");
         localStorage.setItem('token', token.token);
 
     }

@@ -29,8 +29,21 @@ module.exports = {
         })
         .catch(err => res.status(400).send('Error adding stock to portfolio'))
     },
-    totalPortfolioStockData: (req, res) => {
-        
+    getUserData: (req, res) => {
+        Model.Portfolio.findAll({
+            where: {userId: req.token.id}
+        })
+        .then(portfolios => {
+            Promise.all(portfolios.map(folder => Model.PortfolioStock.findAll({where: {portfolioId: folder.id}})))
+            .then(results => {
+                // let porfolioData = portfolios.map((x,i) => x.dataValues);
+                // portfolioData.forEach((x,i) => portfolioData.data)
+                let stocks = results.map(x=>x.map(y => y.dataValues));
+                let portfolioData = portfolios.map(x => x.dataValues);
+                portfolioData.forEach((x,i) => portfolioData[i].stocks = stocks[i])
+                res.json(portfolioData);
+            })
+        })
     },
     buyOrSell: (req, res) => {
         //should fetch the up to date price of stock and return the proper amount to user's portfolio
