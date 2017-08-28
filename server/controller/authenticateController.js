@@ -9,7 +9,7 @@ module.exports = {
             id: id
         }
         let token = jwt.sign(user, process.env.SECRET_KEY, {
-            expiresIn: 100
+            expiresIn: 60 * 60
         });
         callback({success: true, token: token});
     },
