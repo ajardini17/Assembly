@@ -22,7 +22,7 @@ export default class App extends React.Component {
         <div>
           <Route exact path='/' render={() => <LandingPage />} />
           <Route path='/simulator' render={() => <PortfolioPage />} />
-          <Route path='/currency/*' render={() => <CurrInfo />} />
+          <Route path='/currency/:ticker' render={() => <CurrInfo />} />
         </div>
 
       </Router>
