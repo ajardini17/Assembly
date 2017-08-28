@@ -17,9 +17,7 @@ app.use(parser.json())
 app.use(express.static(path.join(__dirname, '../static')))
 
 //controllers
-app.get('/test', (req, res) => {
-  auth0(req, res);
-})
+
 app.use('/api', routes);
 
 app.get('*', function(req, res) {

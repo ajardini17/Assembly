@@ -27,19 +27,10 @@ module.exports = {
             db.query(`UPDATE portfolios SET balance = balance - ${amount} WHERE id = ${req.body.portfolioId}`)
             .then(() => res.send('stock added'));
         })
-        // .then(stock =>{
-        //     Model.Portfolio.findOne({where: {id: req.body.portfolioId}})
-        //     .then(portfolio => {
-        //         Model.Portfolio.update({
-        //             balance: portfolio.balance - (req.body.buyPrice * req.body.shares)
-        //         }, {where: {id: req.body.portfolioId}})
-        //         .then(() => res.json({balance: portfolio.balance - (req.body.buyPrice * req.body.shares)}))
-        //     })
-        // })
         .catch(err => res.status(400).send('Error adding stock to portfolio'))
     },
     buyOrSell: (req, res) => {
-        
+        //should fetch the up to date price of stock and return the proper amount to user's portfolio
     }
 
 }

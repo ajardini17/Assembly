@@ -16,21 +16,17 @@ export default class StockSimulator extends React.Component {
     this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this)
     this.handleCurrencySelectionChange = this.handleCurrencySelectionChange.bind(this)
     this.handleCurrencyGetRequest = this.handleCurrencyGetRequest.bind(this)
+    this.handleLogIn = this.handleLogIn.bind(this)
   }
   
   
   componentDidMount() {
     this.handleCurrencyGetRequest();
-    axios.get('/api/login', {params: {handle: 'test', password: 'test'}})
-    .then(info => {
-      console.log(info);
-      // this.setState({
-      //   portfolio: info.data.portfolios,
-      //   stocks: info.data.stocks
-      // })
-    })
+   
   }
-
+  handleLogIn(){
+    
+  }
   handleCurrencyGetRequest() {
     axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
     .then(result => {

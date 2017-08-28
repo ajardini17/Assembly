@@ -6,7 +6,7 @@ db.User.sync({force: true})
 .then(() => {
     
     return db.User.bulkCreate([
-        {handle: 'test', email: 'test@test.com', password: '$2a$10$6s5sHlMf.DhrSRWdlvT/iOjVTF8CvE7SG9O3lggCOCWGV8lUsoGHO'}
+        {handle: 'test', password: '$2a$10$6s5sHlMf.DhrSRWdlvT/iOjVTF8CvE7SG9O3lggCOCWGV8lUsoGHO'}
     ])
 })
 .catch(err => console.log('error in bulk create, user'))
