@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 
+
 export default class StockSimulator extends React.Component {
   constructor() {
     super()
@@ -8,25 +9,20 @@ export default class StockSimulator extends React.Component {
       input: '',
       currentValue: '',
       purchasePrice: '',
-      selectedCurrency: 'btc',
-      portfolio: [],
-      stocks: []
+      selectedCurrency: 'btc'
     }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this)
     this.handleCurrencySelectionChange = this.handleCurrencySelectionChange.bind(this)
     this.handleCurrencyGetRequest = this.handleCurrencyGetRequest.bind(this)
-    this.handleLogIn = this.handleLogIn.bind(this)
   }
   
   
   componentDidMount() {
     this.handleCurrencyGetRequest();
-   
+ 
   }
-  handleLogIn(){
-    
-  }
+
   handleCurrencyGetRequest() {
     axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
     .then(result => {
@@ -34,7 +30,6 @@ export default class StockSimulator extends React.Component {
       this.setState({
         currentValue: `$${price}`
       })
-      //console.log(result.data.last_price)
     })
   }
 
@@ -63,6 +58,7 @@ export default class StockSimulator extends React.Component {
     return (
 
       <div className='container'>
+        
         <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
             <h1>Woolfey Sim</h1>

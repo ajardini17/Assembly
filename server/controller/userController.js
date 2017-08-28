@@ -10,7 +10,7 @@ module.exports = {
             if(!response){
                 hasher.generatePassword(req.body.password, hash => {
                     Model.User.create({handle: req.body.handle, password: hash})
-                    .then(user => auth.getToken(user.dataValues.id, user.dataValues.handle, (token) => res.json(token)))
+                    .then(user => auth.getToken(user.dataValues.id, user.dataValues.handle, res))
                 })
             } else {
                 res.send('User taken!');
@@ -19,30 +19,49 @@ module.exports = {
     },
     login: (req, res) => {
         Model.User.findOne({
-            where: {handle: req.query.handle}
-        })
-        .then(user => {
-            if(!user){
-                res.send('user doesn\'t exist');
-            } else {
-                hasher.comparePassword(req.query.password, user.dataValues.password, (reply) => {
-                    if(reply){
-                        Model.Portfolio.findAll({
-                            where: {userId: user.dataValues.id}
-                        })
-                        .then(portfolios => {
-                            Promise.all(portfolios.map(folder => Model.PortfolioStock.findAll({where: {portfolioId: folder.id}})))
-                            .then(results => {
-                                auth.getToken(user.dataValues.id, user.dataValues.handle, token => {token.portfolioStocks = results; res.json(token)})
-                            })
-                        })
-                    }else {
-                        res.send('invalid password');
-                    }
-                })
-            }
-        })
+                where: {handle: req.query.handle}
+            })
+            .then(user => {
+                if(!user){
+                    res.send('user doesn\'t exist');
+                } else {
+                    hasher.comparePassword(req.query.password, user.dataValues.password, (reply) => {
+                        if(reply){
+                            auth.getToken(user.dataValues.id, user.dataValues.handle, res);
+                        } else {
+                            res.send('invalid password');
+                        }
+                    })
+                }
+            })
+            
     }
+    // login: (req, res) => {
+    //     Model.User.findOne({
+    //         where: {handle: req.query.handle}
+    //     })
+    //     .then(user => {
+    //         if(!user){
+    //             res.send('user doesn\'t exist');
+    //         } else {
+    //             hasher.comparePassword(req.query.password, user.dataValues.password, (reply) => {
+    //                 if(reply){
+    //                     Model.Portfolio.findAll({
+    //                         where: {userId: user.dataValues.id}
+    //                     })
+    //                     .then(portfolios => {
+    //                         Promise.all(portfolios.map(folder => Model.PortfolioStock.findAll({where: {portfolioId: folder.id}})))
+    //                         .then(results => {
+    //                             auth.getToken(user.dataValues.id, user.dataValues.handle, res, results)
+    //                         })
+    //                     })
+    //                 }else {
+    //                     res.send('invalid password');
+    //                 }
+    //             })
+    //         }
+    //     })
+    // }
     
 
 }
