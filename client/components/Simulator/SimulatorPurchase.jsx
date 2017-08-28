@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import {Link} from 'react-router-dom'
 
 
 export default class StockSimulator extends React.Component {
@@ -57,8 +58,7 @@ export default class StockSimulator extends React.Component {
   render() {
     return (
 
-      <div className='container'>
-        
+      <div>
         <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
             <h1>Woolfey Sim</h1>
@@ -89,29 +89,35 @@ export default class StockSimulator extends React.Component {
           </div>
         </div>
 
-        <div className='col-xs-4 col-xs-offset-4 text-center'>
-          <h4> {this.state.currentValue} </h4>
+        <div className='row'>
+          <div className='col-xs-4 col-xs-offset-4 text-center'>
+            <h4> {this.state.currentValue} </h4>
+          </div>
         </div>
 
-        <div className='col-xs-4 col-xs-offset-4 text-center'>
-          <form onSubmit={this.handleSubmitPriceCheck}>
-            <input type='text' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
-          </form>
+        <div className='row'>
+          <div className='col-xs-4 col-xs-offset-4 text-center'>
+            <Link to={'/currency/' + this.state.selectedCurrency}>
+              <p>More details</p>
+            </Link>
+          </div>
         </div>
 
-        <div className='col-xs-4 col-xs-offset-4 text-center'>
-          {this.state.purchasePrice !== '$NaN' ? <p> {this.state.purchasePrice} </p> : <p></p>}
+        <div className='row'>
+          <div className='col-xs-4 col-xs-offset-4 text-center'>
+            <form onSubmit={this.handleSubmitPriceCheck}>
+              <input type='text' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
+              <button className='btn btn-primary buySellBtn'>Buy</button>
+              <button className='btn btn-danger buySellBtn'>Sell</button>
+            </form>
+           
+          </div>
         </div>
-        
-        <div className='col-xs-4 col-xs-offset-4 text-center'>
-          {this.state.purchasePrice !== '' && this.state.input !== '' ? 
-            <div>
-              <button className='btn btn-primary'>Buy</button>
-              <button className='btn btn-danger'>Sell</button>
-            </div>
-            :
-            <div></div>
-          }
+
+        <div className='row'>
+          <div className='col-xs-4 col-xs-offset-1 text-center'>
+            {this.state.purchasePrice !== '$NaN' ? <p> {this.state.purchasePrice} </p> : <p></p>}
+          </div>
         </div>
 
       </div>

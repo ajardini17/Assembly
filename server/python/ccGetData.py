@@ -10,22 +10,25 @@ from matplotlib import style
 import numpy as np
 import csv
 import json
+import time
 
 style.use('ggplot')
 
-urls = ['https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&aggregate=1&toTs=1503536461&allData=true',
-        'https://min-api.cryptocompare.com/data/histoday?fsym=ETH&tsym=USD&aggregate=1&toTs=1503536461&allData=true',
-        'https://min-api.cryptocompare.com/data/histoday?fsym=BCH&tsym=USD&aggregate=1&toTs=1503536461&allData=true',
-        'https://min-api.cryptocompare.com/data/histoday?fsym=LTC&tsym=USD&aggregate=1&toTs=1503536461&allData=true',
-        'https://min-api.cryptocompare.com/data/histoday?fsym=XMR&tsym=USD&aggregate=1&toTs=1503536461&allData=true',
-        'https://min-api.cryptocompare.com/data/histoday?fsym=XRP&tsym=USD&aggregate=1&toTs=1503536461&allData=true',
-        'https://min-api.cryptocompare.com/data/histoday?fsym=ZEC&tsym=USD&aggregate=1&toTs=1503536461&allData=true']
+current_time = int(time.time())
+
+urls = ['https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&aggregate=1&toTs={}&allData=true'.format(current_time),
+        'https://min-api.cryptocompare.com/data/histoday?fsym=ETH&tsym=USD&aggregate=1&toTs={}&allData=true'.format(current_time),
+        'https://min-api.cryptocompare.com/data/histoday?fsym=BCH&tsym=USD&aggregate=1&toTs={}&allData=true'.format(current_time),
+        'https://min-api.cryptocompare.com/data/histoday?fsym=LTC&tsym=USD&aggregate=1&toTs={}&allData=true'.format(current_time),
+        'https://min-api.cryptocompare.com/data/histoday?fsym=XMR&tsym=USD&aggregate=1&toTs={}&allData=true'.format(current_time),
+        'https://min-api.cryptocompare.com/data/histoday?fsym=XRP&tsym=USD&aggregate=1&toTs={}&allData=true'.format(current_time),
+        'https://min-api.cryptocompare.com/data/histoday?fsym=ZEC&tsym=USD&aggregate=1&toTs={}&allData=true'.format(current_time)]
 
 def get_historical_cc_data():
     if not os.path.exists('cc_dfs'):
         os.mkdir('cc_dfs')
 
-    # url = "https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&aggregate=1&toTs=1503536461&allData=true"
+    count = 0
 
     for url in urls:
         print('NEW URL :::::: ', url)
@@ -35,11 +38,21 @@ def get_historical_cc_data():
             decoded_content = json.loads(download.content.decode('utf-8'))
             decoded_content = decoded_content['Data']
             new_decoded_content = json.dumps(decoded_content)
-            # print(type(new_decoded_content))
 
             cr = csv.reader(new_decoded_content.splitlines(), delimiter=',')
             my_list = list(cr)
             for row in my_list:
                 print(row)
+
+            # if count == 0:
+            #
+            #     newCsv = open('cc_dfs/BTC.csv', 'w+')
+            #     csvwriter = csv.writer(newCsv)
+            #
+            #     for thing in decoded_content:
+            #         header = thing.keys()
+            #         csvwriter.writerow(header)
+            #         count += 1
+            #     csvwriter.writerow(thing.values())
 
 get_historical_cc_data()
