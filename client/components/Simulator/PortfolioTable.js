@@ -2,8 +2,8 @@ import React from 'react'
 import PortfolioEntry from './PortfolioEntry'
 
 export default class PortfolioTable extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props);
     this.state = {
       entries: [
         {
@@ -32,7 +32,7 @@ export default class PortfolioTable extends React.Component {
     return (
       <div>
         {this.state.entries.map((item, index) => (
-          <PortfolioEntry item={item} key={index} />
+          <PortfolioEntry item={item} key={index}  />
         ))}
       </div>
     )
