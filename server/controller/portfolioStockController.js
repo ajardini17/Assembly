@@ -29,6 +29,9 @@ module.exports = {
         })
         .catch(err => res.status(400).send('Error adding stock to portfolio'))
     },
+    totalPortfolioStockData: (req, res) => {
+        
+    },
     buyOrSell: (req, res) => {
         //should fetch the up to date price of stock and return the proper amount to user's portfolio
     }

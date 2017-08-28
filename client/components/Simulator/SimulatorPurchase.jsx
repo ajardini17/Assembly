@@ -1,5 +1,8 @@
 import React from 'react'
 import axios from 'axios'
+import Signup from '../Auth/Signup.jsx';
+import Login from '../Auth/Login.jsx';
+
 
 export default class StockSimulator extends React.Component {
   constructor() {
@@ -16,17 +19,23 @@ export default class StockSimulator extends React.Component {
     this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this)
     this.handleCurrencySelectionChange = this.handleCurrencySelectionChange.bind(this)
     this.handleCurrencyGetRequest = this.handleCurrencyGetRequest.bind(this)
-    this.handleLogIn = this.handleLogIn.bind(this)
+    this.handleFetchData = this.handleFetchData.bind(this)
   }
   
   
   componentDidMount() {
     this.handleCurrencyGetRequest();
-   
+    this.handleFetchData();
   }
-  handleLogIn(){
-    
+
+  handleFetchData(){
+    let token = localStorage.getItem('token');
+    axios.get('/api/totalPortfolioStockData', {headers: token})
+    .then(reply => console.log(reply.data, 'wuwbuwbwub'))
+    axios.get('/api/Wub')
+    .then(() => console.log('wub'))
   }
+
   handleCurrencyGetRequest() {
     axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
     .then(result => {
@@ -63,6 +72,8 @@ export default class StockSimulator extends React.Component {
     return (
 
       <div className='container'>
+        <Signup/>
+        <Login/>
         <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
             <h1>Woolfey Sim</h1>
