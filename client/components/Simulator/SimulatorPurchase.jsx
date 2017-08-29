@@ -66,9 +66,9 @@ export default class StockSimulator extends React.Component {
       ticker: this.state.selectedCurrency,
       portfolioId: this.props.portfolioId
     }
-    axios.post('/api/buy', {params: buyObj},{headers: {authorization:localStorage.getItem('token')}})
+    axios.post('/api/buy', buyObj,{headers: {authorization:localStorage.getItem('token')}})
     .then(reply => {
-
+      console.log('BUY WENT THROUGH, AIRHORN');
     });
   }
   handleSellStock(){
@@ -77,10 +77,13 @@ export default class StockSimulator extends React.Component {
       buyPrice: this.state.purchasePrice,
       ticker: this.state.selectedCurrency
     }
-    axios.put('/api/sell', {params: sellObj}, {headers: {authorization: localStorage.getItem('token')}})
-    .then(reply => {
-
-    });
+    axios({
+      method: 'put',
+      url: '/api/sell',
+      headers: {authorization: localStorage.getItem('token')},
+      params: sellObj
+    })
+    .then(reply => console.log('buy went through'))
   }
 
   render() {

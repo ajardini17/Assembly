@@ -49,7 +49,7 @@ export default class PortfolioPage extends React.Component {
         .then(reply => {
           let price = parseFloat(reply.data.last_price).toFixed(2)
           price *= x.shares
-          this.state.stockValues[x.stockName] = price
+          this.state.stockValues[x.ticker] = price
           tempVal += price
           count++
           if (count === currencyArr.length) {
@@ -64,11 +64,10 @@ export default class PortfolioPage extends React.Component {
   }
 
   render() {
-    console.log(this.props, 'PROPSORPSOSOS');
     return (
       <div className='container'>
         <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName}/>
-        <PortfolioTable portfolioStocks={this.state.portfolioStocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
+        <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
         <SimulatorPurchase portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio}/>
       </div>
     )

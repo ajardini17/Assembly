@@ -18,9 +18,7 @@ module.exports = {
         }
     },
     authenticate: (req, res, next) => {
-        console.log('HIT AUTHENTICATE IN SERVER')
         let header = req.headers['authorization'];
-        console.log(header);
         if(header){
             jwt.verify(header, process.env.SECRET_KEY, (err, data) => {
                 if(err){

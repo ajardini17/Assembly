@@ -12,7 +12,6 @@ module.exports ={
         })
     },
     getSpecificPortfolio: (req, res) => {
-        console.log(req.query, 'WHBJWGHRBGFHBJFBHJFBHJFFBHJJBHF')
         Model.Portfolio.findOne({where: {id: req.query.id}})
         .then(reply => {
             Model.PortfolioStock.findAll({where: {portfolioId: reply.dataValues.id}})
