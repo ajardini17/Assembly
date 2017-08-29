@@ -6,47 +6,60 @@ export default class CurrInfo extends React.Component {
   constructor() {
     super()
     this.state = {
-      currencyName: '',
+      currencyName: '', // hardcoding for testing purposes 
       currentValue: '',
-      articles: []
+      articles: [],
+      data: []
     }
     this.getNewsFeed = this.getNewsFeed.bind(this)
+    this.getCurrencyPrice = this.getCurrencyPrice.bind(this)
+    this.getHistoricalCurrencyData = this.getHistoricalCurrencyData.bind(this)
+    this.createChart = this.createChart.bind(this)
   }
 
   componentDidMount() {
     this.setState({
       currencyName: decodeURI(window.location.pathname.slice(10))
     }, () => {
-      axios.get('/api/coinQuery', {params: this.state.currencyName})
-      .then(result => {
-        let price = parseFloat(result.data.last_price).toFixed(2)
-        this.setState({
-          currentValue: `$${price}`
-        }, () => {
-          $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-            // data is in form of nested array [[timestamp, closing price], [timestamp, closing price]], ... 
-            // Create the chart
-            Highcharts.stockChart('container', {
-              rangeSelector: { 
-                selected: 1 
-              },
-              title: { 
-                text: 'Portfolio Performance' 
-              },
-              series: [{
-                name: 'Value',
-                data: data,
-                tooltip: {
-                  valueDecimals: 2
-                }
-              }]
-            })
+      axios.all([this.getCurrencyPrice(), this.getHistoricalCurrencyData()])
+      .then(axios.spread((price, history) => {
+        let currentValue = '$' + String(parseFloat(price.data.last_price).toFixed(2))
+        this.setState({ currentValue }, () => {
+          let data = history.data
+          this.setState({ data }, () => {
+            this.createChart(this.state.data, this.state.currencyName)
           })
-        ;})
-      })
+        })
+      }))
     })
-
     this.getNewsFeed()
+  }
+
+  getCurrencyPrice() {
+    return axios.get('/api/coinQuery', {params: this.state.currencyName})
+  }
+
+  getHistoricalCurrencyData() {
+    return axios.get('/api/getHistoricalCurrencyData', {params: this.state.currencyName})
+  }
+
+  createChart(data, currency) {
+    
+    Highcharts.stockChart('container', {
+      rangeSelector: { 
+        selected: 1 
+      },
+      title: { 
+        text: currency.toUpperCase() 
+      },
+      series: [{
+        name: currency,
+        data: data,
+        tooltip: {
+          valueDecimals: 2
+        }
+      }]
+    });
   }
 
   getNewsFeed() {
@@ -105,7 +118,7 @@ export default class CurrInfo extends React.Component {
             <div className='col-xs-10 col-xs-offset-1'>
               <ul>
                 {this.state.articles.map((article, index) => 
-                  <a href={article[1]}><li>{article[0]}</li></a>
+                  <a key={index} href={article[1]}><li>{article[0]}</li></a>
                 )}
               </ul>
             </div>
