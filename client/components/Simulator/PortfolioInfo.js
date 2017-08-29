@@ -41,21 +41,27 @@ export default class PortfolioInfo extends React.Component {
   handleFetchData(){
     let token = localStorage.getItem('token')
     axios.get('/api/getUserData', {headers: {authorization:token}})
-    .then(reply => this.setState({
+    .then(reply => {this.setState({
       cash: reply.data[this.state.portfolioID].balance,
       portfolioName: reply.data[this.state.portfolioID].name
-    }, () => {this.calculatePortfolioValue(reply.data[this.state.portfolioID].stocks)}))
+      })
+      this.calculatePortfolioValue(reply.data[this.state.portfolioID].stocks)
+    })
     .catch(err => console.log(err, 'error'))
   }
 
   calculatePortfolioValue(currencyArr) {
+    console.log(currencyArr)
     let tempVal = 0
     let count = 0
-    for (let i = 0; i < currencyArr.length; i++) {
-      axios.get('/api/coinQuery', {params: currencyArr[i].ticker})
+    // Promise.all(currencyArr.map(x=>axios.get('/api/coinQuery', {params: x.ticker})))
+    // .then(results => console.log(results))
+    currencyArr.forEach((x, i) => {
+      console.log(x.ticker)
+      axios.get('/api/coinQuery', {params: x.ticker})
         .then(reply => {
           let price = parseFloat(reply.data.last_price).toFixed(2)
-          price *= currencyArr[i].shares
+          price *= x.shares
           tempVal += price
           count++
           if (count === currencyArr.length) {
@@ -65,7 +71,7 @@ export default class PortfolioInfo extends React.Component {
             })
           }
         })
-    }
+    })
   }
 
   render() {

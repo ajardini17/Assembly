@@ -5,12 +5,13 @@ const axios = require('axios');
 
 module.exports = {
     coinQuery: (req, res) => {
+        console.log('THIS IS THE REQ QUERY 0 ::: ', req.query[0])
         axios.get(`https://api.bitfinex.com/v1/pubticker/${req.query[0]}usd`)
         .then(result => {
             res.send(result.data)
         })
         .catch(err => {
-            console.log('error in getting info from server side :: ', err)
+            console.log('error in getting info from server side :: ',req.query)
         })
     },
     // ticker: {
