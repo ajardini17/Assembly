@@ -35,8 +35,10 @@ export default class PortfolioPage extends React.Component {
     .then(reply => {this.setState({
       cash: reply.data.balance,
       portfolioName: reply.data.name,
-      portfolio: reply.data
+      portfolio: reply.data,
+      portfolioId: reply.data.id
       })
+      console.log(reply.data.id, 'PORTFOLIO ID');
       this.calculatePortfolioValue(reply.data.stocks)
     })
     .catch(err => console.log(err, 'error'))

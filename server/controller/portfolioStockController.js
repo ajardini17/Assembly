@@ -17,7 +17,7 @@ module.exports = {
         Model.PortfolioStock.findOne({where:{ticker: req.body.ticker, portfolioId: req.body.portfolioId}})
         .then(stockData => {
             if(stockData){
-                db.query(`UPDATE portfolioStocks SET shares = shares + ${req.body.shares} WHERE id = ${stockData.dataValues.id}`)
+                db.query(`UPDATE portfolio_stocks SET shares = shares + ${req.body.shares} WHERE id = ${stockData.dataValues.id}`)
                 .then(() => {
                     let amount = req.body.shares * req.body.buyPrice;
                     db.query(`UPDATE portfolios SET balance = balance - ${amount} WHERE id = ${req.body.portfolioId}`)

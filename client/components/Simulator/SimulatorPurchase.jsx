@@ -10,7 +10,8 @@ export default class StockSimulator extends React.Component {
       input: '',
       currentValue: '',
       purchasePrice: '',
-      selectedCurrency: 'btc'
+      selectedCurrency: 'btc',
+      portfolioId: ''
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this);
@@ -24,6 +25,12 @@ export default class StockSimulator extends React.Component {
     this.handleCurrencyGetRequest();
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps, 'NEXTPROPS');
+    this.setState({
+      portfolioId: nextProps.portfolioId
+    })
+  }
   handleCurrencyGetRequest() {
     axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
     .then(result => {
@@ -56,14 +63,16 @@ export default class StockSimulator extends React.Component {
   }
 
 
-  handleAddStock(){
+  handleAddStock(e){
+    e.preventDefault();
     let buyObj = {
       shares: this.state.input,
       buyPrice: this.state.purchasePrice,
       ticker: this.state.selectedCurrency,
-      portfolioId: this.props.portfolioId
+      portfolioId: this.state.portfolioId
     }
-    axios.post('/api/buy', buyObj,{headers: {authorization:localStorage.getItem('token')}})
+    console.log(buyObj, 'BUY OBJ');
+    axios.post('/api/buy', buyObj, {headers: {authorization:localStorage.getItem('token')}})
     .then(reply => {
       console.log('BUY WENT THROUGH, AIRHORN');
     });
