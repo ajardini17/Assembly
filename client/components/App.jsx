@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom'
 import LandingPage from './LandingPage.jsx'
 import axios from 'axios'
+import PortfolioLanding from './Simulator/PortfolioLanding.js'
 import PortfolioPage from './Simulator/PortfolioPage.js'
 import CurrInfo from './CurrInfo.jsx'
 
@@ -21,8 +22,9 @@ export default class App extends React.Component {
 
         <div>
           <Route exact path='/' render={() => <LandingPage />} />
-          <Route path='/simulator' render={() => <PortfolioPage />} />
           <Route path='/currency/:ticker' render={() => <CurrInfo />} />
+          <Route exact path='/simulator' render={() => <PortfolioLanding />} />
+          <Route path='/simulator/:portfolio_id' render={() => <PortfolioPage />} />
         </div>
 
       </Router>

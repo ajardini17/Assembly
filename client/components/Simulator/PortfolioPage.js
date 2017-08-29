@@ -7,16 +7,31 @@ import Login from '../../Auth/Login.jsx';
 import axios from 'axios';
 
 export default class PortfolioPage extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      portfolios: []
+      portfolio_id: window.location.href.substr(window.location.href.lastIndexOf('/') + 1),
+      portfolios: [],
+      portfolioValue: 10000, // grab from database or calculate
+      cash: 4000, // grab from database or calculate
     }
     this.handleFetchData = this.handleFetchData.bind(this);
+    this.handleCurrencyGetRequest = this.handleCurrencyGetRequest.bind(this);
   }
   componentDidMount() {
-    
-    this.handleFetchData();
+    //this.handleFetchData();
+    //this.handleCurrencyGetRequest();
+    console.log(this.state.portfolio_id)
+  }
+
+  handleCurrencyGetRequest() {
+    axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
+    .then(result => {
+      let price = parseFloat(result.data.last_price).toFixed(2)
+      this.setState({
+        currentValue: `$${price}`
+      })
+    })
   }
 
   handleFetchData(){
@@ -30,7 +45,7 @@ export default class PortfolioPage extends React.Component {
   render() {
     console.log(this.state.portfolios, 'portfolios');
     return (
-      <div>
+      <div className='container'>
         <Signup/>
         <Login/>
         <PortfolioInfo />

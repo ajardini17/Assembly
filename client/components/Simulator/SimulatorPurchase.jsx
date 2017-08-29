@@ -59,33 +59,28 @@ export default class StockSimulator extends React.Component {
     return (
 
       <div>
-        <div className='row'>
-          <div className='col-xs-4 col-xs-offset-4 text-center'>
-            <h1>Woolfey Sim</h1>
-          </div>
-        </div>
 
         <div className='row'>
           <div className='col-xs-1 col-xs-offset-2'>
-            <img src='./images/bitcoinlogo.jpg' className='currencyButton' id='btc' onClick={this.handleCurrencySelectionChange} />
+            <img src='/images/bitcoinlogo.jpg' className='currencyButton' id='btc' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
-            <img src='./images/bitcoincashlogo.jpg' className='currencyButton' id='bch' onClick={this.handleCurrencySelectionChange} />
+            <img src='/images/bitcoincashlogo.jpg' className='currencyButton' id='bch' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
-            <img src='./images/ethereumlogo.jpg' className='currencyButton' id='eth' onClick={this.handleCurrencySelectionChange} />
+            <img src='/images/ethereumlogo.jpg' className='currencyButton' id='eth' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
-            <img src='./images/litecoinlogo.jpg' className='currencyButton' id='ltc' onClick={this.handleCurrencySelectionChange} />
+            <img src='/images/litecoinlogo.jpg' className='currencyButton' id='ltc' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
-            <img src='./images/monerologo.jpg' className='currencyButton' id='xmr' onClick={this.handleCurrencySelectionChange} />
+            <img src='/images/monerologo.jpg' className='currencyButton' id='xmr' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
-            <img src='./images/ripplelogo.jpg' className='currencyButton' id='xrp' onClick={this.handleCurrencySelectionChange} />
+            <img src='/images/ripplelogo.jpg' className='currencyButton' id='xrp' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
-            <img src='./images/zcashlogo.jpg' className='currencyButton' id='zec' onClick={this.handleCurrencySelectionChange} />
+            <img src='/images/zcashlogo.jpg' className='currencyButton' id='zec' onClick={this.handleCurrencySelectionChange} />
           </div>
         </div>
 
