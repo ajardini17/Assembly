@@ -18,10 +18,13 @@ module.exports = {
         }
     },
     authenticate: (req, res, next) => {
+        console.log('HIT AUTHENTICATE IN SERVER')
         let header = req.headers['authorization'];
+        console.log(header);
         if(header){
             jwt.verify(header, process.env.SECRET_KEY, (err, data) => {
                 if(err){
+                    console.log(err, 'ERROR IN AUTHENTICATE')
                     res.sendStatus(403);
                 } else {
                     req.token = data;

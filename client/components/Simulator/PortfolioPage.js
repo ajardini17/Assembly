@@ -8,9 +8,9 @@ export default class PortfolioPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      portfolio_id: window.location.href.substr(window.location.href.lastIndexOf('/') + 1),
+      portfolioId: window.location.href.substr(window.location.href.lastIndexOf('/') + 1),
       portfolioValue: 10000,
-      portfolio: [],
+      portfolio: {},
       cash: 4000,
       portfolioName: '',
       portfolioStocks: [],
@@ -24,14 +24,19 @@ export default class PortfolioPage extends React.Component {
   }
 
   handleFetchData(){
-    let token = localStorage.getItem('token')
-    axios.get('/api/getUserData', {headers: {authorization:token}})
+    //axios.get('/api/getSpecificPortfolio', {headers: {authorization: localStorage.getItem('token')}}, {params: {id: this.state.portfolioId}})
+    axios({
+      method: 'get',
+      url: '/api/getSpecificPortfolio',
+      headers: {authorization: localStorage.getItem('token')},
+      params: {id: this.state.portfolioId}
+    })
     .then(reply => {this.setState({
-      cash: reply.data[this.state.portfolioId].balance,
-      portfolioName: reply.data[this.state.portfolioId].name,
-      portfolio: reply.data[this.state.portfolioId]
+      cash: reply.data.balance,
+      portfolioName: reply.data.name,
+      portfolio: reply.data
       })
-      this.calculatePortfolioValue(reply.data[this.state.portfolio_id].stocks)
+      this.calculatePortfolioValue(reply.data.stocks)
     })
     .catch(err => console.log(err, 'error'))
   }
@@ -64,8 +69,7 @@ export default class PortfolioPage extends React.Component {
       <div className='container'>
         <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName}/>
         <PortfolioTable portfolioStocks={this.state.portfolioStocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
-        <SimulatorPurchase />
-  
+        <SimulatorPurchase portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio}/>
       </div>
     )
   }

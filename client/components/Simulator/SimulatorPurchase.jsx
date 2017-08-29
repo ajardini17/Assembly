@@ -120,7 +120,7 @@ export default class StockSimulator extends React.Component {
 
         <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
-            <Link to={'/currency/' + this.state.selectedCurrency}>
+            <Link to={`/currency/${this.state.selectedCurrency}`}>
               <p>More details</p>
             </Link>
           </div>

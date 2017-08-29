@@ -12,7 +12,7 @@ export default class PortfolioLanding extends React.Component {
     this.Auth = new Auth;
     this.state = {
       portfolios: [],
-      portfolio_id: 0,
+      portfolioId: 0,
       token: localStorage.getItem('token')
     }
     this.handleFetchData = this.handleFetchData.bind(this)
@@ -35,7 +35,7 @@ export default class PortfolioLanding extends React.Component {
         <Login fetch={this.handleFetchData}/>
          <div className='portfolioLanding'>
           {this.state.portfolios.map((item, index) => (
-            <Link key={index} to={`/simulator/${index}`} params={item}><button className='portfolioLandingButton'>{item.name}</button></Link>
+            <Link key={index} to={`/simulator/${item.id}`} ><button className='portfolioLandingButton'>{item.name}</button></Link>
           ))}
         </div> 
       </div>

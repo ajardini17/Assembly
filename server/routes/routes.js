@@ -22,6 +22,7 @@ router.get('/login', user.login);
 router.post('/signup', user.signup);
 
 router.get('/getUserData', auth.authenticate, portfolioStock.getUserData);
+router.get('/getSpecificPortfolio', auth.authenticate, portfolio.getSpecificPortfolio);
 
 router.post('/buy', auth.authenticate, portfolioStock.buy);
 router.put('/sell', auth.authenticate, portfolioStock.sell);
