@@ -3,8 +3,8 @@ import Auth from './Auth.jsx';
 import axios from 'axios';
 
 class Signup extends React.Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.Auth = new Auth;
         this.state = {username: '', password: ''};
         this.handlePassword = this.handlePassword.bind(this);
@@ -20,7 +20,7 @@ class Signup extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         this.Auth.signup(this.state.username, this.state.password, (reply) => {
-
+            this.props.fetch();
         })
         this.setState({username: '', password: ''});
     }

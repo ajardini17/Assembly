@@ -12,10 +12,12 @@ export default class StockSimulator extends React.Component {
       purchasePrice: '',
       selectedCurrency: 'btc'
     }
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this)
-    this.handleCurrencySelectionChange = this.handleCurrencySelectionChange.bind(this)
-    this.handleCurrencyGetRequest = this.handleCurrencyGetRequest.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this);
+    this.handleCurrencySelectionChange = this.handleCurrencySelectionChange.bind(this);
+    this.handleCurrencyGetRequest = this.handleCurrencyGetRequest.bind(this);
+    this.handleAddStock = this.handleAddStock.bind(this);
+    this.handleSellStock = this.handleSellStock.bind(this);
   }
   
   
@@ -23,6 +25,7 @@ export default class StockSimulator extends React.Component {
     this.handleCurrencyGetRequest();
  
   }
+
 
   handleCurrencyGetRequest() {
     axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
@@ -53,6 +56,24 @@ export default class StockSimulator extends React.Component {
     this.setState({
       purchasePrice: `$${tempPrice.toFixed(2)}`
     })
+  }
+  handleAddStock(){
+    let buyObj = {
+      
+    }
+    axios.post('/api/addStock', {params: buyObj},{headers: {authorization:localStorage.getItem('token')}})
+    .then(reply => {
+
+    });
+  }
+  handleSellStock(){
+    let sellObj = {
+      
+    }
+    axios.put('/api/sellStock', {params: sellObj}, {headers: {authorization: localStorage.getItem('token')}})
+    .then(reply => {
+
+    });
   }
 
   render() {

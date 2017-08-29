@@ -10,7 +10,8 @@ export default class PortfolioLanding extends React.Component {
     super()
     this.state = {
       portfolios: [],
-      portfolio_id: 0
+      portfolio_id: 0,
+      token: localStorage.getItem('token')
     }
     this.handleFetchData = this.handleFetchData.bind(this);
   }
@@ -24,13 +25,12 @@ export default class PortfolioLanding extends React.Component {
     .then(reply => this.setState({portfolios: reply.data}))
     .catch(err => console.log(err, 'error'))
   }
-
+  
   render() {
-    console.log(this.state.portfolios, 'portfolios');
     return (
       <div>
-        <Signup/>
-        <Login/>
+        <Signup fetch={this.handleFetchData}/>
+        <Login fetch={this.handleFetchData}/>
          <div className='portfolioLanding'>
           {this.state.portfolios.map((item, index) => (
             <Link key={index} to={`/simulator/${index}`}><button className='portfolioLandingButton'>{item.name}</button></Link>

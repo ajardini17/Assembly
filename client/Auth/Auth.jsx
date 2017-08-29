@@ -23,7 +23,6 @@ export default class Auth {
             if(reply.data === 'User taken!'){
                 callback(reply.data);
             } else {
-                console.log(reply.data, 'what it is');
                 this.setSession(reply.data);
                 callback('success');
             }
