@@ -19,9 +19,7 @@ export default class PortfolioPage extends React.Component {
     this.handleCurrencyGetRequest = this.handleCurrencyGetRequest.bind(this);
   }
   componentDidMount() {
-    //this.handleFetchData();
-    //this.handleCurrencyGetRequest();
-    console.log(this.state.portfolio_id)
+  
   }
 
   handleCurrencyGetRequest() {
@@ -46,8 +44,6 @@ export default class PortfolioPage extends React.Component {
     console.log(this.state.portfolios, 'portfolios');
     return (
       <div className='container'>
-        <Signup/>
-        <Login/>
         <PortfolioInfo portfolios = {this.state.portfolios}/>
         <PortfolioTable portfolios = {this.state.portfolios}/>
         <SimulatorPurchase />

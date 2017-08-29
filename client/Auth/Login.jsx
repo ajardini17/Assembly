@@ -3,8 +3,8 @@ import Auth from './Auth.jsx';
 
 
 class Login extends React.Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.Auth = new Auth;
         this.state = {username: '', password: ''};
         this.handleUsername = this.handleUsername.bind(this);
@@ -20,6 +20,7 @@ class Login extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         this.Auth.login(this.state.username, this.state.password, (reply) => {
+            this.props.fetch();
         })
         this.setState({username: '', password: ''});
     }
