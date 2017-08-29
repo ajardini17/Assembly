@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack -w & nodemon server/index.js & FLASK_APP=server/python/index.py FLASK_DEBUG=0 python3 -m flask run"
+    "start": "webpack -w & nodemon server/index.js & FLASK_APP=server/python/index.py FLASK_DEBUG=0 python3.5 -m flask run"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +29,7 @@
     "react-dom": "^15.6.1",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "redis": "^2.8.0",
     "sequelize": "^4.7.5",
     "socket.io": "^2.0.3",
     "webpack": "^3.5.5",

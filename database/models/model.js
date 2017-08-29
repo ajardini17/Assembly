@@ -60,10 +60,32 @@ const PortfolioStock = db.define('portfolio_stock', {
     }
 });
 
+const TransactionHistory = db.define('history', {
+    ticker: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    stockName: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    shares: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+    },
+    transactionPrice: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+    },
+    transactionType: {
+        type: Sequelize.STRING,
+        allowNull: false
+    }
+});
 
 PortfolioStock.belongsTo(Portfolio);
 
-
+TransactionHistory.belongsTo(User);
 Portfolio.belongsTo(User);
 User.hasMany(Portfolio);
 
@@ -71,13 +93,15 @@ User.hasMany(Portfolio);
 
 User.sync();
 // Stock.sync();
+TransactionHistory.sync();
 Portfolio.sync();
 PortfolioStock.sync();
 
 module.exports = {
     User,
     Portfolio,
-    PortfolioStock
+    PortfolioStock,
+    TransactionHistory
 }
 
 

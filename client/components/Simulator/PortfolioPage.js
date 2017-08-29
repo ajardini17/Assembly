@@ -48,7 +48,7 @@ export default class PortfolioPage extends React.Component {
       <div className='container'>
         <Signup/>
         <Login/>
-        <PortfolioInfo />
+        <PortfolioInfo portfolios = {this.state.portfolios}/>
         <PortfolioTable portfolios = {this.state.portfolios}/>
         <SimulatorPurchase />
       </div>
