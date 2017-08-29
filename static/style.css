@@ -39,3 +39,7 @@
   margin-bottom: 50px;
   text-align: center;
 }
+
+th, td {
+  padding: 10px;
+}
