@@ -100,18 +100,18 @@ export default class StockSimulator extends React.Component {
 
         <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
+            {this.state.purchasePrice !== '$NaN' ? <p> {this.state.purchasePrice} </p> : <p></p>}
+          </div>
+        </div>
+
+        <div className='row'>
+          <div className='col-xs-4 col-xs-offset-4 text-center'>
             <form onSubmit={this.handleSubmitPriceCheck}>
               <input type='text' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
               <button className='btn btn-primary buySellBtn'>Buy</button>
               <button className='btn btn-danger buySellBtn'>Sell</button>
             </form>
            
-          </div>
-        </div>
-
-        <div className='row'>
-          <div className='col-xs-4 col-xs-offset-1 text-center'>
-            {this.state.purchasePrice !== '$NaN' ? <p> {this.state.purchasePrice} </p> : <p></p>}
           </div>
         </div>
 
