@@ -16,7 +16,12 @@ export default class PortfolioInfo extends React.Component {
   componentDidMount() {
     //this.handleFetchData()
     $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-      // data is in form of nested array [[timestamp, closing price], [timestamp, closing price]], ... 
+      // let dummyData = [
+      //   [1283299200000,35.76],
+      //   [1283385600000,36.02],
+      //   [1283472000000,36.97]
+      // ]
+
       // Create the chart
       Highcharts.stockChart('container', {
         rangeSelector: { 

@@ -43,4 +43,6 @@ router.get('/getNewsFeed', function(req, res) {
       })
 })
 
+router.get('/getHistoricalCurrencyData', stock.getHistoricalData);
+
 module.exports = router;
