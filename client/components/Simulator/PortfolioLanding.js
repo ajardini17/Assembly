@@ -4,23 +4,25 @@ import Signup from '../../Auth/Signup.jsx';
 import Login from '../../Auth/Login.jsx';
 import axios from 'axios';
 import {Link} from 'react-router-dom'
+import Auth from '../../Auth/Auth.jsx';
 
 export default class PortfolioLanding extends React.Component {
   constructor() {
     super()
+    this.Auth = new Auth;
     this.state = {
       portfolios: [],
       portfolio_id: 0,
       token: localStorage.getItem('token')
     }
-    this.handleFetchData = this.handleFetchData.bind(this);
+    this.handleFetchData = this.handleFetchData.bind(this)
   }
   componentDidMount() {
-    this.handleFetchData();
+    this.handleFetchData()
   }
 
   handleFetchData(){
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem('token')
     axios.get('/api/getUserData', {headers: {authorization:token}})
     .then(reply => this.setState({portfolios: reply.data}))
     .catch(err => console.log(err, 'error'))
