@@ -6,17 +6,15 @@ export default class PortfolioInfo extends React.Component {
     super()
     this.state = {
       portfolioValue: 0,
-      cash: 40000,
+      cash: 0,
       annualReturn: .17,
       portfolioID: decodeURI(window.location.pathname.slice(11)),
       portfolioName: ''
     }
-    this.handleFetchData = this.handleFetchData.bind(this)
-    this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this)
   }
 
   componentDidMount() {
-    this.handleFetchData()
+    //this.handleFetchData()
     $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
       // data is in form of nested array [[timestamp, closing price], [timestamp, closing price]], ... 
       // Create the chart
@@ -38,39 +36,11 @@ export default class PortfolioInfo extends React.Component {
     });
   }
 
-  handleFetchData(){
-    let token = localStorage.getItem('token')
-    axios.get('/api/getUserData', {headers: {authorization:token}})
-    .then(reply => {this.setState({
-      cash: reply.data[this.state.portfolioID].balance,
-      portfolioName: reply.data[this.state.portfolioID].name
-      })
-      this.calculatePortfolioValue(reply.data[this.state.portfolioID].stocks)
-    })
-    .catch(err => console.log(err, 'error'))
-  }
-
-  calculatePortfolioValue(currencyArr) {
-    console.log(currencyArr)
-    let tempVal = 0
-    let count = 0
-    // Promise.all(currencyArr.map(x=>axios.get('/api/coinQuery', {params: x.ticker})))
-    // .then(results => console.log(results))
-    currencyArr.forEach((x, i) => {
-      console.log(x.ticker)
-      axios.get('/api/coinQuery', {params: x.ticker})
-        .then(reply => {
-          let price = parseFloat(reply.data.last_price).toFixed(2)
-          price *= x.shares
-          tempVal += price
-          count++
-          if (count === currencyArr.length) {
-            let newValue = tempVal + this.state.cash
-            this.setState({
-              portfolioValue: newValue
-            })
-          }
-        })
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      portfolioValue: nextProps.portfolioValue,
+      cash: nextProps.cash,
+      portfolioName: nextProps.portfolioName
     })
   }
 
