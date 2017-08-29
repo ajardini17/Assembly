@@ -1,13 +1,16 @@
 import React from 'react'
 import axios from 'axios'
+// import xml2json from 'xml2json'
 
 export default class CurrInfo extends React.Component {
   constructor() {
     super()
     this.state = {
       currencyName: '',
-      currentValue: ''
+      currentValue: '',
+      articles: []
     }
+    this.getNewsFeed = this.getNewsFeed.bind(this)
   }
 
   componentDidMount() {
@@ -39,9 +42,29 @@ export default class CurrInfo extends React.Component {
               }]
             })
           })
-        })
+        ;})
       })
     })
+
+    this.getNewsFeed()
+  }
+
+  getNewsFeed() {
+    axios.get('/api/getNewsFeed')
+      .then(data => {
+        var regex = /(<([^>]+)>)/ig
+        let tempArr = []
+        for (let i = 0; i < data.data.feed.entry.length; i++) {
+          var body = data.data.feed.entry[i].title.$t
+          var result = body.replace(regex, "")
+          var result2 = result.replace(/&#39;/g, "'")
+          tempArr.push([result2, data.data.feed.entry[i].link.href])
+        }
+        this.setState({
+          articles: tempArr
+        })
+        console.log(data.data.feed.entry)
+       })
   }
 
   render() {
@@ -55,7 +78,7 @@ export default class CurrInfo extends React.Component {
 
     var buttonStyle = {
       marginTop: '20px'
-    }    
+    }
 
     return (
       <div className='container-fluid'>
@@ -81,12 +104,9 @@ export default class CurrInfo extends React.Component {
           <div className='row'>
             <div className='col-xs-10 col-xs-offset-1'>
               <ul>
-                <li>THIS IS WHERE NEWS ARTICLES WILL GO</li>
-                <li>THIS IS WHERE NEWS ARTICLES WILL GO</li>
-                <li>THIS IS WHERE NEWS ARTICLES WILL GO</li>
-                <li>THIS IS WHERE NEWS ARTICLES WILL GO</li>
-                <li>THIS IS WHERE NEWS ARTICLES WILL GO</li>
-                <li>THIS IS WHERE NEWS ARTICLES WILL GO</li>
+                {this.state.articles.map((article, index) => 
+                  <a href={article[1]}><li>{article[0]}</li></a>
+                )}
               </ul>
             </div>
           </div>
