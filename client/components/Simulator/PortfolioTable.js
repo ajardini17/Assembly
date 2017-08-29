@@ -30,11 +30,17 @@ export default class PortfolioTable extends React.Component {
 
   render() {
     return (
-      <div>
+      <table className='portfolioEntryTable'>
+        <tr>
+          <th style={{ 'textAlign':'center' }}>Asset</th>
+          <th style={{ 'textAlign':'center' }}>Qty</th>
+          <th style={{ 'textAlign':'center' }}>Value</th>
+          <th style={{ 'textAlign':'center' }}>Mix</th>
+        </tr>
         {this.state.entries.map((item, index) => (
           <PortfolioEntry item={item} key={index}  />
         ))}
-      </div>
+      </table>
     )
   }
 }

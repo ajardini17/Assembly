@@ -31,3 +31,11 @@
 .portfolioLandingButton:hover {
   background-color: gainsboro;
 }
+
+.portfolioEntryTable {
+  border: 1px solid gray;
+  width: 70%;
+  margin: auto;
+  margin-bottom: 50px;
+  text-align: center;
+}

@@ -2,8 +2,6 @@ import React from 'react';
 import PortfolioInfo from './PortfolioInfo';
 import PortfolioTable from './PortfolioTable';
 import SimulatorPurchase from './SimulatorPurchase.jsx';
-import Signup from '../../Auth/Signup.jsx';
-import Login from '../../Auth/Login.jsx';
 import axios from 'axios';
 
 export default class PortfolioPage extends React.Component {
@@ -12,14 +10,13 @@ export default class PortfolioPage extends React.Component {
     this.state = {
       portfolio_id: window.location.href.substr(window.location.href.lastIndexOf('/') + 1),
       portfolios: [],
-      portfolioValue: 10000, // grab from database or calculate
-      cash: 4000, // grab from database or calculate
+      portfolioValue: 10000,
+      cash: 4000,
     }
-    this.handleFetchData = this.handleFetchData.bind(this);
     this.handleCurrencyGetRequest = this.handleCurrencyGetRequest.bind(this);
   }
   componentDidMount() {
-  
+    this.handleCurrencyGetRequest();
   }
 
   handleCurrencyGetRequest() {
@@ -30,14 +27,6 @@ export default class PortfolioPage extends React.Component {
         currentValue: `$${price}`
       })
     })
-  }
-
-  handleFetchData(){
-    let token = localStorage.getItem('token');
-    axios.get('/api/getUserData', {headers: {authorization:token}})
-    .then(reply => this.setState({portfolios: reply.data}))
-    .catch(err => console.log(err, 'error'))
-
   }
 
   render() {
