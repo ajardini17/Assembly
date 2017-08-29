@@ -14,25 +14,6 @@ module.exports = {
             console.log('error in getting info from server side :: ',req.query)
         })
     },
-    // ticker: {
-    //     type: Sequelize.STRING,
-    //     allowNull: false
-    // },
-    // stockName: {
-    //     type: Sequelize.STRING,
-    //     allowNull: false
-    // },
-    // shares: {
-    //     type: Sequelize.FLOAT,
-    //     allowNull: false
-    // },
-    // sellPrice: {
-    //     type: Sequelize.FLOAT,
-    //     allowNull: false
-    // },
-    // transactionType: {
-    //     type: string
-    // }
     addStock: (req, res) => {
 
         Model.PortfolioStock.create({

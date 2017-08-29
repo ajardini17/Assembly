@@ -21,7 +21,6 @@ module.exports = {
         let header = req.headers['authorization'];
         if(header){
             jwt.verify(header, process.env.SECRET_KEY, (err, data) => {
-                console.log(data, "DATATATTATA");
                 if(err){
                     res.sendStatus(403);
                 } else {
