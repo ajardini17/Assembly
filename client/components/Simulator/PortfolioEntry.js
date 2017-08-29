@@ -7,12 +7,12 @@ export default class PortfolioEntry extends React.Component {
 
   render() {
     return (
-      <div style={{'textAlign': 'center'}}>
-        <span>{this.props.item.asset} </span>
-        <span>{this.props.item.shares} </span>
-        <span>${this.props.item.value} </span>
-        <span>{this.props.item.percentage * 100}%</span>
-      </div>
+      <tr>
+        <td>{this.props.item.asset} </td>
+        <td>{this.props.item.shares.toFixed(2)} </td>
+        <td>${this.props.item.value.toFixed(2)} </td>
+        <td>{(this.props.item.percentage * 100).toFixed(2)}%</td>
+      </tr>
     )
   }
 }
