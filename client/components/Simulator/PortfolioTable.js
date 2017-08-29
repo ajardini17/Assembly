@@ -15,7 +15,6 @@ export default class PortfolioTable extends React.Component {
       entries: nextProps.portfolioStocks,
       stockValues: nextProps.stockValues
     })
-    console.log(nextProps.portfolioStocks)
   }
 
   render() {

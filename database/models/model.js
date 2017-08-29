@@ -53,19 +53,11 @@ const PortfolioStock = db.define('portfolio_stock', {
     ticker: {
         type: Sequelize.STRING,
         allowNull: false
-    },
-    stockName: {
-        type: Sequelize.STRING,
-        allowNull: false
     }
 });
 
 const TransactionHistory = db.define('history', {
     ticker: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    stockName: {
         type: Sequelize.STRING,
         allowNull: false
     },
