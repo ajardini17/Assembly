@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom'
 
 
 export default class StockSimulator extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       input: '',
       currentValue: '',
@@ -57,20 +57,27 @@ export default class StockSimulator extends React.Component {
       purchasePrice: `$${tempPrice.toFixed(2)}`
     })
   }
+
+
   handleAddStock(){
     let buyObj = {
-      
+      shares: this.state.input,
+      buyPrice: this.state.purchasePrice,
+      ticker: this.state.selectedCurrency,
+      portfolioId: this.props.portfolioId
     }
-    axios.post('/api/addStock', {params: buyObj},{headers: {authorization:localStorage.getItem('token')}})
+    axios.post('/api/buy', {params: buyObj},{headers: {authorization:localStorage.getItem('token')}})
     .then(reply => {
 
     });
   }
   handleSellStock(){
     let sellObj = {
-      
+      shares: this.state.input,
+      buyPrice: this.state.purchasePrice,
+      ticker: this.state.selectedCurrency
     }
-    axios.put('/api/sellStock', {params: sellObj}, {headers: {authorization: localStorage.getItem('token')}})
+    axios.put('/api/sell', {params: sellObj}, {headers: {authorization: localStorage.getItem('token')}})
     .then(reply => {
 
     });
@@ -129,8 +136,8 @@ export default class StockSimulator extends React.Component {
           <div className='col-xs-4 col-xs-offset-4 text-center'>
             <form onSubmit={this.handleSubmitPriceCheck}>
               <input type='text' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
-              <button className='btn btn-primary buySellBtn'>Buy</button>
-              <button className='btn btn-danger buySellBtn'>Sell</button>
+              <button className='btn btn-primary buySellBtn' onClick={this.handleAddStock}>Buy</button>
+              <button className='btn btn-danger buySellBtn' onClick={this.handleSellStock}>Sell</button>
             </form>
            
           </div>

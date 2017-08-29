@@ -10,6 +10,7 @@ export default class PortfolioPage extends React.Component {
     this.state = {
       portfolio_id: window.location.href.substr(window.location.href.lastIndexOf('/') + 1),
       portfolioValue: 10000,
+      portfolio: [],
       cash: 4000,
       portfolioName: '',
       portfolioStocks: [],
@@ -26,9 +27,9 @@ export default class PortfolioPage extends React.Component {
     let token = localStorage.getItem('token')
     axios.get('/api/getUserData', {headers: {authorization:token}})
     .then(reply => {this.setState({
-      cash: reply.data[this.state.portfolio_id].balance,
-      portfolioName: reply.data[this.state.portfolio_id].name,
-      portfolioStocks: reply.data[this.state.portfolio_id].stocks
+      cash: reply.data[this.state.portfolioId].balance,
+      portfolioName: reply.data[this.state.portfolioId].name,
+      portfolio: reply.data[this.state.portfolioId]
       })
       this.calculatePortfolioValue(reply.data[this.state.portfolio_id].stocks)
     })
@@ -36,11 +37,9 @@ export default class PortfolioPage extends React.Component {
   }
 
   calculatePortfolioValue(currencyArr) {
-    console.log(currencyArr)
     let tempVal = 0
     let count = 0
     currencyArr.forEach((x, i) => {
-      console.log(x.ticker)
       axios.get('/api/coinQuery', {params: x.ticker})
         .then(reply => {
           let price = parseFloat(reply.data.last_price).toFixed(2)
@@ -60,11 +59,13 @@ export default class PortfolioPage extends React.Component {
   }
 
   render() {
+    console.log(this.props, 'PROPSORPSOSOS');
     return (
       <div className='container'>
         <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName}/>
         <PortfolioTable portfolioStocks={this.state.portfolioStocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
         <SimulatorPurchase />
+  
       </div>
     )
   }

@@ -14,14 +14,13 @@ module.exports = {
             console.log('error in getting info from server side :: ',req.query)
         })
     },
-    addStock: (req, res) => {
+    buy: (req, res) => {
 
         Model.PortfolioStock.create({
             portfolioId: req.body.portfolioId,
             buyPrice: req.body.buyPrice,
             shares: req.body.shares,
-            ticker: req.body.ticker,
-            stockName: req.body.stockName
+            ticker: req.body.ticker
         })
         .then(stock => {
             let amount = req.body.shares * req.body.buyPrice;
@@ -31,8 +30,7 @@ module.exports = {
                     ticker: req.body.ticker,
                     shares: req.body.shares,
                     transactionType: 'buy',
-                    transactionPrice: req.body.buyPrice,
-                    stockName: req.body.stockName
+                    transactionPrice: req.body.buyPrice
                 })
                 .then(() => res.send('stock added'));
             });
@@ -56,16 +54,15 @@ module.exports = {
     sell: (req, res) => {
         let body = req.body;
         let gain = body.shares * body.sellPrice;
-        db.query(`UPDATE portfolioStocks SET shares = shares - ${body.shares}`)
+        db.query(`UPDATE portfolioStocks SET shares = shares - ${body.shares} WHERE id = ${body.id} AND ticker = ${body.ticker}`)
         .then(() => {
             db.query(`UPDATE portfolios SET balance = balance + ${gain} WHERE id = ${body.portfolioId}`)
             .then(() => {
                 Model.TransactionHistory.create({
                     ticker: body.ticker,
-                    shares: req.body.shares,
+                    shares: body.shares,
                     transactionType: 'sell',
-                    transactionPrice: body.sellPrice,
-                    stockName: body.stockName
+                    transactionPrice: body.sellPrice
                 })
                 .then(() => res.send('successfully sold!'))
             })
@@ -84,8 +81,7 @@ module.exports = {
                     ticker: req.body.ticker,
                     shares: req.body.shares,
                     transactionType: 'sell',
-                    transactionPrice: req.body.sellPrice,
-                    stockName: req.body.stockName
+                    transactionPrice: req.body.sellPrice
                 })
                 .then(() => res.send('sucessfully sold'))
             })

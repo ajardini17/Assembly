@@ -23,9 +23,13 @@ router.post('/signup', user.signup);
 
 router.get('/getUserData', auth.authenticate, portfolioStock.getUserData);
 
-router.post('/addStock', auth.authenticate, portfolioStock.addStock);
+router.post('/buy', auth.authenticate, portfolioStock.buy);
+router.put('/sell', auth.authenticate, portfolioStock.sell);
+router.delete('/sellAll', auth.authenticate, portfolioStock.sellAll);
 
 router.post('/createPortfolio', auth.authenticate, portfolio.createPortfolio);
+
+
 
 router.get('/getNewsFeed', function(req, res) {
   axios.get('https://www.google.com/alerts/feeds/09786470827379239761/3670693558918612812')

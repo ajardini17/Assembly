@@ -22,10 +22,10 @@ db.User.sync({force: true})
 .then(() => {
     
     return db.PortfolioStock.bulkCreate([
-        {portfolioId: 1, shares: 40, buyPrice: 100, ticker: 'btc', stockName: 'bitcoin'},
-        {portfolioId: 1, shares: 10, buyPrice: 70, ticker: 'eth', stockName: 'ethereum'},
-        {portfolioId: 2, shares: 1.6, buyPrice: 3100, ticker: 'btc', stockName: 'bitcoin'},
-        {portfolioId: 2, shares: 5, buyPrice: 250, ticker: 'eth', stockName: 'ethereum'}
+        {portfolioId: 1, shares: 40, buyPrice: 100, ticker: 'btc'},
+        {portfolioId: 1, shares: 10, buyPrice: 70, ticker: 'eth'},
+        {portfolioId: 2, shares: 1.6, buyPrice: 3100, ticker: 'btc'},
+        {portfolioId: 2, shares: 5, buyPrice: 250, ticker: 'eth'}
     ])
     
 })
