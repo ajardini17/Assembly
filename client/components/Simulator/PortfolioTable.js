@@ -5,27 +5,17 @@ export default class PortfolioTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      entries: [
-        {
-          asset: 'BTC',
-          shares: 40,
-          value: 10000,
-          percentage: .55
-        },
-        {
-          asset: 'ETH',
-          shares: 10,
-          value: 4000,
-          percentage: .2
-        },
-        {
-          asset: 'XRP',
-          shares: 12,
-          value: 5000,
-          percentage: .25
-        },
-      ]
+      entries: [],
+      stockValues: {}
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      entries: nextProps.portfolioStocks,
+      stockValues: nextProps.stockValues
+    })
+    console.log(nextProps.portfolioStocks)
   }
 
   render() {
@@ -38,7 +28,7 @@ export default class PortfolioTable extends React.Component {
           <th style={{ 'textAlign':'center' }}>Mix</th>
         </tr>
         {this.state.entries.map((item, index) => (
-          <PortfolioEntry item={item} key={index}  />
+          <PortfolioEntry item={item} key={index} stockValues={this.state.stockValues} portfolioValue={this.props.portfolioValue} />
         ))}
       </table>
     )
