@@ -16,8 +16,10 @@ export default class PortfolioPage extends React.Component {
       portfolioStocks: [],
       stockValues: {}
     }
-    this.handleFetchData = this.handleFetchData.bind(this)
-    this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this)
+    this.handleFetchData = this.handleFetchData.bind(this);
+    this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this);
+    this.successfulBuy = this.successfulBuy.bind(this);
+    this.successfulSell = this.successfulSell.bind(this);
   }
   componentDidMount() {
     console.log('***props in portfolioPage:', this.props.userInfo.location.state)
@@ -38,7 +40,6 @@ export default class PortfolioPage extends React.Component {
       portfolio: reply.data,
       portfolioId: reply.data.id
       })
-      console.log(reply.data.id, 'PORTFOLIO ID');
       this.calculatePortfolioValue(reply.data.stocks)
     })
     .catch(err => console.log(err, 'error'))
@@ -65,13 +66,34 @@ export default class PortfolioPage extends React.Component {
         })
     })
   }
+  successfulBuy(cashChange, shares, stockData){
+    this.setState({
+      cash: this.state.cash - cashChange
+    })
+    let stocks = this.state.portfolio.stocks;
+    let found = false;
+    for(var i = 0; i < stocks.length; i++){
+      if(stocks[i].ticker === 'ticker'){
+        stocks[i].shares += shares;
+        found = true;
+      }
+    }
+    if(!found){
+      stocks.push()
+    }
+  }
+  successfulSell(cashChange, shares, stockData){
+    this.setState({
+      cash: this.state.cash + cashChange
+    })
+  }
 
   render() {
     return (
       <div className='container'>
         <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName}/>
         <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
-        <SimulatorPurchase portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio}/>
+        <SimulatorPurchase portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
       </div>
     )
   }

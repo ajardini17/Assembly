@@ -56,7 +56,7 @@ const PortfolioStock = db.define('portfolio_stock', {
     }
 });
 
-const TransactionHistory = db.define('history', {
+const TransactionHistory = db.define('transactionHistory', {
     ticker: {
         type: Sequelize.STRING,
         allowNull: false
@@ -81,7 +81,7 @@ const TransactionHistory = db.define('history', {
 
 PortfolioStock.belongsTo(Portfolio);
 
-TransactionHistory.belongsTo(User);
+TransactionHistory.belongsTo(Portfolio);
 Portfolio.belongsTo(User);
 User.hasMany(Portfolio);
 

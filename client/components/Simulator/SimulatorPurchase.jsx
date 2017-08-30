@@ -11,7 +11,8 @@ export default class StockSimulator extends React.Component {
       purchasePrice: '',
       displayedValue: '',
       selectedCurrency: 'btc',
-      portfolioId: ''
+      portfolioId: '',
+      portfolioBalance: 0
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this);
@@ -27,7 +28,8 @@ export default class StockSimulator extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      portfolioId: nextProps.portfolioId
+      portfolioId: nextProps.portfolioId,
+      portfolioBalance: nextProps.portfolioBalance
     })
   }
   handleCurrencyGetRequest() {
@@ -39,7 +41,7 @@ export default class StockSimulator extends React.Component {
       })
     })
   }
-  handleSuccessfulPurchase() {
+  handleSuccessfulPurchase(price, ) {
 
   }
   handleSuccessfulSell() {
@@ -70,38 +72,43 @@ export default class StockSimulator extends React.Component {
 
   handleAddStock(e){
     e.preventDefault();
+
+    let finalPrice = (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2);
+    if(finalPrice < this.state.portfolioBalance){
+      let buyObj = {
+        shares: this.state.input,
+        buyPrice: this.state.displayedValue,
+        ticker: this.state.selectedCurrency,
+        portfolioId: this.state.portfolioId,
+        finalPrice: finalPrice
+      }
+      axios.post('/api/buy', buyObj, {headers: {authorization:localStorage.getItem('token')}})
+      .then(reply => {
+
     
-    let buyObj = {
-      shares: this.state.input,
-      buyPrice: this.state.displayedValue,
-      ticker: this.state.selectedCurrency,
-      portfolioId: this.state.portfolioId,
-      finalPrice: (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2)
+        this.props.successfulBuy(finalPrice, this.state.input, reply.data);
+        document.getElementById('currBuyInput').value = '';
+        this.setState({
+          input: '',
+          purchasePrice: ''
+        })
+      });
+    } else {
+      alert('you\'re too poor');
     }
-    axios.post('/api/buy', buyObj, {headers: {authorization:localStorage.getItem('token')}})
-    .then(reply => {
 
-      this.refs.currencyInput.value = '';
-      document.getElementById('currBuyInput').value = '';
-      this.setState({
-        input: '',
-        purchasePrice: ''
-      })
-    });
-
-    document.getElementById('currBuyInput').value = ''
-    this.setState({
-      input: ''
-    })
   }
   handleSellStock(e){
     e.preventDefault();
+    let finalPrice = (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2);
+
+    
     let sellObj = {
       shares: this.state.input,
       sellPrice: this.state.displayedValue,
       ticker: this.state.selectedCurrency,
       portfolioId: this.state.portfolioId,
-      finalPrice: (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2)
+      finalPrice: finalPrice
     }
     axios({
       method: 'put',
@@ -109,13 +116,15 @@ export default class StockSimulator extends React.Component {
       headers: {authorization: localStorage.getItem('token')},
       params: sellObj
     })
-    .then(reply => console.log('buy went through'))
-      this.refs.currencyInput.value = '';
+    .then(reply => {
+      console.log(reply, 'REPLY');
+      this.props.successfulSell(finalPrice, this.state.input, reply.data);     
       document.getElementById('currBuyInput').value = '';
       this.setState({
         input: '',
         purchasePrice: ''
       })
+    })
   }
 
   render() {
@@ -169,13 +178,8 @@ export default class StockSimulator extends React.Component {
 
         <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
-<<<<<<< b6a5f0356aadb9abd20799a1465d4c99a3b74acb
             <form onSubmit={this.handleSubmitPriceCheck}>
               <input id='currBuyInput' type='number' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
-=======
-            <form onSubmit={this.handleSubmitPriceCheck} ref = "currencyInput">
-              <input id = 'currBuyInput'type='number' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
->>>>>>> google news blues
               <button className='btn btn-primary buySellBtn' onClick={this.handleAddStock}>Buy</button>
               <button className='btn btn-danger buySellBtn' onClick={this.handleSellStock}>Sell</button>
             </form>
