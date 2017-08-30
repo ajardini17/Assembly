@@ -27,9 +27,7 @@ urls = ['https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&aggre
 def get_historical_cc_data():
     if not os.path.exists('cc_dfs'):
         os.mkdir('cc_dfs')
-
     count = 0
-
     for url in urls:
         print('NEW URL :::::: ', url)
         with requests.Session() as s:
@@ -39,20 +37,64 @@ def get_historical_cc_data():
             decoded_content = decoded_content['Data']
             new_decoded_content = json.dumps(decoded_content)
 
-            cr = csv.reader(new_decoded_content.splitlines(), delimiter=',')
-            my_list = list(cr)
-            for row in my_list:
-                print(row)
+            newCsv = open('cc_dfs/history{}.csv'.format(url[53:56]), 'w+')
+            count += 1
+            cr = csv.writer(newCsv, new_decoded_content.splitlines(), delimiter=',')
+            header = decoded_content[0].keys()
+            cr.writerow(header)
+            for section in decoded_content:
+                print(section)
+                cr.writerow(section.values())
 
-            # if count == 0:
-            #
-            #     newCsv = open('cc_dfs/BTC.csv', 'w+')
-            #     csvwriter = csv.writer(newCsv)
-            #
-            #     for thing in decoded_content:
-            #         header = thing.keys()
-            #         csvwriter.writerow(header)
-            #         count += 1
-            #     csvwriter.writerow(thing.values())
+# get_historical_cc_data()
 
-get_historical_cc_data()
+def compile_closes_data():
+    main_df = pd.DataFrame()
+    for url in urls:
+        try:
+            df = pd.read_csv('cc_dfs/history{}.csv'.format(url[53:56]))
+            df.set_index('time', inplace=True)
+
+            df.rename(columns = {'close': url[53:56]}, inplace=True)
+            df.drop(['high', 'low', 'open', 'volumefrom', 'volumeto'], 1, inplace=True)
+
+            if main_df.empty:
+                main_df = df
+            else:
+                main_df = main_df.join(df, how='outer')
+        except:
+            print('failed to compile ticker : ', url[53:56])
+
+    main_df.to_csv('crypto_history_joined_closes.csv')
+
+# compile_closes_data()
+
+def visualize_data():
+    df = pd.read_csv('crypto_history_joined_closes.csv')
+    # df['BTC'].plot()
+    # plt.show()
+
+    df_corr = df.corr()
+
+    data = df_corr.values
+    fig = plt.figure()
+    ax = fig.add_subplot(1, 1, 1)
+    heatmap = ax.pcolor(data, cmap=plt.cm.RdYlGn)
+
+    fig.colorbar(heatmap)
+    ax.set_xticks(np.arange(data.shape[0]) + 0.5, minor=False)
+    ax.set_yticks(np.arange(data.shape[1]) + 0.5, minor=False)
+    ax.invert_yaxis()
+    ax.xaxis.tick_top()
+
+    column_labels = df_corr.columns
+    row_labels = df_corr.index
+
+    ax.set_xticklabels(column_labels)
+    ax.set_yticklabels(row_labels)
+    plt.xticks(rotation=90)
+    heatmap.set_clim(-1, 1)
+    plt.tight_layout()
+    plt.show()
+
+# visualize_data()
