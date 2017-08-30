@@ -27,9 +27,7 @@ urls = ['https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&aggre
 def get_historical_cc_data():
     if not os.path.exists('cc_dfs'):
         os.mkdir('cc_dfs')
-
     count = 0
-
     for url in urls:
         print('NEW URL :::::: ', url)
         with requests.Session() as s:
@@ -39,20 +37,13 @@ def get_historical_cc_data():
             decoded_content = decoded_content['Data']
             new_decoded_content = json.dumps(decoded_content)
 
-            cr = csv.reader(new_decoded_content.splitlines(), delimiter=',')
-            my_list = list(cr)
-            for row in my_list:
-                print(row)
-
-            # if count == 0:
-            #
-            #     newCsv = open('cc_dfs/BTC.csv', 'w+')
-            #     csvwriter = csv.writer(newCsv)
-            #
-            #     for thing in decoded_content:
-            #         header = thing.keys()
-            #         csvwriter.writerow(header)
-            #         count += 1
-            #     csvwriter.writerow(thing.values())
+            newCsv = open('cc_dfs/history{}.csv'.format(url[53:56]), 'w+')
+            count += 1
+            cr = csv.writer(newCsv, new_decoded_content.splitlines(), delimiter=',')
+            header = decoded_content[0].keys()
+            cr.writerow(header)
+            for section in decoded_content:
+                print(section)
+                cr.writerow(section.values())
 
 get_historical_cc_data()
