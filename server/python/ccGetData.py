@@ -46,4 +46,32 @@ def get_historical_cc_data():
                 print(section)
                 cr.writerow(section.values())
 
-get_historical_cc_data()
+# get_historical_cc_data()
+
+def compile_closes_data():
+    main_df = pd.DataFrame()
+    for url in urls:
+        try:
+            df = pd.read_csv('cc_dfs/history{}.csv'.format(url[53:56]))
+            df.set_index('time', inplace=True)
+
+            df.rename(columns = {'close': url[53:56]}, inplace=True)
+            df.drop(['high', 'low', 'open', 'volumefrom', 'volumeto'], 1, inplace=True)
+
+            if main_df.empty:
+                main_df = df
+            else:
+                main_df = main_df.join(df, how='outer')
+        except:
+            print('failed to compile ticker : ', url[53:56])
+
+    main_df.to_csv('crypto_history_joined_closes.csv')
+
+compile_closes_data()
+
+def visualize_data():
+    df = pd.read_csv('cc_dfs/historyBTC.csv')
+    df['close'].plot()
+    plt.show()
+
+# visualize_data()
