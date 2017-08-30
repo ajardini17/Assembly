@@ -56,7 +56,7 @@ export default class PortfolioPage extends React.Component {
           tempVal += price
           count++
           if (count === currencyArr.length) {
-            let newValue = tempVal + this.state.cash
+            let newValue = (tempVal + this.state.cash).toFixed(2);
             this.setState({
               portfolioValue: newValue,
               stockValues: this.state.stockValues

@@ -36,7 +36,7 @@ const Portfolio = db.define('portfolio', {
         type: Sequelize.STRING,
     },
     balance: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
         defaultValue: 1000000
     }
 });
@@ -71,6 +71,10 @@ const TransactionHistory = db.define('history', {
     },
     transactionType: {
         type: Sequelize.STRING,
+        allowNull: false
+    },
+    transactionTotal: {
+        type: Sequelize.FLOAT,
         allowNull: false
     }
 });

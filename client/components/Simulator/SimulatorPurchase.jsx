@@ -8,8 +8,8 @@ export default class StockSimulator extends React.Component {
     super(props)
     this.state = {
       input: '',
-      currentValue: '',
       purchasePrice: '',
+      displayedValue: '',
       selectedCurrency: 'btc',
       portfolioId: ''
     }
@@ -26,7 +26,6 @@ export default class StockSimulator extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps, 'NEXTPROPS');
     this.setState({
       portfolioId: nextProps.portfolioId
     })
@@ -34,17 +33,24 @@ export default class StockSimulator extends React.Component {
   handleCurrencyGetRequest() {
     axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
     .then(result => {
-      let price = parseFloat(result.data.last_price).toFixed(2)
+      let price = parseFloat(result.data.last_price).toFixed(2);
       this.setState({
-        currentValue: `$${price}`
+        displayedValue: price
       })
     })
   }
+  handleSuccessfulPurchase() {
 
+  }
+  handleSuccessfulSell() {
+
+  }
   handleInputChange(e) {
+
     this.setState({
-      input: e.target.value
+        input: e.target.value
     }, () => {this.handleSubmitPriceCheck()})
+    
   }
 
   handleCurrencySelectionChange(e) {
@@ -55,8 +61,7 @@ export default class StockSimulator extends React.Component {
 
   handleSubmitPriceCheck(e) {
     //e.preventDefault()
-
-    let tempPrice = this.state.currentValue.slice(1) * parseFloat(this.state.input)
+    let tempPrice = this.state.displayedValue * parseFloat(this.state.input)
     this.setState({
       purchasePrice: `$${tempPrice.toFixed(2)}`
     })
@@ -65,16 +70,23 @@ export default class StockSimulator extends React.Component {
 
   handleAddStock(e){
     e.preventDefault();
+    
     let buyObj = {
       shares: this.state.input,
-      buyPrice: this.state.purchasePrice,
+      buyPrice: this.state.displayedValue,
       ticker: this.state.selectedCurrency,
-      portfolioId: this.state.portfolioId
+      portfolioId: this.state.portfolioId,
+      finalPrice: (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2)
     }
-    console.log(buyObj, 'BUY OBJ');
     axios.post('/api/buy', buyObj, {headers: {authorization:localStorage.getItem('token')}})
     .then(reply => {
-      console.log('BUY WENT THROUGH, AIRHORN');
+
+      this.refs.currencyInput.value = '';
+      document.getElementById('currBuyInput').value = '';
+      this.setState({
+        input: '',
+        purchasePrice: ''
+      })
     });
 
     document.getElementById('currBuyInput').value = ''
@@ -82,11 +94,14 @@ export default class StockSimulator extends React.Component {
       input: ''
     })
   }
-  handleSellStock(){
+  handleSellStock(e){
+    e.preventDefault();
     let sellObj = {
       shares: this.state.input,
-      buyPrice: this.state.purchasePrice,
-      ticker: this.state.selectedCurrency
+      sellPrice: this.state.displayedValue,
+      ticker: this.state.selectedCurrency,
+      portfolioId: this.state.portfolioId,
+      finalPrice: (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2)
     }
     axios({
       method: 'put',
@@ -95,11 +110,12 @@ export default class StockSimulator extends React.Component {
       params: sellObj
     })
     .then(reply => console.log('buy went through'))
-    
-    document.getElementById('currBuyInput').value = ''
-    this.setState({
-      input: ''
-    })
+      this.refs.currencyInput.value = '';
+      document.getElementById('currBuyInput').value = '';
+      this.setState({
+        input: '',
+        purchasePrice: ''
+      })
   }
 
   render() {
@@ -133,7 +149,7 @@ export default class StockSimulator extends React.Component {
 
         <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
-            <h4> {this.state.currentValue} </h4>
+            <h4> ${this.state.displayedValue} </h4>
           </div>
         </div>
 
@@ -147,14 +163,19 @@ export default class StockSimulator extends React.Component {
 
         <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
-            {this.state.purchasePrice !== '$NaN' ? <p> {this.state.purchasePrice} </p> : <p></p>}
+            {this.state.purchasePrice !== '$NaN' ? <p> {this.state.purchasePrice}</p> : <p> </p>}
           </div>
         </div>
 
         <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
+<<<<<<< b6a5f0356aadb9abd20799a1465d4c99a3b74acb
             <form onSubmit={this.handleSubmitPriceCheck}>
               <input id='currBuyInput' type='number' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
+=======
+            <form onSubmit={this.handleSubmitPriceCheck} ref = "currencyInput">
+              <input id = 'currBuyInput'type='number' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
+>>>>>>> google news blues
               <button className='btn btn-primary buySellBtn' onClick={this.handleAddStock}>Buy</button>
               <button className='btn btn-danger buySellBtn' onClick={this.handleSellStock}>Sell</button>
             </form>
