@@ -5,7 +5,7 @@ module.exports ={
     createPortfolio: (req, res) => {
         Model.Portfolio.create({
             name: req.body.name,
-            userId: req.body.userId
+            userId: req.token.id
         })
         .then(portfolio => {
             res.send(portfolio);

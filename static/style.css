@@ -43,3 +43,11 @@
 th, td {
   padding: 10px;
 }
+
+.port-list-div {
+  padding: 20px;
+}
+
+.port-list-btn {
+  width: 80%;
+}
