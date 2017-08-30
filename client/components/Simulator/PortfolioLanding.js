@@ -18,6 +18,7 @@ export default class PortfolioLanding extends React.Component {
     this.handleFetchData = this.handleFetchData.bind(this)
   }
   componentDidMount() {
+    console.log('landing props', this.props)
     this.handleFetchData()
   }
 
@@ -35,7 +36,7 @@ export default class PortfolioLanding extends React.Component {
         <Login fetch={this.handleFetchData}/>
          <div className='portfolioLanding'>
           {this.state.portfolios.map((item, index) => (
-            <Link key={index} to={`/simulator/${item.id}`} ><button className='portfolioLandingButton'>{item.name}</button></Link>
+            <Link key={index} to={{pathname:`/simulator/${item.id}`, state: this.state.portfolios}} ><button className='portfolioLandingButton'>{item.name}</button></Link>
           ))}
         </div> 
       </div>

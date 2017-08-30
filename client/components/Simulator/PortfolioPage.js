@@ -20,6 +20,7 @@ export default class PortfolioPage extends React.Component {
     this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this)
   }
   componentDidMount() {
+    console.log('***props in portfolioPage:', this.props.userInfo.location.state)
     this.handleFetchData()
   }
 

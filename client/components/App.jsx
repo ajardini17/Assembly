@@ -24,7 +24,7 @@ export default class App extends React.Component {
           <Route exact path='/' render={() => <LandingPage />} />
           <Route path='/currency/:ticker' render={() => <CurrInfo />} />
           <Route exact path='/simulator' render={() => <PortfolioLanding />} />
-          <Route path='/simulator/:portfolioId' render={() => <PortfolioPage />} />
+          <Route path='/simulator/:portfolioId' render={(props) => <PortfolioPage userInfo={props}/>} />
         </div>
 
       </Router>
