@@ -64,7 +64,7 @@ export default class StockSimulator extends React.Component {
       shares: this.state.input,
       buyPrice: this.state.purchasePrice,
       ticker: this.state.selectedCurrency,
-      portfolioId: this.props.portfolioId
+      portfolioId: this.props.portfolioId.splice(0, this.props.portfolioId.length - 1)
     }
     axios.post('/api/buy', buyObj,{headers: {authorization:localStorage.getItem('token')}})
     .then(reply => {

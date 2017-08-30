@@ -63,7 +63,7 @@ export default class CurrInfo extends React.Component {
   }
 
   getNewsFeed() {
-    axios.get('/api/getNewsFeed')
+    axios.get('/api/getNewsFeed', {params: decodeURI(window.location.pathname.slice(10))})
       .then(data => {
         var regex = /(<([^>]+)>)/ig
         let tempArr = []
