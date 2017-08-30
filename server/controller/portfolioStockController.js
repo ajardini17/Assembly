@@ -95,13 +95,13 @@ module.exports = {
                         .then(() => {
                             stockData.dataValues.shares = Number(stockData.dataValues.shares) - Number(req.query.shares);
                             
-                            res.json(stockData.dataValues)
+                            res.json(stockData.dataValues);
                         })
                     })
                     .catch(() => res.send('error selling'))
                 })
             } else {
-                res.send(`do not own ${query.ticker}`);
+                res.send(`do not own`);
             }
             })
     },

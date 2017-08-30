@@ -41,7 +41,7 @@ export default class StockSimulator extends React.Component {
       })
     })
   }
-  handleSuccessfulPurchase(price, ) {
+  handleSuccessfulPurchase() {
 
   }
   handleSuccessfulSell() {
@@ -86,7 +86,7 @@ export default class StockSimulator extends React.Component {
       .then(reply => {
 
     
-        this.props.successfulBuy(finalPrice, this.state.input, reply.data);
+        this.props.successfulBuy(finalPrice, reply.data);
         document.getElementById('currBuyInput').value = '';
         this.setState({
           input: '',
@@ -94,7 +94,7 @@ export default class StockSimulator extends React.Component {
         })
       });
     } else {
-      alert('you\'re too poor');
+      alert('Insufficient Funds');
     }
 
   }
@@ -118,12 +118,14 @@ export default class StockSimulator extends React.Component {
     })
     .then(reply => {
       console.log(reply, 'REPLY');
-      this.props.successfulSell(finalPrice, this.state.input, reply.data);     
-      document.getElementById('currBuyInput').value = '';
-      this.setState({
-        input: '',
-        purchasePrice: ''
-      })
+      if(reply.data !== 'do not own'){
+        this.props.successfulSell(finalPrice, reply.data);     
+        document.getElementById('currBuyInput').value = '';
+        this.setState({
+          input: '',
+          purchasePrice: ''
+        })
+      }
     })
   }
 

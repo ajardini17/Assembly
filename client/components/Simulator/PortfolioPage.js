@@ -66,26 +66,48 @@ export default class PortfolioPage extends React.Component {
         })
     })
   }
-  successfulBuy(cashChange, shares, stockData){
-    this.setState({
-      cash: this.state.cash - cashChange
-    })
+  successfulBuy(cashChange, stockData){
     let stocks = this.state.portfolio.stocks;
     let found = false;
     for(var i = 0; i < stocks.length; i++){
-      if(stocks[i].ticker === 'ticker'){
-        stocks[i].shares += shares;
+      if(stocks[i].ticker === stockData.ticker){
+        stocks[i] = stockData;
+        console.log(this.state.stockValues)
+        this.state.stockValues[stockData.ticker] = Number(this.state.stockValues[stockData.ticker]) + Number(cashChange);
+        console.log(this.state.stockValues);
+        this.setState({
+          portfolio: this.state.portfolio,
+          stockValues: this.state.stockValues,
+          cash: (Number(this.state.cash) - Number(cashChange)).toFixed(2)
+        });
         found = true;
       }
     }
     if(!found){
-      stocks.push()
+      stocks.push(stockData);
+      this.state.stockValues[stockData.ticker] = cashChange;
+      console.log(this.state.stockValues)
+      this.setState({
+        portfolio: this.state.portfolio,
+        cash: this.state.cash - cashChange,
+        stockValues: this.state.stockValues
+      })
     }
   }
-  successfulSell(cashChange, shares, stockData){
-    this.setState({
-      cash: this.state.cash + cashChange
-    })
+  successfulSell(cashChange, stockData){
+    let stocks = this.state.portfolio.stocks;
+    for(var i = 0; i < stocks.length; i++){
+      if(stocks[i].ticker === stockData.ticker){
+        stocks[i] = stockData;
+        this.state.stockValues[stockData.ticker] = Number(this.state.stockValues[stockData.ticker]) - Number(cashChange);
+        this.setState({
+          portfolio: this.state.portfolio,
+          stockValues: this.state.stockValues,
+          cash: (Number(this.state.cash) + Number(cashChange)).toFixed(2)
+        });
+      }
+    }
+
   }
 
   render() {
