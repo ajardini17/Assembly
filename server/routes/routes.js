@@ -33,7 +33,17 @@ router.post('/createPortfolio', auth.authenticate, portfolio.createPortfolio);
 
 
 router.get('/getNewsFeed', function(req, res) {
-  axios.get('https://www.google.com/alerts/feeds/09786470827379239761/3670693558918612812')
+  let urls = {
+    btc: 'https://www.google.com/alerts/feeds/09786470827379239761/3670693558918612812',
+    bch: 'https://www.google.com/alerts/feeds/09786470827379239761/3670693558918612812',
+    eth: 'https://www.google.com/alerts/feeds/09786470827379239761/15529768159353373328',
+    ltc: 'https://www.google.com/alerts/feeds/09786470827379239761/5927708691400587615',
+    xmr: 'https://www.google.com/alerts/feeds/09786470827379239761/1581829545819236887',
+    xrp: 'https://www.google.com/alerts/feeds/09786470827379239761/9116263399951559675',
+    zec: 'https://www.google.com/alerts/feeds/09786470827379239761/14531541400846783339'
+  }
+  let chosenCurrency = urls[req.query[0]]
+  axios.get(chosenCurrency)
       .then(data => {
         let JSONdata = xmlParser.toJson(data.data.toString())
         res.send(JSONdata)

@@ -20,12 +20,9 @@ export default class StockSimulator extends React.Component {
     this.handleSellStock = this.handleSellStock.bind(this);
   }
   
-  
   componentDidMount() {
     this.handleCurrencyGetRequest();
- 
   }
-
 
   handleCurrencyGetRequest() {
     axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
@@ -70,6 +67,11 @@ export default class StockSimulator extends React.Component {
     .then(reply => {
       console.log('BUY WENT THROUGH, AIRHORN');
     });
+
+    document.getElementById('currBuyInput').value = ''
+    this.setState({
+      input: ''
+    })
   }
   handleSellStock(){
     let sellObj = {
@@ -84,6 +86,11 @@ export default class StockSimulator extends React.Component {
       params: sellObj
     })
     .then(reply => console.log('buy went through'))
+    
+    document.getElementById('currBuyInput').value = ''
+    this.setState({
+      input: ''
+    })
   }
 
   render() {
@@ -138,7 +145,7 @@ export default class StockSimulator extends React.Component {
         <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
             <form onSubmit={this.handleSubmitPriceCheck}>
-              <input type='text' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
+              <input id='currBuyInput' type='number' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
               <button className='btn btn-primary buySellBtn' onClick={this.handleAddStock}>Buy</button>
               <button className='btn btn-danger buySellBtn' onClick={this.handleSellStock}>Sell</button>
             </form>
