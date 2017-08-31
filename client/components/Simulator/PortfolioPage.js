@@ -4,7 +4,6 @@ import PortfolioTable from './PortfolioTable';
 import SimulatorPurchase from './SimulatorPurchase.jsx';
 import Navigation from '../Navbar';
 import axios from 'axios';
-import Navigation from '../Navbar';
 import {Link} from 'react-router-dom';
 
 export default class PortfolioPage extends React.Component {
@@ -23,6 +22,7 @@ export default class PortfolioPage extends React.Component {
     this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this);
     this.successfulBuy = this.successfulBuy.bind(this);
     this.successfulSell = this.successfulSell.bind(this);
+    this.handleLogOutAndRedirect = this.handleLogOutAndRedirect.bind(this);
   }
   componentDidMount() {
     console.log('***props in portfolioPage:', this.props.userInfo.location);
