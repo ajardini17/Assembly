@@ -59,7 +59,7 @@ export default class PortfolioInfo extends React.Component {
     };
 
     return (
-      <div style={{'textAlign':'center', 'marginTop':'50px'}}>
+      <div style={{'textAlign':'center', 'marginTop':'100px'}}>
         <h2>{this.state.portfolioName}</h2>
         <p>Portfolio Value: ${this.state.portfolioValue}</p>
         <p>Cash: ${this.state.cash}</p>
