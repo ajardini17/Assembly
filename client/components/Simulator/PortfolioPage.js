@@ -9,9 +9,9 @@ export default class PortfolioPage extends React.Component {
     super(props)
     this.state = {
       portfolioId: window.location.href.substr(window.location.href.lastIndexOf('/') + 1),
-      portfolioValue: 10000,
+      portfolioValue: 'Calculating...',
       portfolio: {},
-      cash: 4000,
+      cash: 'Calculating...',
       portfolioName: '',
       portfolioStocks: [],
       stockValues: {}
