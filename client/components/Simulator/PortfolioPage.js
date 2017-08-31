@@ -4,6 +4,7 @@ import PortfolioTable from './PortfolioTable';
 import SimulatorPurchase from './SimulatorPurchase.jsx';
 import Navigation from '../Navbar';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 export default class PortfolioPage extends React.Component {
   constructor(props) {
@@ -21,12 +22,15 @@ export default class PortfolioPage extends React.Component {
     this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this);
     this.successfulBuy = this.successfulBuy.bind(this);
     this.successfulSell = this.successfulSell.bind(this);
+    this.handleLogOutAndRedirect = this.handleLogOutAndRedirect.bind(this);
   }
   componentDidMount() {
-    console.log('***props in portfolioPage:', this.props.userInfo.location.state)
+    console.log('***props in portfolioPage:', this.props.userInfo.location);
     this.handleFetchData()
   }
-
+  handleLogOutAndRedirect(){
+    localStorage.removeItem('token');
+  }
   handleFetchData(){
     //axios.get('/api/getSpecificPortfolio', {headers: {authorization: localStorage.getItem('token')}}, {params: {id: this.state.portfolioId}})
     axios({
@@ -111,8 +115,8 @@ export default class PortfolioPage extends React.Component {
 
   render() {
     return (
-      <div className='container-fluid'>
-        <Navigation /> 
+      <div className='container'>
+        <Navigation handleLogOut={this.handleLogOutAndRedirect}/> 
         <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName}/>
         <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
         <SimulatorPurchase portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>

@@ -1,9 +1,10 @@
 import React from 'react'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
+import {Link} from 'react-router-dom';
 
 export default class Navigation extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props);
   }
 
   render() {
@@ -30,7 +31,7 @@ export default class Navigation extends React.Component {
             </Nav>
             <Nav pullRight>
               <NavItem eventKey={1} href="#">Settings</NavItem>
-              <NavItem eventKey={2} href="#">Logout</NavItem>
+              <NavItem eventKey={2} href="#" onClick={this.props.handleLogOut}><Link to={{pathname: '/simulator'}}>Logout</Link></NavItem>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

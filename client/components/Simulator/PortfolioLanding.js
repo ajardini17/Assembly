@@ -3,7 +3,7 @@ import PortfolioPage from './PortfolioPage';
 import Signup from '../../Auth/Signup.jsx';
 import Login from '../../Auth/Login.jsx';
 import axios from 'axios';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 import Auth from '../../Auth/Auth.jsx';
 import Navigation from '../Navbar';
 import { Button, Modal, Navbar } from 'react-bootstrap';
@@ -20,18 +20,35 @@ export default class PortfolioLanding extends React.Component {
       showModal: false,
       name: ''
     }
-    this.handleFetchData = this.handleFetchData.bind(this)
-    this.createPort = this.createPort.bind(this)
-    this.close = this.close.bind(this)
-    this.open = this.open.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleKeyPress = this.handleKeyPress.bind(this)
+    this.handleFetchData = this.handleFetchData.bind(this);
+    this.createPort = this.createPort.bind(this);
+    this.close = this.close.bind(this);
+    this.open = this.open.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
   }
   componentDidMount() {
     this.handleFetchData()
   }
-
+  handleSignUp(){
+    this.setState({token: localStorage.getItem('token')});
+  }
+  handleLogin(){
+    this.setState({token: localStorage.getItem('token')}, () => this.handleFetchData())
+  }
+  handleLogOut(){
+    localStorage.removeItem('token');
+    this.setState({
+      isLoggedIn: false,
+      portfolios: [],
+      portfolioId: 0,
+      name: ''
+    })
+  }
   handleFetchData(){
     axios.get('/api/getUserData', {headers: {authorization:this.state.token}})
     .then(reply => this.setState({portfolios: reply.data,
@@ -77,12 +94,12 @@ export default class PortfolioLanding extends React.Component {
   }
   
   render() {
-    let login = !this.state.isLoggedIn ? <Login fetch={this.handleFetchData}/> : null
-    let signup = !this.state.isLoggedIn ? <Signup fetch={this.handleFetchData}/> : null
+    let login = !this.state.isLoggedIn ? <Login fetch={this.handleFetchData} handleLogin={this.handleLogin}/> : null
+    let signup = !this.state.isLoggedIn ? <Signup fetch={this.handleFetchData} handleSignUp={this.handleSignUp}/> : null
 
     return (
       <div>
-        <Navigation />  
+        <Navigation handleLogOut={this.handleLogOut}/>  
 
         <div className="container text-center createPortBtn">
           <Button className="text-center" bsStyle="primary" bsSize="large" onClick={this.open}>&#43; Create Portfolio</Button>
