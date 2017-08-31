@@ -14,31 +14,16 @@ export default class LandingPage extends React.Component {
     return (
 
       <div>
-        
-        {/* <div className='row'>
-          <div className='col-xs-4 col-xs-offset-4 text-center'>
-            <h1 id='landingTitle'>Woolfey</h1>
-          </div>
-        </div>
-
-        <div className='row'>
-          <div className='col-xs-1 col-xs-offset-5'>
-            <Link to='/simulator'>
-              <button className='btn btn-primary btn-large'>Begin</button>
-            </Link>
-          </div>
-
-          <div className='col-xs-1'>
-            <Link to='/simulator'>
-              <button className='btn btn-success btn-large'>Sign Up</button>
-            </Link>
-          </div>
-        </div> */}
 
         <div className="bgimg-1 w3-display-container w3-opacity-min" id="home">
-          <div className="w3-display-middle" id='needNoWrap'>
+          <div className="w3-display-middle needNoWrap">
             <span className="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">WOOLFEY</span>
           </div>
+          <Link to='/simulator'>
+            <div className='w3-display-middle needNoWrap'>
+              <h3 id='landingBegin' className='w3-center w3-padding-large w3-wide w3-animate-opacity'>Begin</h3>
+            </div>
+          </Link>
         </div>
 
         

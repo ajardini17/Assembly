@@ -41,15 +41,21 @@ body, html {
     }
 }
 
-#needNoWrap {
+.needNoWrap {
   white-space: nowrap;
 }
 
 #landingSmallChart {
-  box-shadow: 0px 0px 3px 0px black;
+  
 }
 
-
+#landingBegin {
+  margin-top: 110px;
+  font-size: 18px;
+  color: white;
+  background-color: #848484;
+  cursor: pointer;
+}
 
 
 
