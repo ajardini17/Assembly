@@ -20,18 +20,21 @@ export default class PortfolioLanding extends React.Component {
       showModal: false,
       name: ''
     }
-    this.handleFetchData = this.handleFetchData.bind(this)
-    this.createPort = this.createPort.bind(this)
-    this.close = this.close.bind(this)
-    this.open = this.open.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleKeyPress = this.handleKeyPress.bind(this)
+    this.handleFetchData = this.handleFetchData.bind(this);
+    this.createPort = this.createPort.bind(this);
+    this.close = this.close.bind(this);
+    this.open = this.open.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
   componentDidMount() {
     this.handleFetchData()
   }
-
+  handleLogin(){
+    this.setState({token: localStorage.getItem('token')}, () => this.handleFetchData())
+  }
   handleFetchData(){
     axios.get('/api/getUserData', {headers: {authorization:this.state.token}})
     .then(reply => this.setState({portfolios: reply.data,
@@ -77,8 +80,8 @@ export default class PortfolioLanding extends React.Component {
   }
   
   render() {
-    let login = !this.state.isLoggedIn ? <Login fetch={this.handleFetchData}/> : null
-    let signup = !this.state.isLoggedIn ? <Signup fetch={this.handleFetchData}/> : null
+    let login = !this.state.isLoggedIn ? <Login fetch={this.handleFetchData} handleLogin={this.handleLogin}/> : null
+    let signup = !this.state.isLoggedIn ? <Signup fetch={this.handleFetchData} handleLogin={this.handleLogin}/> : null
 
     return (
       <div>
