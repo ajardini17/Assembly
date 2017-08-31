@@ -109,7 +109,7 @@ th, td {
 }
 
 .createPortBtn {
-  padding-top: 125px;
+  padding-top: 120px;
   padding-bottom: 45px;
 }
 
@@ -141,5 +141,10 @@ th, td {
   position: fixed;
   left: 0;
   right: 0;
+  top: -2px;
   z-index: 1;
+}
+
+.currInfo {
+  margin-top: 80px;
 }
