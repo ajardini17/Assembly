@@ -124,3 +124,14 @@ th, td {
   margin-top: 20rem;
   font-size: 100px;
 }
+
+#loadingGif {
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 400px;
+  height: 400px;
+}

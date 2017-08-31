@@ -129,7 +129,8 @@ export default class CurrInfo extends React.Component {
 
           : 
           
-          <h1>Loading....</h1>
+
+          <img id="loadingGif" src="/images/loading.gif"/>
 
           }
       </div>
