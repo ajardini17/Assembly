@@ -28,16 +28,12 @@ export default class PortfolioLanding extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
-<<<<<<< HEAD
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
-=======
->>>>>>> c59274579db036315678ada09212dfe7091071bb
   }
   componentDidMount() {
     this.handleFetchData()
   }
-<<<<<<< HEAD
   handleSignUp(){
     this.setState({token: localStorage.getItem('token')});
   }
@@ -53,11 +49,6 @@ export default class PortfolioLanding extends React.Component {
       name: ''
     })
   }
-=======
-  handleLogin(){
-    this.setState({token: localStorage.getItem('token')}, () => this.handleFetchData())
-  }
->>>>>>> c59274579db036315678ada09212dfe7091071bb
   handleFetchData(){
     axios.get('/api/getUserData', {headers: {authorization:this.state.token}})
     .then(reply => this.setState({portfolios: reply.data,
@@ -104,11 +95,7 @@ export default class PortfolioLanding extends React.Component {
   
   render() {
     let login = !this.state.isLoggedIn ? <Login fetch={this.handleFetchData} handleLogin={this.handleLogin}/> : null
-<<<<<<< HEAD
     let signup = !this.state.isLoggedIn ? <Signup fetch={this.handleFetchData} handleSignUp={this.handleSignUp}/> : null
-=======
-    let signup = !this.state.isLoggedIn ? <Signup fetch={this.handleFetchData} handleLogin={this.handleLogin}/> : null
->>>>>>> c59274579db036315678ada09212dfe7091071bb
 
     return (
       <div>
