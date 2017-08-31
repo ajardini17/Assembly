@@ -117,7 +117,6 @@ export default class StockSimulator extends React.Component {
       params: sellObj
     })
     .then(reply => {
-      console.log(reply, 'REPLY');
       if(reply.data !== 'do not own'){
         this.props.successfulSell(finalPrice, reply.data);     
         document.getElementById('currBuyInput').value = '';

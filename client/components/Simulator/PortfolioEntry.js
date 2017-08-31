@@ -10,7 +10,6 @@ export default class PortfolioEntry extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.stockValues[this.props.item.ticker], 'LOOK AT ME IM IN PORTFOLIO ENTRY');
     this.setState({
       stockValue: nextProps.stockValues[this.props.item.ticker].toFixed(2),
       mixValue: ((parseFloat(nextProps.stockValues[this.props.item.ticker]) / parseFloat(nextProps.portfolioValue)) * 100).toFixed(2)
