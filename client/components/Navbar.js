@@ -9,7 +9,7 @@ export default class Navigation extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="navbar">
         <Navbar inverse collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>

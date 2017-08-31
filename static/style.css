@@ -109,7 +109,8 @@ th, td {
 }
 
 .createPortBtn {
-  padding: 60px;
+  padding-top: 125px;
+  padding-bottom: 45px;
 }
 
 .port-list-div {
@@ -134,4 +135,11 @@ th, td {
   margin: auto;
   width: 400px;
   height: 400px;
+}
+
+.navbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
