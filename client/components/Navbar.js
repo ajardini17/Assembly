@@ -29,10 +29,26 @@ export default class Navigation extends React.Component {
                 <MenuItem eventKey={3.7} href="/currency/zec">ZCash</MenuItem>
               </NavDropdown>
             </Nav>
+
+            {this.props.loggedIn ?
+            
             <Nav pullRight>
-              <NavItem eventKey={1} href="#">Settings</NavItem>
-              <NavItem eventKey={2} href="#" onClick={this.props.handleLogOut}><Link to={{pathname: '/simulator'}}>Logout</Link></NavItem>
+              <NavDropdown eventKey={4} title="Profile" id="basic-nav-dropdown">
+                <MenuItem eventKey={4.1} href="/settings">Settings</MenuItem>
+                <MenuItem eventKey={4.2} href="/simulator" onClick={this.props.handleLogOut}>Logout</MenuItem>
+              </NavDropdown>
             </Nav>
+
+            :
+
+            <Nav pullRight>
+              <Navbar.Brand>
+                <a href="/login">Log in</a>
+              </Navbar.Brand>
+            </Nav>
+            
+            }
+
           </Navbar.Collapse>
         </Navbar>
       </div>
