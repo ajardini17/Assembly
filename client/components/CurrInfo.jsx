@@ -98,7 +98,7 @@ export default class CurrInfo extends React.Component {
       <div className='container-fluid'>
         <Navigation />
         {this.state.currentValue !== '' ?
-        <div>
+        <div className="currInfo">
           <div className='row'>
             <div className='col-xs-4 col-xs-offset-2'>
               <h1>{this.state.currencyName.toUpperCase()} - {this.state.currentValue}</h1>

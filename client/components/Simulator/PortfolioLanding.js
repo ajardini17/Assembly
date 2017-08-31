@@ -94,19 +94,22 @@ export default class PortfolioLanding extends React.Component {
   }
   
   render() {
-    let login = !this.state.isLoggedIn ? <Login fetch={this.handleFetchData} handleLogin={this.handleLogin}/> : null
-    let signup = !this.state.isLoggedIn ? <Signup fetch={this.handleFetchData} handleSignUp={this.handleSignUp}/> : null
+    let loggedIn = this.state.isLoggedIn
+    let login = !loggedIn ? <Login fetch={this.handleFetchData} handleLogin={this.handleLogin}/> : null
+    let signup = !loggedIn ? <Signup fetch={this.handleFetchData} handleSignUp={this.handleSignUp}/> : null
+    let nav = !loggedIn ? <Navigation handleLogOut={this.handleLogOut} loggedIn={false}/> : <Navigation handleLogOut={this.handleLogOut} loggedIn={true}/>
 
     return (
       <div>
-        <Navigation handleLogOut={this.handleLogOut}/>  
+        {/* <Navigation handleLogOut={this.handleLogOut} isLoggedIn={this.state.isLoggedIn}/>   */}
+        { nav }
 
         <div className="container text-center createPortBtn">
           <Button className="text-center" bsStyle="primary" bsSize="large" onClick={this.open}>&#43; Create Portfolio</Button>
         </div>
 
-        { signup }
-        { login }
+        {/* { signup }
+        { login } */}
 
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
@@ -114,10 +117,8 @@ export default class PortfolioLanding extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <h4>Portfolio name:</h4>
-            <input name="name" onChange={this.handleChange} onKeyPress={this.handleKeyPress} type="text" />
-            
-            <hr />
-
+            <input name="name" onChange={this.handleChange} onKeyPress={this.handleKeyPress} type="text" size="30"/>
+            <br/>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.handleSubmit}>Submit</Button>

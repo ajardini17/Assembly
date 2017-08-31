@@ -1,6 +1,6 @@
 import React from 'react';
 import Auth from './Auth.jsx';
-
+import {Link} from 'react-router-dom';
 
 class Login extends React.Component {
     constructor(props){
@@ -20,14 +20,13 @@ class Login extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         this.Auth.login(this.state.username, this.state.password, (reply) => {
-            this.props.fetch();
             this.props.handleLogin();
+            window.location = '/simulator'
         })
-        this.setState({username: '', password: ''});
     }
     render() {
         return (
-            <div>
+            <div style={{'marginTop':'100px'}}>
                 <h2>Login</h2>
                 <form onSubmit = {this.handleSubmit}>
                 <div>
