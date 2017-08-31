@@ -37,7 +37,8 @@ export default class StockSimulator extends React.Component {
     .then(result => {
       let price = parseFloat(result.data.last_price).toFixed(2);
       this.setState({
-        displayedValue: price
+        displayedValue: price,
+        purchasePrice: this.state.purchasePrice !== '' ? (Number(price) * Number(this.state.input)).toFixed(2) : ''
       })
     })
   }
@@ -63,7 +64,7 @@ export default class StockSimulator extends React.Component {
 
   handleSubmitPriceCheck(e) {
     //e.preventDefault()
-    let tempPrice = this.state.displayedValue * parseFloat(this.state.input)
+    let tempPrice = this.state.displayedValue * parseFloat(this.state.input);
     this.setState({
       purchasePrice: `$${tempPrice.toFixed(2)}`
     })
@@ -96,7 +97,6 @@ export default class StockSimulator extends React.Component {
     } else {
       alert('Insufficient Funds');
     }
-
   }
   handleSellStock(e){
     e.preventDefault();
