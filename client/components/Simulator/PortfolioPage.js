@@ -2,6 +2,7 @@ import React from 'react';
 import PortfolioInfo from './PortfolioInfo';
 import PortfolioTable from './PortfolioTable';
 import SimulatorPurchase from './SimulatorPurchase.jsx';
+import Navigation from '../Navbar';
 import axios from 'axios';
 
 export default class PortfolioPage extends React.Component {
@@ -110,7 +111,8 @@ export default class PortfolioPage extends React.Component {
 
   render() {
     return (
-      <div className='container'>
+      <div className='container-fluid'>
+        <Navigation /> 
         <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName}/>
         <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
         <SimulatorPurchase portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>

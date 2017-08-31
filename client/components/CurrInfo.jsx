@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 // import xml2json from 'xml2json'
+import Navigation from './Navbar.js'
 
 export default class CurrInfo extends React.Component {
   constructor() {
@@ -95,6 +96,7 @@ export default class CurrInfo extends React.Component {
 
     return (
       <div className='container-fluid'>
+        <Navigation />
         {this.state.currentValue !== '' ?
         <div>
           <div className='row'>
