@@ -5,7 +5,8 @@ import Login from '../../Auth/Login.jsx';
 import axios from 'axios';
 import {Link} from 'react-router-dom'
 import Auth from '../../Auth/Auth.jsx';
-import { Button, Modal } from 'react-bootstrap'
+import Navigation from '../Navbar';
+import { Button, Modal, Navbar } from 'react-bootstrap';
 
 export default class PortfolioLanding extends React.Component {
   constructor() {
@@ -15,6 +16,7 @@ export default class PortfolioLanding extends React.Component {
       portfolios: [],
       portfolioId: 0,
       token: localStorage.getItem('token'),
+      isLoggedIn: false,
       showModal: false,
       name: ''
     }
@@ -31,15 +33,14 @@ export default class PortfolioLanding extends React.Component {
   }
 
   handleFetchData(){
-    let token = localStorage.getItem('token')
-    axios.get('/api/getUserData', {headers: {authorization:token}})
-    .then(reply => this.setState({portfolios: reply.data}))
+    axios.get('/api/getUserData', {headers: {authorization:this.state.token}})
+    .then(reply => this.setState({portfolios: reply.data,
+                                  isLoggedIn: true}))
     .catch(err => console.log(err, 'error'))
   }
 
   createPort(name) {
-    let token = localStorage.getItem('token')
-    axios.post('/api/createPortfolio', { name }, {headers: {authorization:token}})
+    axios.post('/api/createPortfolio', { name }, {headers: {authorization:this.state.token}})
       .then(result => {
         let portfolios = this.state.portfolios;
         portfolios.push(result.data)
@@ -76,14 +77,19 @@ export default class PortfolioLanding extends React.Component {
   }
   
   render() {
+    let login = !this.state.isLoggedIn ? <Login fetch={this.handleFetchData}/> : null
+    let signup = !this.state.isLoggedIn ? <Signup fetch={this.handleFetchData}/> : null
+
     return (
       <div>
-        <Signup fetch={this.handleFetchData}/>
-        <Login fetch={this.handleFetchData}/>
+        <Navigation />  
 
-        <div className="container text-center">
+        <div className="container text-center createPortBtn">
           <Button className="text-center" bsStyle="primary" bsSize="large" onClick={this.open}>&#43; Create Portfolio</Button>
         </div>
+
+        { signup }
+        { login }
 
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>

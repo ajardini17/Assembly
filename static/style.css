@@ -106,6 +106,10 @@ th, td {
   padding: 10px;
 }
 
+.createPortBtn {
+  padding: 60px;
+}
+
 .port-list-div {
   padding: 20px;
 }
