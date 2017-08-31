@@ -19,10 +19,10 @@ module.exports = {
     },
     authenticate: (req, res, next) => {
         let header = req.headers['authorization'];
-        if(header){
+        if(header !== undefined && header !== "null"){
             jwt.verify(header, process.env.SECRET_KEY, (err, data) => {
                 if(err){
-                    console.log(err, 'ERROR IN AUTHENTICATE')
+                    console.log('ERROR IN AUTHENTICATE')
                     res.sendStatus(403);
                 } else {
                     req.token = data;

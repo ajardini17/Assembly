@@ -36,7 +36,7 @@ const Portfolio = db.define('portfolio', {
         type: Sequelize.STRING,
     },
     balance: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
         defaultValue: 1000000
     }
 });
@@ -56,7 +56,7 @@ const PortfolioStock = db.define('portfolio_stock', {
     }
 });
 
-const TransactionHistory = db.define('history', {
+const TransactionHistory = db.define('transactionHistory', {
     ticker: {
         type: Sequelize.STRING,
         allowNull: false
@@ -72,12 +72,16 @@ const TransactionHistory = db.define('history', {
     transactionType: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    transactionTotal: {
+        type: Sequelize.FLOAT,
+        allowNull: false
     }
 });
 
 PortfolioStock.belongsTo(Portfolio);
 
-TransactionHistory.belongsTo(User);
+TransactionHistory.belongsTo(Portfolio);
 Portfolio.belongsTo(User);
 User.hasMany(Portfolio);
 

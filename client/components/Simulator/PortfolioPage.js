@@ -16,8 +16,10 @@ export default class PortfolioPage extends React.Component {
       portfolioStocks: [],
       stockValues: {}
     }
-    this.handleFetchData = this.handleFetchData.bind(this)
-    this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this)
+    this.handleFetchData = this.handleFetchData.bind(this);
+    this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this);
+    this.successfulBuy = this.successfulBuy.bind(this);
+    this.successfulSell = this.successfulSell.bind(this);
   }
   componentDidMount() {
     console.log('***props in portfolioPage:', this.props.userInfo.location.state)
@@ -35,7 +37,8 @@ export default class PortfolioPage extends React.Component {
     .then(reply => {this.setState({
       cash: reply.data.balance,
       portfolioName: reply.data.name,
-      portfolio: reply.data
+      portfolio: reply.data,
+      portfolioId: reply.data.id
       })
       this.calculatePortfolioValue(reply.data.stocks)
     })
@@ -54,7 +57,7 @@ export default class PortfolioPage extends React.Component {
           tempVal += price
           count++
           if (count === currencyArr.length) {
-            let newValue = tempVal + this.state.cash
+            let newValue = (tempVal + this.state.cash).toFixed(2);
             this.setState({
               portfolioValue: newValue,
               stockValues: this.state.stockValues
@@ -63,13 +66,54 @@ export default class PortfolioPage extends React.Component {
         })
     })
   }
+  successfulBuy(cashChange, stockData){
+    let stocks = this.state.portfolio.stocks;
+    let found = false;
+    for(var i = 0; i < stocks.length; i++){
+      if(stocks[i].ticker === stockData.ticker){
+        stocks[i] = stockData;
+        this.state.stockValues[stockData.ticker] = Number(this.state.stockValues[stockData.ticker]) + Number(cashChange);
+        this.setState({
+          portfolio: this.state.portfolio,
+          stockValues: this.state.stockValues,
+          cash: (Number(this.state.cash) - Number(cashChange)).toFixed(2)
+        });
+        found = true;
+      }
+    }
+    if(!found){
+      stocks.push(stockData);
+      this.state.stockValues[stockData.ticker] = cashChange;
+      console.log(this.state.stockValues)
+      this.setState({
+        portfolio: this.state.portfolio,
+        cash: this.state.cash - cashChange,
+        stockValues: this.state.stockValues
+      })
+    }
+  }
+  successfulSell(cashChange, stockData){
+    let stocks = this.state.portfolio.stocks;
+    for(var i = 0; i < stocks.length; i++){
+      if(stocks[i].ticker === stockData.ticker){
+        stocks[i] = stockData;
+        this.state.stockValues[stockData.ticker] = Number(this.state.stockValues[stockData.ticker]) - Number(cashChange);
+        this.setState({
+          portfolio: this.state.portfolio,
+          stockValues: this.state.stockValues,
+          cash: (Number(this.state.cash) + Number(cashChange)).toFixed(2)
+        });
+      }
+    }
+
+  }
 
   render() {
     return (
       <div className='container'>
         <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName}/>
         <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
-        <SimulatorPurchase portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio}/>
+        <SimulatorPurchase portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
       </div>
     )
   }

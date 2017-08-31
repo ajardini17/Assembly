@@ -17,18 +17,23 @@ module.exports = {
         Model.PortfolioStock.findOne({where:{ticker: req.body.ticker, portfolioId: req.body.portfolioId}})
         .then(stockData => {
             if(stockData){
-                db.query(`UPDATE portfolioStocks SET shares = shares + ${req.body.shares} WHERE id = ${stockData.dataValues.id}`)
+                db.query(`UPDATE portfolio_stocks SET shares = shares + ${req.body.shares} WHERE id = ${stockData.dataValues.id}`)
                 .then(() => {
-                    let amount = req.body.shares * req.body.buyPrice;
-                    db.query(`UPDATE portfolios SET balance = balance - ${amount} WHERE id = ${req.body.portfolioId}`)
+                    db.query(`UPDATE portfolios SET balance = balance - ${req.body.finalPrice} WHERE id = ${req.body.portfolioId}`)
                     .then(() => {
                         Model.TransactionHistory.create({
                             ticker: req.body.ticker,
                             shares: req.body.shares,
                             transactionType: 'buy',
-                            transactionPrice: req.body.buyPrice
+                            transactionPrice: req.body.buyPrice,
+                            transactionTotal: req.body.finalPrice,
+                            portfolioId: req.body.portfolioId
                         })
-                        .then(() => res.send('stock added'));
+                        .then(() => {
+                            stockData.dataValues.shares = Number(stockData.dataValues.shares) + Number(req.body.shares);
+                            res.json(stockData.dataValues)
+                        })
+                        .catch((err) => console.log(err, 'error'))
                     });
                 })
             } else {
@@ -40,16 +45,16 @@ module.exports = {
                     ticker: req.body.ticker
                 })
                 .then(stock => {
-                    let amount = req.body.shares * req.body.buyPrice;
-                    db.query(`UPDATE portfolios SET balance = balance - ${amount} WHERE id = ${req.body.portfolioId}`)
+                    db.query(`UPDATE portfolios SET balance = balance - ${req.body.finalPrice} WHERE id = ${req.body.portfolioId}`)
                     .then(() => {
                         Model.TransactionHistory.create({
                             ticker: req.body.ticker,
                             shares: req.body.shares,
                             transactionType: 'buy',
-                            transactionPrice: req.body.buyPrice
+                            transactionPrice: req.body.buyPrice,
+                            transactionTotal: req.body.finalPrice
                         })
-                        .then(() => res.send('stock added'));
+                        .then(() => res.json(stock.dataValues));
                     });
                 })
             }
@@ -70,30 +75,35 @@ module.exports = {
             })
         })
     },
+    ///////////////////////////// SELL ////////////////////////////
     sell: (req, res) => {
-        let body = req.body;
-        let gain = body.shares * body.sellPrice;
-        Model.PortfolioStock.findOne({where:{ticker: req.body.ticker, portfolioId: req.body.portfolioId}})
+        let query = req.query;
+        Model.PortfolioStock.findOne({where:{ticker: query.ticker, portfolioId: query.portfolioId}})
         .then(stockData => {
             if(stockData) {
-                db.query(`UPDATE portfolioStocks SET shares = shares - ${body.shares} WHERE id = ${body.id} AND ticker = ${body.ticker}`)
+                db.query(`UPDATE portfolio_stocks SET shares = shares - ${query.shares} WHERE id = ${stockData.dataValues.id}`)
                 .then(() => {
-                    db.query(`UPDATE portfolios SET balance = balance + ${gain} WHERE id = ${body.portfolioId}`)
+                    db.query(`UPDATE portfolios SET balance = balance + ${query.finalPrice} WHERE id = ${query.portfolioId}`)
                     .then(() => {
                         Model.TransactionHistory.create({
-                            ticker: body.ticker,
-                            shares: body.shares,
+                            ticker: query.ticker,
+                            shares: query.shares,
                             transactionType: 'sell',
-                            transactionPrice: body.sellPrice
+                            transactionPrice: query.sellPrice,
+                            transactionTotal: query.finalPrice
                         })
-                        .then(() => res.send('successfully sold!'))
+                        .then(() => {
+                            stockData.dataValues.shares = Number(stockData.dataValues.shares) - Number(req.query.shares);
+                            
+                            res.json(stockData.dataValues);
+                        })
                     })
                     .catch(() => res.send('error selling'))
                 })
             } else {
-                res.send(`do not own ${body.ticker}`);
+                res.send(`do not own`);
             }
-        })
+            })
     },
     sellAll: (req, res) => {
         Model.PortfolioStock.destroy({
