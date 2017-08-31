@@ -57,6 +57,10 @@ body, html {
   cursor: pointer;
 }
 
+#modalChart {
+  width: 100%;
+  height: auto;
+}
 
 
 
