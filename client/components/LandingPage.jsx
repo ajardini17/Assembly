@@ -102,6 +102,12 @@ export default class LandingPage extends React.Component {
           </div>
         </div>
 
+        <div className="row" id="vwoolf">
+          <div className='col-xs-4 col-xs-offset-4 text-center'>
+            <img src='./images/favicon-96x96.png' />
+          </div>
+        </div>
+
       </div>
 
     )
