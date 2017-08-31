@@ -8,6 +8,7 @@ import axios from 'axios'
 import PortfolioLanding from './Simulator/PortfolioLanding.js'
 import PortfolioPage from './Simulator/PortfolioPage.js'
 import CurrInfo from './CurrInfo.jsx'
+import LeaderBoard from './LeaderBoard.jsx'
 
 
 export default class App extends React.Component {
@@ -25,6 +26,7 @@ export default class App extends React.Component {
           <Route path='/currency/:ticker' render={() => <CurrInfo />} />
           <Route exact path='/simulator' render={() => <PortfolioLanding />} />
           <Route path='/simulator/:portfolioId' render={(props) => <PortfolioPage userInfo={props}/>} />
+          <Route exact path='/leaderboard' render={(props) => <LeaderBoard userInfo={props} />} />
         </div>
 
       </Router>
