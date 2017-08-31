@@ -159,7 +159,7 @@ export default class StockSimulator extends React.Component {
 
         <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
-            <h4> ${this.state.displayedValue} </h4>
+            <h4> {this.state.selectedCurrency} - ${this.state.displayedValue} </h4>
           </div>
         </div>
 
