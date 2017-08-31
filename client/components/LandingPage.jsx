@@ -30,11 +30,7 @@ export default class LandingPage extends React.Component {
 
       <div>
 
-        <Modal show={this.state.showModal} bsSize='large' onHide={this.closeModal} >
-          <Modal.Body>
-            <img src='/images/chart.png' id='modalChart' />
-          </Modal.Body>
-        </Modal>
+        
 
         <div className="bgimg-1 w3-display-container w3-opacity-min" id="home">
           <div className="w3-display-middle needNoWrap">
@@ -59,6 +55,12 @@ export default class LandingPage extends React.Component {
             <div className="w3-col m6 w3-center w3-padding-large">
               <img src="/images/chart.png" id='landingSmallChart' className="w3-round w3-image w3-opacity w3-hover-opacity-off" onClick={this.openModal} alt="Photo of Me" width="500" height="333" />
             </div>
+
+            <Modal show={this.state.showModal} bsSize='large' onHide={this.closeModal} restoreFocus={true} >
+              <Modal.Body>
+                <img src='/images/chart.png' id='modalChart' />
+              </Modal.Body>
+            </Modal>
 
             
             <div className="w3-col m6 w3-hide-small w3-padding-large">
