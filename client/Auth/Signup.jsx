@@ -20,7 +20,7 @@ class Signup extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         this.Auth.signup(this.state.username, this.state.password, (reply) => {
-            this.props.handleLogin();
+            this.props.handleSignUp();
             this.props.fetch();
         })
         this.setState({username: '', password: ''});
