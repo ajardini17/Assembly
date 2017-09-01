@@ -6,7 +6,8 @@ from sklearn import svm, cross_validation, neighbors, preprocessing
 from sklearn.ensemble import VotingClassifier, RandomForestClassifier
 from sklearn.cluster import KMeans
 import quandl, math
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.naive_bayes import GaussianNB
 import datetime
 import matplotlib.pyplot as plt
 from matplotlib import style
@@ -33,13 +34,13 @@ df.dropna(inplace=True)
 y = np.array(df['label'])
 
 X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=0.2)
-# clf = LinearRegression(n_jobs=-1)
-# clf.fit(X_train, y_train)
-# confidence = clf.score(X_test, y_test)
-# print(confidence)
 
-pickle_in = open('testMachineLearn2.pickle','rb')
-clf = pickle.load(pickle_in)
+
+clf = LinearRegression(n_jobs=-1)
+clf.fit(X_train, y_train)
+
+# pickle_in = open('testMachineLearn2.pickle','rb')
+# clf = pickle.load(pickle_in)
 confidence = clf.score(X_test, y_test)
 print(confidence)
 
