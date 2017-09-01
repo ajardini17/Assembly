@@ -43,12 +43,11 @@ export default class PortfolioLandingCard extends React.Component {
   render() {
     return (
 
-      <div>
-        <button className="btn btn-default btn-lg port-list-btn">{this.props.item.name}</button>
-        {console.log('THIS IS THE PORTFOLIO VALUE OF ' + this.props.item.name + ' ::: ', this.state.portfolioValue)}
+      <button className='btn btn-default btn-lg port-list-btn'>
+        <h3>{this.props.item.name}</h3>
         <p>Portfolio value: ${this.state.portfolioValue}</p>
         <p>Cash: ${this.state.portfolioCash}</p>
-      </div>
+      </button>
 
     )
   }
