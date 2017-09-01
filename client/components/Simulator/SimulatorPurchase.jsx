@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
+import * as Animated from 'animated/lib/targets/react-dom'
 
 
 export default class StockSimulator extends React.Component {
@@ -12,7 +13,9 @@ export default class StockSimulator extends React.Component {
       displayedValue: '',
       selectedCurrency: 'btc',
       portfolioId: '',
-      portfolioBalance: 0
+      portfolioBalance: 0,
+      anim: new Animated.Value(0),
+      animMessage: ''
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this);
@@ -91,7 +94,14 @@ export default class StockSimulator extends React.Component {
         document.getElementById('currBuyInput').value = '';
         this.setState({
           input: '',
-          purchasePrice: ''
+          purchasePrice: '',
+          animMessage: 'Successfully purchased ' + this.state.selectedCurrency
+        }, () => {
+          Animated.sequence([
+            Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
+            Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
+            Animated.timing(this.state.anim, {toValue: 0, duration: 500})
+          ]).start()
         })
       });
     } else {
@@ -122,7 +132,14 @@ export default class StockSimulator extends React.Component {
         document.getElementById('currBuyInput').value = '';
         this.setState({
           input: '',
-          purchasePrice: ''
+          purchasePrice: '',
+          animMessage: 'Successfully sold ' + this.state.selectedCurrency
+        }, () => {
+          Animated.sequence([
+            Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
+            Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
+            Animated.timing(this.state.anim, {toValue: 0, duration: 500})
+          ]).start()
         })
       }
     })
@@ -183,6 +200,9 @@ export default class StockSimulator extends React.Component {
               <input id='currBuyInput' type='number' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
               <button className='btn btn-primary buySellBtn' onClick={this.handleAddStock}>Buy</button>
               <button className='btn btn-danger buySellBtn' onClick={this.handleSellStock}>Sell</button>
+              <Animated.div style={{transform: [{scale: this.state.anim}]}}>
+                <p id='animatedMessage'>{this.state.animMessage}</p>
+              </Animated.div>
             </form>
            
           </div>

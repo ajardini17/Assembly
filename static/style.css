@@ -157,3 +157,7 @@ th, td {
 .bottom_row {
   margin-bottom: 100px;
 }
+
+#animatedMessage {
+  font-size: 20px;
+}

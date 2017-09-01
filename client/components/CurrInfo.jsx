@@ -10,7 +10,9 @@ export default class CurrInfo extends React.Component {
       currencyName: '',
       currentValue: '',
       articles: [],
-      data: []
+      data: [],
+      valueIncrease: true,
+      valueChange: 0
     }
     this.getNewsFeed = this.getNewsFeed.bind(this)
     this.getCurrencyPrice = this.getCurrencyPrice.bind(this)
@@ -25,6 +27,20 @@ export default class CurrInfo extends React.Component {
       axios.all([this.getCurrencyPrice(), this.getHistoricalCurrencyData()])
       .then(axios.spread((price, history) => {
         let currentValue = '$' + String(parseFloat(price.data.last_price).toFixed(2))
+        console.log('THIS IS THE CLOSE PRICE YESTERDAY :::: ', history.data[history.data.length - 2][1])
+        let valuePercentChange = ((parseFloat(price.data.last_price).toFixed(2) - history.data[history.data.length - 2][1]) / history.data[history.data.length - 2][1]) * 100
+        valuePercentChange = valuePercentChange.toFixed(2)
+        if (parseFloat(price.data.last_price).toFixed(2) > history.data[history.data.length - 2][1]) {
+          this.setState({
+            valueIncrease: true,
+            valueChange: valuePercentChange
+          })
+        } else {
+          this.setState({
+            valueIncrease: false,
+            valueChange: valuePercentChange
+          })
+        }
         this.setState({ currentValue }, () => {
           let data = history.data
           this.setState({ data }, () => {
@@ -94,6 +110,8 @@ export default class CurrInfo extends React.Component {
       marginTop: '20px'
     }
 
+    console.log('DID THE VALUE INCREASE SINCE YESTERDAY?! :::: ', this.state.valueIncrease)
+
     return (
       <div className='container-fluid'>
         <Navigation loggedIn={true}/>
@@ -102,6 +120,7 @@ export default class CurrInfo extends React.Component {
           <div className='row'>
             <div className='col-xs-4 col-xs-offset-2'>
               <h1>{this.state.currencyName.toUpperCase()} - {this.state.currentValue}</h1>
+              <p style={{ color: this.state.valueIncrease ? 'green' : 'red' }}><i className={this.state.valueIncrease ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i> {this.state.valueChange}% </p>
             </div>
             <div className='col-xs-1 col-xs-offset-2'>
               <button className='btn btn-primary btn-block' style={buttonStyle}>Buy</button>
