@@ -64,6 +64,10 @@ const PortfolioHistory = db.define('portfolio_history', {
     balance: {
         type: Sequelize.FLOAT,
         allowNull: false
+    },
+    timestamp: {
+        type: Sequelize.DATE,
+        allowNull: false
     }
 });
 
