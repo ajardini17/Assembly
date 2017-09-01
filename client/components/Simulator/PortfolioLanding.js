@@ -132,6 +132,8 @@ export default class PortfolioLanding extends React.Component {
               <Link key={index} to={{pathname:`/simulator/${item.id}`, state: this.state.portfolios}} >
                 <div className="col-xs-4 text-center port-list-div">
                   <button className="btn btn-default btn-lg port-list-btn">{item.name}</button>
+                  {console.log(this.state.portfolios)}
+                  <p>Cash: {item.balance}</p>
                 </div>
               </Link>
             ))}
