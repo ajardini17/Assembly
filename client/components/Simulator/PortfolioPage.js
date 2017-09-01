@@ -147,7 +147,7 @@ export default class PortfolioPage extends React.Component {
     .then(reply => {
       let history = []
       reply.data.forEach(item => {
-        let date = new Date(item.createdAt.slice(0,10)).getTime()
+        let date = new Date(item.entry_date.slice(0,10)).getTime()
         history.push([date, item.balance])
       })
       this.setState({ history })

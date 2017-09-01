@@ -56,7 +56,7 @@ const PortfolioStock = db.define('portfolio_stock', {
     }
 });
 
-const PortfolioHistory = db.define('portfolio_history', {
+const PortfolioHistory = db.define('portfolioHistory', {
     portfolio_id: {
         type: Sequelize.INTEGER,
         allowNull: false
@@ -65,7 +65,7 @@ const PortfolioHistory = db.define('portfolio_history', {
         type: Sequelize.FLOAT,
         allowNull: false
     },
-    timestamp: {
+    entry_date: {
         type: Sequelize.DATE,
         allowNull: false
     }
