@@ -27,6 +27,7 @@ export default class PortfolioPage extends React.Component {
     this.handleLogOutAndRedirect = this.handleLogOutAndRedirect.bind(this);
     this.calculateReturn = this.calculateReturn.bind(this);
     this.getPortfolioHistory = this.getPortfolioHistory.bind(this);
+    this.successfulPurge = this.successfulPurge.bind(this);
   }
   componentDidMount() {
     console.log('***props in portfolioPage:', this.props.userInfo.location);
@@ -114,6 +115,20 @@ export default class PortfolioPage extends React.Component {
       }
     }
   }
+  successfulPurge(cashChange, ticker){
+    let stocks = this.state.portfolio.stocks;
+    for(var i = 0; i < stocks.length; i++){
+      if(stocks[i].ticker === ticker){
+        stocks.splice(i,1);
+        delete this.state.stockValues[ticker];
+        this.setState({
+          portfolio: this.state.portfolio,
+          stockValues: this.state.stockValues,
+          cash: (Number(this.state.cash) + Number(cashChange)).toFixed(2)
+        });
+      }
+    }
+  }
 
   calculateReturn() {
     let annualReturn = ((this.state.portfolioValue - 1000000)/1000000).toFixed(4);
@@ -151,7 +166,7 @@ export default class PortfolioPage extends React.Component {
         <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true}/> 
         <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} annualReturn={this.state.annualReturn}/>
         <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
-        <SimulatorPurchase portfolioStocks={this.state.portfolio.stocks} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
+        <SimulatorPurchase successfulPurge = {this.successfulPurge} portfolioStocks={this.state.portfolio.stocks} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
       </div>
     )
   }

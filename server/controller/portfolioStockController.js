@@ -80,6 +80,7 @@ module.exports = {
         })
     },
     ///////////////////////////// SELL ////////////////////////////
+
     sell: (req, res) => {
         let query = req.query;
         Model.PortfolioStock.findOne({where:{ticker: query.ticker, portfolioId: query.portfolioId}})
@@ -110,18 +111,19 @@ module.exports = {
             })
     },
     sellAll: (req, res) => {
+        let query = req.query;
         Model.PortfolioStock.destroy({
-            where: {id: req.body.id}
+            where: {ticker: query.ticker, portfolioId: query.portfolioId}
         })
         .then(() => {
-            let gain = req.body.shares * req.body.sellPrice;
-            db.query(`update portfolios SET balance = balance + ${gain} WHERE id = ${req.body.portfolioId}`)
+            db.query(`update portfolios SET balance = balance + ${query.finalPrice} WHERE id = ${query.portfolioId}`)
             .then(() => {
                 Model.TransactionHistory.create({
-                    ticker: req.body.ticker,
-                    shares: req.body.shares,
+                    ticker: query.ticker,
+                    shares: query.shares,
                     transactionType: 'sell',
-                    transactionPrice: req.body.sellPrice
+                    transactionPrice: query.sellPrice,
+                    transactionTotal: query.finalPrice
                 })
                 .then(() => res.send('sucessfully sold'))
             })

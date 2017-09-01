@@ -10,10 +10,12 @@ export default class PortfolioEntry extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      stockValue: nextProps.stockValues[this.props.item.ticker].toFixed(2),
-      mixValue: ((parseFloat(nextProps.stockValues[this.props.item.ticker]) / parseFloat(nextProps.portfolioValue)) * 100).toFixed(2)
-    })
+    if(nextProps.stockValues[this.props.item.ticker]){
+      this.setState({
+        stockValue: nextProps.stockValues[this.props.item.ticker].toFixed(2),
+        mixValue: ((parseFloat(nextProps.stockValues[this.props.item.ticker]) / parseFloat(nextProps.portfolioValue)) * 100).toFixed(2)
+      })
+    }
   }
 
   render() {
