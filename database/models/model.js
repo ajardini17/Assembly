@@ -56,6 +56,17 @@ const PortfolioStock = db.define('portfolio_stock', {
     }
 });
 
+const PortfolioHistory = db.define('portfolio_history', {
+    portfolio_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    balance: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+    }
+});
+
 const TransactionHistory = db.define('transactionHistory', {
     ticker: {
         type: Sequelize.STRING,
@@ -91,11 +102,13 @@ User.sync();
 // Stock.sync();
 TransactionHistory.sync();
 Portfolio.sync();
+PortfolioHistory.sync();
 PortfolioStock.sync();
 
 module.exports = {
     User,
     Portfolio,
+    PortfolioHistory,
     PortfolioStock,
     TransactionHistory
 }
