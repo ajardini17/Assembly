@@ -13,7 +13,7 @@ const User = db.define('user', {
 });
 
 
-////////////////// THIS SHOULD HAVE ALL THE STOCK INFORMATION, BUT PortfolioStock has the info for an individual's holding//////
+////////////////// THIS SHOULD HAVE ALL THE STOCK INFORMATION, BUT PortfolioStock has the info for an individual's holdings//////
 
 
 // const Stock = db.define('stocks', {
@@ -90,9 +90,17 @@ const TransactionHistory = db.define('transactionHistory', {
     }
 });
 
-PortfolioStock.belongsTo(Portfolio);
+const dailyBalance = db.define('dailyBalance', {
+    balance: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+    }
+});
 
+PortfolioStock.belongsTo(Portfolio);
 TransactionHistory.belongsTo(Portfolio);
+dailyBalance.belongsTo(Portfolio);
+
 Portfolio.belongsTo(User);
 User.hasMany(Portfolio);
 
@@ -110,7 +118,8 @@ module.exports = {
     Portfolio,
     PortfolioHistory,
     PortfolioStock,
-    TransactionHistory
+    TransactionHistory,
+    dailyBalance
 }
 
 

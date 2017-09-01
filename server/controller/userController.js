@@ -1,4 +1,3 @@
-const Sequelize = require('sequelize');
 const Model = require('../../database/models/model.js');
 const hasher = require('./password.js');
 const auth = require('./authenticateController.js');

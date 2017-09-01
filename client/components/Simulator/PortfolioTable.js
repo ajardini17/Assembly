@@ -6,14 +6,15 @@ export default class PortfolioTable extends React.Component {
     super(props);
     this.state = {
       entries: [],
-      stockValues: {}
+      stockValues: {}, 
+      portfolioValue: ''
     }
   }
-
   componentWillReceiveProps(nextProps) {
     this.setState({
       entries: nextProps.portfolioStocks,
-      stockValues: nextProps.stockValues
+      stockValues: nextProps.stockValues,
+      portfolioValue: nextProps.portfolioValue
     })
   }
 
@@ -27,7 +28,7 @@ export default class PortfolioTable extends React.Component {
           <th style={{ 'textAlign':'center' }}>Mix</th>
         </tr>
         {this.state.entries.map((item, index) => (
-          <PortfolioEntry item={item} key={index} stockValues={this.state.stockValues} portfolioValue={this.props.portfolioValue} />
+          this.state.stockValues[item.ticker] !== undefined ? <PortfolioEntry item={item} key={index} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} /> : null
         ))}
       </table>
     )

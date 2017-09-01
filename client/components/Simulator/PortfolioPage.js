@@ -27,6 +27,7 @@ export default class PortfolioPage extends React.Component {
     this.handleLogOutAndRedirect = this.handleLogOutAndRedirect.bind(this);
     this.calculateReturn = this.calculateReturn.bind(this);
     this.getPortfolioHistory = this.getPortfolioHistory.bind(this);
+    this.successfulPurge = this.successfulPurge.bind(this);
   }
   componentDidMount() {
     console.log('***props in portfolioPage:', this.props.userInfo.location);
@@ -60,7 +61,7 @@ export default class PortfolioPage extends React.Component {
     currencyArr.forEach((x, i) => {
       axios.get('/api/coinQuery', {params: x.ticker})
         .then(reply => {
-          let price = parseFloat(reply.data.last_price).toFixed(2)
+          let price = parseFloat(reply.data).toFixed(2)
           price *= x.shares
           this.state.stockValues[x.ticker] = price
           tempVal += price
@@ -91,9 +92,10 @@ export default class PortfolioPage extends React.Component {
       }
     }
     if(!found){
-      this.state.portfolio.stocks.push(stockData);
       this.state.stockValues[stockData.ticker] = Number(cashChange);
-      console.log(this.state.stockValues)
+      console.log('NOT FOUND SO CHANGED STOCK VALUE');
+      console.log(this.state.stockValues);
+      stocks.push(stockData);
       this.setState({
         portfolio: this.state.portfolio,
         cash: this.state.cash - cashChange,
@@ -107,6 +109,20 @@ export default class PortfolioPage extends React.Component {
       if(stocks[i].ticker === stockData.ticker){
         stocks[i] = stockData;
         this.state.stockValues[stockData.ticker] = Number(this.state.stockValues[stockData.ticker]) - Number(cashChange);
+        this.setState({
+          portfolio: this.state.portfolio,
+          stockValues: this.state.stockValues,
+          cash: (Number(this.state.cash) + Number(cashChange)).toFixed(2)
+        });
+      }
+    }
+  }
+  successfulPurge(cashChange, ticker){
+    let stocks = this.state.portfolio.stocks;
+    for(var i = 0; i < stocks.length; i++){
+      if(stocks[i].ticker === ticker){
+        stocks.splice(i,1);
+        delete this.state.stockValues[ticker];
         this.setState({
           portfolio: this.state.portfolio,
           stockValues: this.state.stockValues,
@@ -152,7 +168,7 @@ export default class PortfolioPage extends React.Component {
         <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true}/> 
         <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} annualReturn={this.state.annualReturn}/>
         <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
-        <SimulatorPurchase portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
+        <SimulatorPurchase successfulPurge = {this.successfulPurge} portfolioStocks={this.state.portfolio.stocks} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
       </div>
     )
   }

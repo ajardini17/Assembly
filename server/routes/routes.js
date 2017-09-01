@@ -4,10 +4,10 @@ const user = require('../controller/userController.js');
 const stock = require('../controller/stockController.js');
 const portfolio = require('../controller/portfolioController.js');
 const portfolioStock = require('../controller/portfolioStockController.js');
+const transactionController = require('../controller/transactionController.jsx');
 const auth = require('../controller/authenticateController.js');
-const axios = require('axios')
-const xmlParser = require('xml2json')
-
+const axios = require('axios');
+const xmlParser = require('xml2json');
 //////// AUTH
 
 router.get('/getToken', auth.getToken);
@@ -31,6 +31,8 @@ router.delete('/sellAll', auth.authenticate, portfolioStock.sellAll);
 router.post('/createPortfolio', auth.authenticate, portfolio.createPortfolio);
 router.get('/getPortfolioHistory', auth.authenticate, portfolio.getPortfolioHistory);
 
+
+router.get('/transactionHistory', auth.authenticate, transactionController.totalHistory);
 
 router.get('/getNewsFeed', function(req, res) {
   let urls = {

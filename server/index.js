@@ -7,6 +7,7 @@ const auth0 = require('./controller/authenticateController.js');
 
 const routes = require('./routes/routes.js');
 const jwt = require('jsonwebtoken');
+const cron = require('./CRON/cron.js');
 const app = express()
 
 const PORT = process.env.PORT || 3001;

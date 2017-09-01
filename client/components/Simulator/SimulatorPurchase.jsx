@@ -15,7 +15,8 @@ export default class StockSimulator extends React.Component {
       portfolioId: '',
       portfolioBalance: 0,
       anim: new Animated.Value(0),
-      animMessage: ''
+      animMessage: '',
+      stocks: []
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this);
@@ -23,6 +24,7 @@ export default class StockSimulator extends React.Component {
     this.handleCurrencyGetRequest = this.handleCurrencyGetRequest.bind(this);
     this.handleAddStock = this.handleAddStock.bind(this);
     this.handleSellStock = this.handleSellStock.bind(this);
+    this.sellAll = this.sellAll.bind(this);
   }
   
   componentDidMount() {
@@ -32,31 +34,24 @@ export default class StockSimulator extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       portfolioId: nextProps.portfolioId,
-      portfolioBalance: nextProps.portfolioBalance
+      portfolioBalance: nextProps.portfolioBalance,
+      stocks: nextProps.portfolioStocks
     })
   }
   handleCurrencyGetRequest() {
     axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
     .then(result => {
-      let price = parseFloat(result.data.last_price).toFixed(2);
+      let price = parseFloat(result.data).toFixed(2);
       this.setState({
         displayedValue: price,
         purchasePrice: this.state.purchasePrice !== '' ? (Number(price) * Number(this.state.input)).toFixed(2) : ''
       })
     })
   }
-  handleSuccessfulPurchase() {
-
-  }
-  handleSuccessfulSell() {
-
-  }
   handleInputChange(e) {
-
     this.setState({
         input: e.target.value
     }, () => {this.handleSubmitPriceCheck()})
-    
   }
 
   handleCurrencySelectionChange(e) {
@@ -66,7 +61,6 @@ export default class StockSimulator extends React.Component {
   }
 
   handleSubmitPriceCheck(e) {
-    //e.preventDefault()
     let tempPrice = this.state.displayedValue * parseFloat(this.state.input);
     this.setState({
       purchasePrice: `$${tempPrice.toFixed(2)}`
@@ -89,7 +83,6 @@ export default class StockSimulator extends React.Component {
       axios.post('/api/buy', buyObj, {headers: {authorization:localStorage.getItem('token')}})
       .then(reply => {
 
-    
         this.props.successfulBuy(finalPrice, reply.data);
         document.getElementById('currBuyInput').value = '';
         this.setState({
@@ -97,6 +90,7 @@ export default class StockSimulator extends React.Component {
           purchasePrice: '',
           animMessage: 'Successfully purchased ' + this.state.selectedCurrency
         }, () => {
+          console.log(this.state.animMessage);
           Animated.sequence([
             Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
             Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
@@ -105,44 +99,88 @@ export default class StockSimulator extends React.Component {
         })
       });
     } else {
+      console.log(finalPrice, 'finalPrice',this.state.portfolioBalance, 'balance')
       alert('Insufficient Funds');
     }
   }
-  handleSellStock(e){
-    e.preventDefault();
-    let finalPrice = (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2);
-
-    
-    let sellObj = {
-      shares: this.state.input,
-      sellPrice: this.state.displayedValue,
-      ticker: this.state.selectedCurrency,
-      portfolioId: this.state.portfolioId,
-      finalPrice: finalPrice
-    }
+  sellAll(sellObj){
     axios({
-      method: 'put',
-      url: '/api/sell',
+      method: 'delete',
+      url: '/api/sellAll',
       headers: {authorization: localStorage.getItem('token')},
       params: sellObj
     })
     .then(reply => {
-      if(reply.data !== 'do not own'){
-        this.props.successfulSell(finalPrice, reply.data);     
-        document.getElementById('currBuyInput').value = '';
+      this.props.successfulPurge(sellObj.finalPrice, sellObj.ticker);
+      document.getElementById('currBuyInput').value = '';
+      this.setState({
+        input: '',
+        purchasePrice: '',
+        animMessage: 'Successfully sold ' + this.state.selectedCurrency
+      }, () => {
+          Animated.sequence([
+            Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
+            Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
+            Animated.timing(this.state.anim, {toValue: 0, duration: 500})
+          ]).start()
+            
+      })
+    })
+  }
+
+  handleSellStock(e){
+    e.preventDefault();
+    let finalPrice = (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2);
+    let stockIndex = this.state.stocks.findIndex(x=>x.ticker === this.state.selectedCurrency);
+
+    if(stockIndex > -1){
+      let sellObj = {
+        shares: this.state.input,
+        sellPrice: this.state.displayedValue,
+        ticker: this.state.selectedCurrency,
+        portfolioId: this.state.portfolioId,
+        finalPrice: finalPrice
+      }
+      if(Math.abs(this.state.stocks[stockIndex].shares - this.state.input) < .2){
+        this.sellAll(sellObj);
+      } else if(this.state.stocks[stockIndex].shares > this.state.input){
+        axios({
+          method: 'put',
+          url: '/api/sell',
+          headers: {authorization: localStorage.getItem('token')},
+          params: sellObj
+        })
+        .then(reply => {
+          if(reply.data !== 'do not own'){
+            this.props.successfulSell(finalPrice, reply.data);     
+            document.getElementById('currBuyInput').value = '';
+            this.setState({
+              input: '',
+              purchasePrice: '',
+              animMessage: 'Successfully sold ' + this.state.selectedCurrency
+          }, () => {
+          Animated.sequence([
+            Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
+            Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
+            Animated.timing(this.state.anim, {toValue: 0, duration: 500})
+          ]).start()
+            
+          })
+        }
+        })
+      } else {
         this.setState({
-          input: '',
-          purchasePrice: '',
-          animMessage: 'Successfully sold ' + this.state.selectedCurrency
+          animMessage: `You don't have ${this.state.input} shares of ${this.state.selectedCurrency}`
         }, () => {
           Animated.sequence([
             Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
             Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
             Animated.timing(this.state.anim, {toValue: 0, duration: 500})
           ]).start()
-        })
+            
+          })
       }
-    })
+    }
   }
 
   render() {
@@ -194,7 +232,7 @@ export default class StockSimulator extends React.Component {
           </div>
         </div>
 
-        <div className='row bottom_row'>
+        <div className='row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
             <form onSubmit={this.handleSubmitPriceCheck}>
               <input id='currBuyInput' type='number' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />

@@ -22,7 +22,7 @@ export default class PortfolioLandingCard extends React.Component {
     currencyArr.forEach((x, i) => {
       axios.get('/api/coinQuery', {params: x.ticker})
         .then(reply => {
-          let price = parseFloat(reply.data.last_price).toFixed(2)
+          let price = parseFloat(reply.data).toFixed(2)
           price *= x.shares
           this.state.stockValues[x.ticker] = price
           tempVal += price

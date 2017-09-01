@@ -3,6 +3,7 @@ const db = require('./database/models/model.js');
 db.User.sync({force: true})
 .then(() => db.Portfolio.sync({force: true}))
 .then(() => db.TransactionHistory.sync({force: true}))
+.then(() => db.dailyBalance.sync({force: true}))
 .then(() => db.PortfolioStock.sync({force: true}))
 .then(() => {
     
