@@ -133,7 +133,7 @@ export default class PortfolioPage extends React.Component {
   }
 
   calculateReturn() {
-    let annualReturn = ((this.state.portfolioValue - 1000000)/1000000).toFixed(4);
+    let annualReturn = (this.state.portfolioValue - 1000000)/1000000;
     this.setState({ annualReturn })
   }
 
@@ -145,19 +145,12 @@ export default class PortfolioPage extends React.Component {
       params: {id: this.state.portfolioId}
     })
     .then(reply => {
-      console.log(reply.data)
-      // let history = this.state.history
-      // reply.data.
-      // history.push()
-
-      
-      // {this.setState({
-      // cash: reply.data.balance,
-      // portfolioName: reply.data.name,
-      // portfolio: reply.data,
-      // portfolioId: reply.data.id
-      // })
-      // this.calculatePortfolioValue(reply.data.stocks)
+      let history = []
+      reply.data.forEach(item => {
+        let date = new Date(item.createdAt.slice(0,10)).getTime()
+        history.push([date, item.balance])
+      })
+      this.setState({ history })
     })
     .catch(err => console.log(err, 'error'))
   }
@@ -166,7 +159,7 @@ export default class PortfolioPage extends React.Component {
     return (
       <div className='container'>
         <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true}/> 
-        <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} annualReturn={this.state.annualReturn}/>
+        <PortfolioInfo history={this.state.history} portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} annualReturn={this.state.annualReturn}/>
         <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
         <SimulatorPurchase successfulPurge = {this.successfulPurge} portfolioStocks={this.state.portfolio.stocks} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
       </div>

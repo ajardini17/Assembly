@@ -23,11 +23,8 @@ module.exports ={
         })
     },
     getPortfolioHistory: (req, res) => {
-        console.log('id is:', req.query.id)
-        console.log('GET PORT HISTORY INVOKED****')
         Model.PortfolioHistory.findAll({where: {portfolio_id: req.query.id}})
         .then(reply => {
-            console.log('REPLY IS', reply)
             res.send(reply)
         })
     },
