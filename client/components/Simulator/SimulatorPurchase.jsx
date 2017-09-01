@@ -90,6 +90,7 @@ export default class StockSimulator extends React.Component {
           purchasePrice: '',
           animMessage: 'Successfully purchased ' + this.state.selectedCurrency
         }, () => {
+          console.log(this.state.animMessage);
           Animated.sequence([
             Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
             Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
@@ -98,22 +99,10 @@ export default class StockSimulator extends React.Component {
         })
       });
     } else {
+      console.log(finalPrice, 'finalPrice',this.state.portfolioBalance, 'balance')
       alert('Insufficient Funds');
     }
   }
-  // if(reply.data !== 'do not own'){
-  //       this.props.successfulSell(finalPrice, reply.data);     
-  //       document.getElementById('currBuyInput').value = '';
-  //       this.setState({
-  //         input: '',
-  //         purchasePrice: '',
-  //         animMessage: 'Successfully sold ' + this.state.selectedCurrency
-  //       }, () => {
-  //         Animated.sequence([
-  //           Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
-  //           Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
-  //           Animated.timing(this.state.anim, {toValue: 0, duration: 500})
-  //         ]).start()
   sellAll(sellObj){
     axios({
       method: 'delete',
@@ -126,7 +115,8 @@ export default class StockSimulator extends React.Component {
       document.getElementById('currBuyInput').value = '';
       this.setState({
         input: '',
-        purchasePrice: ''
+        purchasePrice: '',
+        animMessage: 'Successfully sold ' + this.state.selectedCurrency
       }, () => {
           Animated.sequence([
             Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
@@ -153,7 +143,7 @@ export default class StockSimulator extends React.Component {
       }
       if(Math.abs(this.state.stocks[stockIndex].shares - this.state.input) < .2){
         this.sellAll(sellObj);
-      } else {
+      } else if(this.state.stocks[stockIndex].shares > this.state.input){
         axios({
           method: 'put',
           url: '/api/sell',
@@ -178,6 +168,17 @@ export default class StockSimulator extends React.Component {
           })
         }
         })
+      } else {
+        this.setState({
+          animMessage: `You don't have ${this.state.input} shares of ${this.state.selectedCurrency}`
+        }, () => {
+          Animated.sequence([
+            Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
+            Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
+            Animated.timing(this.state.anim, {toValue: 0, duration: 500})
+          ]).start()
+            
+          })
       }
     }
   }

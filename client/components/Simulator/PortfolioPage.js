@@ -93,6 +93,8 @@ export default class PortfolioPage extends React.Component {
     }
     if(!found){
       this.state.stockValues[stockData.ticker] = Number(cashChange);
+      console.log('NOT FOUND SO CHANGED STOCK VALUE');
+      console.log(this.state.stockValues);
       stocks.push(stockData);
       this.setState({
         portfolio: this.state.portfolio,
