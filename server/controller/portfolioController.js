@@ -23,6 +23,12 @@ module.exports ={
             })
         })
     },
+    getPortfolioHistory: (req, res) => {
+        Model.PortfolioHistory.findAll({where: {id: req.query.id}})
+        .then(reply => {
+            res.send(reply.data)
+        })
+    },
     deletePortfolio: (req, res) => {
         Model.Portfolio.destroy({
             where: {id: req.query.id}
