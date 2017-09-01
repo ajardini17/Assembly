@@ -29,7 +29,7 @@ router.put('/sell', auth.authenticate, portfolioStock.sell);
 router.delete('/sellAll', auth.authenticate, portfolioStock.sellAll);
 
 router.post('/createPortfolio', auth.authenticate, portfolio.createPortfolio);
-router.get('/getPortfolioHistory', auth.authenticate, portfolio.getPortfolioHistory);
+router.get('/getPortfolioHistory', portfolio.getPortfolioHistory);
 
 
 router.get('/transactionHistory', auth.authenticate, transactionController.totalHistory);

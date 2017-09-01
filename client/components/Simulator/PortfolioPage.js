@@ -145,7 +145,7 @@ export default class PortfolioPage extends React.Component {
       params: {id: this.state.portfolioId}
     })
     .then(reply => {
-      console.log(reply)
+      console.log(reply.data)
       // let history = this.state.history
       // reply.data.
       // history.push()
