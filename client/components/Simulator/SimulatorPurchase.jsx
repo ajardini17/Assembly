@@ -189,7 +189,7 @@ export default class StockSimulator extends React.Component {
       <div>
 
         <div className='row'>
-          <div className='col-xs-1 col-xs-offset-2'>
+          <div className='col-xs-1 col-xs-offset-3'>
             <img src='/images/bitcoinlogo.jpg' className='currencyButton' id='btc' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
