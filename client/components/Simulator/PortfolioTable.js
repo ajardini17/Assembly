@@ -9,7 +9,6 @@ export default class PortfolioTable extends React.Component {
       stockValues: {}
     }
   }
-
   componentWillReceiveProps(nextProps) {
     this.setState({
       entries: nextProps.portfolioStocks,

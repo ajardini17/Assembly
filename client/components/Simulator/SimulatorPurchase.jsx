@@ -15,7 +15,8 @@ export default class StockSimulator extends React.Component {
       portfolioId: '',
       portfolioBalance: 0,
       anim: new Animated.Value(0),
-      animMessage: ''
+      animMessage: '',
+      stocks: []
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this);
@@ -32,31 +33,24 @@ export default class StockSimulator extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       portfolioId: nextProps.portfolioId,
-      portfolioBalance: nextProps.portfolioBalance
+      portfolioBalance: nextProps.portfolioBalance,
+      stocks: nextProps.portfolioStocks
     })
   }
   handleCurrencyGetRequest() {
     axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
     .then(result => {
-      let price = parseFloat(result.data.last_price).toFixed(2);
+      let price = parseFloat(result.data).toFixed(2);
       this.setState({
         displayedValue: price,
         purchasePrice: this.state.purchasePrice !== '' ? (Number(price) * Number(this.state.input)).toFixed(2) : ''
       })
     })
   }
-  handleSuccessfulPurchase() {
-
-  }
-  handleSuccessfulSell() {
-
-  }
   handleInputChange(e) {
-
     this.setState({
         input: e.target.value
     }, () => {this.handleSubmitPriceCheck()})
-    
   }
 
   handleCurrencySelectionChange(e) {
@@ -66,7 +60,6 @@ export default class StockSimulator extends React.Component {
   }
 
   handleSubmitPriceCheck(e) {
-    //e.preventDefault()
     let tempPrice = this.state.displayedValue * parseFloat(this.state.input);
     this.setState({
       purchasePrice: `$${tempPrice.toFixed(2)}`
@@ -112,7 +105,7 @@ export default class StockSimulator extends React.Component {
     e.preventDefault();
     let finalPrice = (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2);
 
-    
+    if(this.state.)
     let sellObj = {
       shares: this.state.input,
       sellPrice: this.state.displayedValue,

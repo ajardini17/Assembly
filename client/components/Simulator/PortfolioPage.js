@@ -60,7 +60,7 @@ export default class PortfolioPage extends React.Component {
     currencyArr.forEach((x, i) => {
       axios.get('/api/coinQuery', {params: x.ticker})
         .then(reply => {
-          let price = parseFloat(reply.data.last_price).toFixed(2)
+          let price = parseFloat(reply.data).toFixed(2)
           price *= x.shares
           this.state.stockValues[x.ticker] = price
           tempVal += price
@@ -91,9 +91,8 @@ export default class PortfolioPage extends React.Component {
       }
     }
     if(!found){
-      this.state.portfolio.stocks.push(stockData);
       this.state.stockValues[stockData.ticker] = Number(cashChange);
-      console.log(this.state.stockValues)
+      stocks.push(stockData);
       this.setState({
         portfolio: this.state.portfolio,
         cash: this.state.cash - cashChange,
@@ -152,7 +151,7 @@ export default class PortfolioPage extends React.Component {
         <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true}/> 
         <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} annualReturn={this.state.annualReturn}/>
         <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
-        <SimulatorPurchase portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
+        <SimulatorPurchase portfolioStocks={this.state.portfolio.stocks} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
       </div>
     )
   }
