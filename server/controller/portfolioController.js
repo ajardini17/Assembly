@@ -23,6 +23,14 @@ module.exports ={
             })
         })
     },
+    getPortfolioHistory: (req, res) => {
+        console.log('id is:', req.query.id)
+        console.log('GET PORT HISTORY INVOKED')
+        Model.PortfolioHistory.findAll({where: {id: req.query.id}})
+        .then(reply => {
+            res.send(reply)
+        })
+    },
     deletePortfolio: (req, res) => {
         Model.Portfolio.destroy({
             where: {id: req.query.id}

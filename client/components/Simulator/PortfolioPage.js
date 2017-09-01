@@ -16,23 +16,27 @@ export default class PortfolioPage extends React.Component {
       cash: 'Calculating...',
       portfolioName: '',
       portfolioStocks: [],
-      stockValues: {}
+      stockValues: {},
+      annualReturn: 'Calculating...',
+      history: []
     }
     this.handleFetchData = this.handleFetchData.bind(this);
     this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this);
     this.successfulBuy = this.successfulBuy.bind(this);
     this.successfulSell = this.successfulSell.bind(this);
     this.handleLogOutAndRedirect = this.handleLogOutAndRedirect.bind(this);
+    this.calculateReturn = this.calculateReturn.bind(this);
+    this.getPortfolioHistory = this.getPortfolioHistory.bind(this);
   }
   componentDidMount() {
     console.log('***props in portfolioPage:', this.props.userInfo.location);
     this.handleFetchData()
+    this.getPortfolioHistory()
   }
   handleLogOutAndRedirect(){
     localStorage.removeItem('token');
   }
   handleFetchData(){
-    //axios.get('/api/getSpecificPortfolio', {headers: {authorization: localStorage.getItem('token')}}, {params: {id: this.state.portfolioId}})
     axios({
       method: 'get',
       url: '/api/getSpecificPortfolio',
@@ -66,7 +70,7 @@ export default class PortfolioPage extends React.Component {
             this.setState({
               portfolioValue: newValue,
               stockValues: this.state.stockValues
-            })
+            }, () => this.calculateReturn())
           }
         })
     })
@@ -110,14 +114,43 @@ export default class PortfolioPage extends React.Component {
         });
       }
     }
+  }
 
+  calculateReturn() {
+    let annualReturn = ((this.state.portfolioValue - 1000000)/1000000).toFixed(4);
+    this.setState({ annualReturn })
+  }
+
+  getPortfolioHistory() {
+    axios({
+      method: 'get',
+      url: '/api/getPortfolioHistory',
+      headers: {authorization: localStorage.getItem('token')},
+      params: {id: this.state.portfolioId}
+    })
+    .then(reply => {
+      console.log(reply)
+      // let history = this.state.history
+      // reply.data.
+      // history.push()
+
+      
+      // {this.setState({
+      // cash: reply.data.balance,
+      // portfolioName: reply.data.name,
+      // portfolio: reply.data,
+      // portfolioId: reply.data.id
+      // })
+      // this.calculatePortfolioValue(reply.data.stocks)
+    })
+    .catch(err => console.log(err, 'error'))
   }
 
   render() {
     return (
       <div className='container'>
-        <Navigation handleLogOut={this.handleLogOutAndRedirect}/> 
-        <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName}/>
+        <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true}/> 
+        <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} annualReturn={this.state.annualReturn}/>
         <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
         <SimulatorPurchase portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
       </div>

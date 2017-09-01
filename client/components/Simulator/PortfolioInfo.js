@@ -7,7 +7,7 @@ export default class PortfolioInfo extends React.Component {
     this.state = {
       portfolioValue: 0,
       cash: 0,
-      annualReturn: .17,
+      annualReturn: .01,
       portfolioID: decodeURI(window.location.pathname.slice(11)),
       portfolioName: ''
     }
@@ -45,7 +45,8 @@ export default class PortfolioInfo extends React.Component {
     this.setState({
       portfolioValue: nextProps.portfolioValue,
       cash: nextProps.cash,
-      portfolioName: nextProps.portfolioName
+      portfolioName: nextProps.portfolioName,
+      annualReturn: nextProps.annualReturn
     })
   }
 

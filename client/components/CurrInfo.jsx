@@ -7,7 +7,7 @@ export default class CurrInfo extends React.Component {
   constructor() {
     super()
     this.state = {
-      currencyName: '', // hardcoding for testing purposes 
+      currencyName: '',
       currentValue: '',
       articles: [],
       data: []
@@ -96,7 +96,7 @@ export default class CurrInfo extends React.Component {
 
     return (
       <div className='container-fluid'>
-        <Navigation />
+        <Navigation loggedIn={true}/>
         {this.state.currentValue !== '' ?
         <div className="currInfo">
           <div className='row'>
