@@ -116,7 +116,7 @@ export default class PortfolioPage extends React.Component {
   render() {
     return (
       <div className='container'>
-        <Navigation handleLogOut={this.handleLogOutAndRedirect}/> 
+        <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true}/> 
         <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName}/>
         <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
         <SimulatorPurchase portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
