@@ -177,7 +177,7 @@ export default class StockSimulator extends React.Component {
           </div>
         </div>
 
-        <div className='row'>
+        <div className='row bottom_row'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
             <form onSubmit={this.handleSubmitPriceCheck}>
               <input id='currBuyInput' type='number' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />

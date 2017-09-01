@@ -2,8 +2,13 @@ import numpy as np
 import pandas as pd
 import pickle
 from collections import Counter
-from sklearn import svm, cross_validation, neighbors
+from sklearn import svm, cross_validation, neighbors, preprocessing
 from sklearn.ensemble import VotingClassifier, RandomForestClassifier
+import quandl, math
+from sklearn.linear_model import LinearRegression
+import datetime
+import matplotlib.pyplot as plt
+from matplotlib import style
 
 def process_data_for_labels(ticker):
     hm_days = 7

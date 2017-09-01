@@ -118,7 +118,12 @@ th, td {
 }
 
 .port-list-btn {
-  width: 80%;
+  width: 100%;
+}
+
+.port-list-btn > p {
+  color: #898686;
+  font-size: 16px;
 }
 
 #landingTitle {
@@ -147,4 +152,8 @@ th, td {
 
 .currInfo {
   margin-top: 80px;
+}
+
+.bottom_row {
+  margin-bottom: 100px;
 }

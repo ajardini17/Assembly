@@ -1,17 +1,18 @@
-import React from 'react';
-import PortfolioPage from './PortfolioPage';
-import Signup from '../../Auth/Signup.jsx';
-import Login from '../../Auth/Login.jsx';
-import axios from 'axios';
-import {Link} from 'react-router-dom';
-import Auth from '../../Auth/Auth.jsx';
-import Navigation from '../Navbar';
-import { Button, Modal, Navbar } from 'react-bootstrap';
+import React from 'react'
+import PortfolioPage from './PortfolioPage'
+import Signup from '../../Auth/Signup.jsx'
+import Login from '../../Auth/Login.jsx'
+import axios from 'axios'
+import {Link} from 'react-router-dom'
+import Auth from '../../Auth/Auth.jsx'
+import Navigation from '../Navbar'
+import { Button, Modal, Navbar } from 'react-bootstrap'
+import PortfolioLandingCard from './PortfolioLandingCard.jsx'
 
 export default class PortfolioLanding extends React.Component {
   constructor() {
     super()
-    this.Auth = new Auth;
+    this.Auth = new Auth
     this.state = {
       portfolios: [],
       portfolioId: 0,
@@ -20,28 +21,28 @@ export default class PortfolioLanding extends React.Component {
       showModal: false,
       name: ''
     }
-    this.handleFetchData = this.handleFetchData.bind(this);
-    this.createPort = this.createPort.bind(this);
-    this.close = this.close.bind(this);
-    this.open = this.open.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleSignUp = this.handleSignUp.bind(this);
-    this.handleLogOut = this.handleLogOut.bind(this);
+    this.handleFetchData = this.handleFetchData.bind(this)
+    this.createPort = this.createPort.bind(this)
+    this.close = this.close.bind(this)
+    this.open = this.open.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
+    this.handleSignUp = this.handleSignUp.bind(this)
+    this.handleLogOut = this.handleLogOut.bind(this)
   }
   componentDidMount() {
     this.handleFetchData()
   }
   handleSignUp(){
-    this.setState({token: localStorage.getItem('token')});
+    this.setState({token: localStorage.getItem('token')})
   }
   handleLogin(){
     this.setState({token: localStorage.getItem('token')}, () => this.handleFetchData())
   }
   handleLogOut(){
-    localStorage.removeItem('token');
+    localStorage.removeItem('token')
     this.setState({
       isLoggedIn: false,
       portfolios: [],
@@ -59,7 +60,7 @@ export default class PortfolioLanding extends React.Component {
   createPort(name) {
     axios.post('/api/createPortfolio', { name }, {headers: {authorization:this.state.token}})
       .then(result => {
-        let portfolios = this.state.portfolios;
+        let portfolios = this.state.portfolios
         portfolios.push(result.data)
         this.setState({ portfolios })
       })
@@ -75,7 +76,7 @@ export default class PortfolioLanding extends React.Component {
   }
 
   handleChange(e) {
-    let temp = e.target.name;
+    let temp = e.target.name
     this.setState({
       [temp]: e.target.value
     })
@@ -105,7 +106,7 @@ export default class PortfolioLanding extends React.Component {
         { nav }
 
         <div className="container text-center createPortBtn">
-          <Button className="text-center" bsStyle="primary" bsSize="large" onClick={this.open}>&#43; Create Portfolio</Button>
+          <Button className="text-center" bsStyle="primary" bsSize="large" onClick={this.open}>+ Create Portfolio</Button>
         </div>
 
         {/* { signup }
@@ -131,7 +132,7 @@ export default class PortfolioLanding extends React.Component {
             {this.state.portfolios.map((item, index) => (
               <Link key={index} to={{pathname:`/simulator/${item.id}`, state: this.state.portfolios}} >
                 <div className="col-xs-4 text-center port-list-div">
-                  <button className="btn btn-default btn-lg port-list-btn">{item.name}</button>
+                  <PortfolioLandingCard item={item} />
                 </div>
               </Link>
             ))}
