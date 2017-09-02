@@ -21,7 +21,7 @@ class Login extends React.Component {
         event.preventDefault();
         this.Auth.login(this.state.username, this.state.password, (reply) => {
             this.props.handleLogin();
-            window.location = '/simulator'
+            window.location = '/'
         })
     }
     render() {
