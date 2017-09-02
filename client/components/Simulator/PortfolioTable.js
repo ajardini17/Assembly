@@ -3,7 +3,7 @@ import PortfolioEntry from './PortfolioEntry'
 
 export default class PortfolioTable extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       entries: [],
       stockValues: {}, 
@@ -21,15 +21,22 @@ export default class PortfolioTable extends React.Component {
   render() {
     return (
       <table className='portfolioEntryTable'>
-        <tr>
-          <th style={{ 'textAlign':'center' }}>Asset</th>
-          <th style={{ 'textAlign':'center' }}>Qty</th>
-          <th style={{ 'textAlign':'center' }}>Value</th>
-          <th style={{ 'textAlign':'center' }}>Mix</th>
-        </tr>
-        {this.state.entries.map((item, index) => (
-          this.state.stockValues[item.ticker] !== undefined ? <PortfolioEntry item={item} key={index} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} /> : null
-        ))}
+        <tbody>
+          <tr>
+            <th style={{ 'textAlign':'center' }}>Asset</th>
+            <th style={{ 'textAlign':'center' }}>Qty</th>
+            <th style={{ 'textAlign':'center' }}>Value</th>
+            <th style={{ 'textAlign':'center' }}>Mix</th>
+          </tr>
+
+          {this.state.entries ?
+          this.state.entries.map((item, index) => (
+            this.state.stockValues[item.ticker] !== undefined ? <PortfolioEntry item={item} key={index} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} /> : null
+          ))
+          :
+          null
+          }
+        </tbody>
       </table>
     )
   }

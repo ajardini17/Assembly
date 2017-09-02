@@ -1,10 +1,10 @@
-import React from 'react';
-import PortfolioInfo from './PortfolioInfo';
-import PortfolioTable from './PortfolioTable';
-import SimulatorPurchase from './SimulatorPurchase.jsx';
-import Navigation from '../Navbar';
-import axios from 'axios';
-import {Link} from 'react-router-dom';
+import React from 'react'
+import PortfolioInfo from './PortfolioInfo'
+import PortfolioTable from './PortfolioTable'
+import SimulatorPurchase from './SimulatorPurchase.jsx'
+import Navigation from '../Navbar'
+import axios from 'axios'
+import {Link} from 'react-router-dom'
 
 export default class PortfolioPage extends React.Component {
   constructor(props) {
@@ -20,17 +20,16 @@ export default class PortfolioPage extends React.Component {
       annualReturn: 'Calculating...',
       history: []
     }
-    this.handleFetchData = this.handleFetchData.bind(this);
-    this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this);
-    this.successfulBuy = this.successfulBuy.bind(this);
-    this.successfulSell = this.successfulSell.bind(this);
-    this.handleLogOutAndRedirect = this.handleLogOutAndRedirect.bind(this);
-    this.calculateReturn = this.calculateReturn.bind(this);
-    this.getPortfolioHistory = this.getPortfolioHistory.bind(this);
-    this.successfulPurge = this.successfulPurge.bind(this);
+    this.handleFetchData = this.handleFetchData.bind(this)
+    this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this)
+    this.successfulBuy = this.successfulBuy.bind(this)
+    this.successfulSell = this.successfulSell.bind(this)
+    this.handleLogOutAndRedirect = this.handleLogOutAndRedirect.bind(this)
+    this.calculateReturn = this.calculateReturn.bind(this)
+    this.getPortfolioHistory = this.getPortfolioHistory.bind(this)
+    this.successfulPurge = this.successfulPurge.bind(this)
   }
   componentDidMount() {
-    console.log('***props in portfolioPage:', this.props.userInfo.location);
     this.handleFetchData()
     this.getPortfolioHistory()
   }
@@ -133,7 +132,7 @@ export default class PortfolioPage extends React.Component {
   }
 
   calculateReturn() {
-    let annualReturn = ((this.state.portfolioValue - 1000000)/1000000).toFixed(4);
+    let annualReturn = (this.state.portfolioValue - 1000000)/1000000;
     this.setState({ annualReturn })
   }
 
@@ -145,19 +144,12 @@ export default class PortfolioPage extends React.Component {
       params: {id: this.state.portfolioId}
     })
     .then(reply => {
-      console.log(reply)
-      // let history = this.state.history
-      // reply.data.
-      // history.push()
-
-      
-      // {this.setState({
-      // cash: reply.data.balance,
-      // portfolioName: reply.data.name,
-      // portfolio: reply.data,
-      // portfolioId: reply.data.id
-      // })
-      // this.calculatePortfolioValue(reply.data.stocks)
+      let history = []
+      reply.data.forEach(item => {
+        let date = new Date(item.entry_date.slice(0,10)).getTime()
+        history.push([date, item.balance])
+      })
+      this.setState({ history })
     })
     .catch(err => console.log(err, 'error'))
   }
@@ -166,7 +158,7 @@ export default class PortfolioPage extends React.Component {
     return (
       <div className='container'>
         <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true}/> 
-        <PortfolioInfo portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} annualReturn={this.state.annualReturn}/>
+        <PortfolioInfo history={this.state.history} portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} annualReturn={this.state.annualReturn}/>
         <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
         <SimulatorPurchase successfulPurge = {this.successfulPurge} portfolioStocks={this.state.portfolio.stocks} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
       </div>

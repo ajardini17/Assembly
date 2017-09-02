@@ -2,27 +2,31 @@ import React from 'react'
 import axios from 'axios'
 
 export default class PortfolioInfo extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       portfolioValue: 0,
       cash: 0,
       annualReturn: .01,
       portfolioID: decodeURI(window.location.pathname.slice(11)),
-      portfolioName: ''
+      portfolioName: '',
+      history: []
     }
+    this.createGraph = this.createGraph.bind(this)
   }
 
-  componentDidMount() {
-    //this.handleFetchData()
-    $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-      // let dummyData = [
-      //   [1283299200000,35.76],
-      //   [1283385600000,36.02],
-      //   [1283472000000,36.97]
-      // ]
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      portfolioValue: nextProps.portfolioValue,
+      cash: nextProps.cash,
+      portfolioName: nextProps.portfolioName,
+      annualReturn: nextProps.annualReturn,
+      history: nextProps.history
+    }, () => this.createGraph(this.state.history))
+  }
 
-      // Create the chart
+  createGraph(data) {
+    if (this.state.history) {
       Highcharts.stockChart('container', {
         rangeSelector: { 
           selected: 1 
@@ -38,16 +42,7 @@ export default class PortfolioInfo extends React.Component {
           }
         }]
       });
-    });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      portfolioValue: nextProps.portfolioValue,
-      cash: nextProps.cash,
-      portfolioName: nextProps.portfolioName,
-      annualReturn: nextProps.annualReturn
-    })
+    }
   }
 
   render() {
@@ -64,7 +59,7 @@ export default class PortfolioInfo extends React.Component {
         <h2>{this.state.portfolioName}</h2>
         <p>Portfolio Value: ${this.state.portfolioValue}</p>
         <p>Cash: ${this.state.cash}</p>
-        <p>Annual Return: {this.state.annualReturn * 100}%</p>
+        <p>Annual Return: {(this.state.annualReturn * 100).toFixed(2)}%</p>
         <div id="container" style={highchartStyle}></div>
       </div>
     )

@@ -3,8 +3,8 @@ const db = require('./database/models/model.js');
 db.User.sync({force: true})
 .then(() => db.Portfolio.sync({force: true}))
 .then(() => db.TransactionHistory.sync({force: true}))
-.then(() => db.dailyBalance.sync({force: true}))
 .then(() => db.PortfolioStock.sync({force: true}))
+.then(() => db.PortfolioHistory.sync({force: true}))
 .then(() => {
     
     return db.User.bulkCreate([
@@ -22,23 +22,30 @@ db.User.sync({force: true})
 .catch(err => console.log('Portfolio seed unsuccessful'))
 .then(() => {
     return db.PortfolioHistory.bulkCreate([
-            {portfolio_id: 1, balance: 1000000},
-            {portfolio_id: 1, balance: 1001000},
-            {portfolio_id: 1, balance: 1002000},
-            {portfolio_id: 1, balance: 1005000},
-            {portfolio_id: 1, balance: 1003000},
-            {portfolio_id: 1, balance: 1020000},
-            {portfolio_id: 1, balance: 1100000},
-            {portfolio_id: 1, balance: 1180000},
-            {portfolio_id: 1, balance: 1300000},
-            {portfolio_id: 2, balance: 1000000},
-            {portfolio_id: 2, balance: 1000000},
-            {portfolio_id: 2, balance: 1000000},
-            {portfolio_id: 2, balance: 1000000},
-            {portfolio_id: 2, balance: 1000000},
-            {portfolio_id: 2, balance: 1000000},
-            {portfolio_id: 2, balance: 1000000}
-
+            {portfolio_id: 1, balance: 1000000, entry_date: 1503703075000},
+            {portfolio_id: 1, balance: 1050000, entry_date: 1503789475000},
+            {portfolio_id: 1, balance: 1100000, entry_date: 1503875875000},
+            {portfolio_id: 1, balance: 1500000, entry_date: 1503962275000},
+            {portfolio_id: 1, balance: 1090000, entry_date: 1504048675000},
+            {portfolio_id: 1, balance: 1400000, entry_date: 1504135075000},
+            {portfolio_id: 1, balance: 1450000, entry_date: 1504221475000},
+            {portfolio_id: 1, balance: 1700000, entry_date: 1504308022190},
+            {portfolio_id: 2, balance: 1000000, entry_date: 1503703075000},
+            {portfolio_id: 2, balance: 1050000, entry_date: 1503789475000},
+            {portfolio_id: 2, balance: 1100000, entry_date: 1503875875000},
+            {portfolio_id: 2, balance: 1500000, entry_date: 1503962275000},
+            {portfolio_id: 2, balance: 1090000, entry_date: 1504048675000},
+            {portfolio_id: 2, balance: 1400000, entry_date: 1504135075000},
+            {portfolio_id: 2, balance: 1450000, entry_date: 1504221475000},
+            {portfolio_id: 2, balance: 1700000, entry_date: 1504308022190},
+            {portfolio_id: 3, balance: 1000000, entry_date: 1503703075000},
+            {portfolio_id: 3, balance: 1050000, entry_date: 1503789475000},
+            {portfolio_id: 3, balance: 1100000, entry_date: 1503875875000},
+            {portfolio_id: 3, balance: 1500000, entry_date: 1503962275000},
+            {portfolio_id: 3, balance: 1090000, entry_date: 1504048675000},
+            {portfolio_id: 3, balance: 1400000, entry_date: 1504135075000},
+            {portfolio_id: 3, balance: 1450000, entry_date: 1504221475000},
+            {portfolio_id: 3, balance: 1700000, entry_date: 1504308022190}
     ])
 })
 .catch(err => console.log('Portfolio seed unsuccessful'))
