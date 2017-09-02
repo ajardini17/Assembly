@@ -35,7 +35,7 @@ export default class Navigation extends React.Component {
             <Nav pullRight>
               <NavDropdown eventKey={4} title="Profile" id="basic-nav-dropdown">
                 <MenuItem eventKey={4.1} href="/settings">Settings</MenuItem>
-                <MenuItem eventKey={4.2} href="/simulator" onClick={this.props.handleLogOut}>Logout</MenuItem>
+                <MenuItem eventKey={4.2} href="/" onClick={this.props.handleLogOut}>Logout</MenuItem>
               </NavDropdown>
             </Nav>
 

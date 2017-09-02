@@ -1,15 +1,21 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {Modal} from 'react-bootstrap'
+import axios from 'axios'
 
 export default class LandingPage extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       showModal: false
     }
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
+  }
+
+  componentWillMount() {
+    axios.get('/api/getUserData', {headers: {authorization:localStorage.getItem('token')}})
+    .then(() => {window.location = '/simulator'})
   }
 
   openModal(e) {
@@ -22,9 +28,6 @@ export default class LandingPage extends React.Component {
     this.setState({
       showModal: false
     })
-  }
-  componentDidMount() {
-
   }
 
   render() {
@@ -39,7 +42,7 @@ export default class LandingPage extends React.Component {
           <div className="w3-display-middle needNoWrap">
             <span className="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">WOOLFEY</span>
           </div>
-          <Link to='/simulator'>
+          <Link to='/login'>
             <div className='w3-display-middle needNoWrap'>
               <h3 id='landingBegin' className='w3-center w3-padding-large w3-wide w3-animate-opacity'>Begin</h3>
             </div>
