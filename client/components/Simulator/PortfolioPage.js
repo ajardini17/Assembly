@@ -28,6 +28,7 @@ export default class PortfolioPage extends React.Component {
     this.calculateReturn = this.calculateReturn.bind(this)
     this.getPortfolioHistory = this.getPortfolioHistory.bind(this)
     this.successfulPurge = this.successfulPurge.bind(this)
+    this.isEmpty = this.isEmpty.bind(this)
   }
   componentDidMount() {
     this.handleFetchData()
@@ -54,26 +55,41 @@ export default class PortfolioPage extends React.Component {
     .catch(err => console.log(err, 'error'))
   }
 
+  isEmpty(obj) {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   calculatePortfolioValue(currencyArr) {
     let tempVal = 0
     let count = 0
-    currencyArr.forEach((x, i) => {
-      axios.get('/api/coinQuery', {params: x.ticker})
-        .then(reply => {
-          let price = parseFloat(reply.data).toFixed(2)
-          price *= x.shares
-          this.state.stockValues[x.ticker] = price
-          tempVal += price
-          count++
-          if (count === currencyArr.length) {
-            let newValue = (tempVal + this.state.cash).toFixed(2);
-            this.setState({
-              portfolioValue: newValue,
-              stockValues: this.state.stockValues
-            }, () => this.calculateReturn())
-          }
-        })
-    })
+
+    if (this.isEmpty(currencyArr)) {
+      this.setState({ portfolioValue: this.state.cash },
+      () => this.calculateReturn())
+    } else {
+      currencyArr.forEach((x, i) => {
+        axios.get('/api/coinQuery', {params: x.ticker})
+          .then(reply => {
+            let price = parseFloat(reply.data).toFixed(2)
+            price *= x.shares
+            this.state.stockValues[x.ticker] = price
+            tempVal += price
+            count++
+            if (count === currencyArr.length) {
+              let newValue = (tempVal + this.state.cash).toFixed(2);
+              this.setState({
+                portfolioValue: newValue,
+                stockValues: this.state.stockValues
+              }, () => this.calculateReturn())
+            }
+          })
+      })
+    }
   }
   successfulBuy(cashChange, stockData){
     let stocks = this.state.portfolio.stocks;
