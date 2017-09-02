@@ -1,10 +1,10 @@
-import React from 'react';
-import PortfolioInfo from './PortfolioInfo';
-import PortfolioTable from './PortfolioTable';
-import SimulatorPurchase from './SimulatorPurchase.jsx';
-import Navigation from '../Navbar';
-import axios from 'axios';
-import {Link} from 'react-router-dom';
+import React from 'react'
+import PortfolioInfo from './PortfolioInfo'
+import PortfolioTable from './PortfolioTable'
+import SimulatorPurchase from './SimulatorPurchase.jsx'
+import Navigation from '../Navbar'
+import axios from 'axios'
+import {Link} from 'react-router-dom'
 
 export default class PortfolioPage extends React.Component {
   constructor(props) {
@@ -20,17 +20,16 @@ export default class PortfolioPage extends React.Component {
       annualReturn: 'Calculating...',
       history: []
     }
-    this.handleFetchData = this.handleFetchData.bind(this);
-    this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this);
-    this.successfulBuy = this.successfulBuy.bind(this);
-    this.successfulSell = this.successfulSell.bind(this);
-    this.handleLogOutAndRedirect = this.handleLogOutAndRedirect.bind(this);
-    this.calculateReturn = this.calculateReturn.bind(this);
-    this.getPortfolioHistory = this.getPortfolioHistory.bind(this);
-    this.successfulPurge = this.successfulPurge.bind(this);
+    this.handleFetchData = this.handleFetchData.bind(this)
+    this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this)
+    this.successfulBuy = this.successfulBuy.bind(this)
+    this.successfulSell = this.successfulSell.bind(this)
+    this.handleLogOutAndRedirect = this.handleLogOutAndRedirect.bind(this)
+    this.calculateReturn = this.calculateReturn.bind(this)
+    this.getPortfolioHistory = this.getPortfolioHistory.bind(this)
+    this.successfulPurge = this.successfulPurge.bind(this)
   }
   componentDidMount() {
-    console.log('***props in portfolioPage:', this.props.userInfo.location);
     this.handleFetchData()
     this.getPortfolioHistory()
   }
