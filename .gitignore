@@ -6,3 +6,4 @@ npm-debug.log
 static/.DS_Store
 *__pycache__
 .vscode
+*dump.rdb
