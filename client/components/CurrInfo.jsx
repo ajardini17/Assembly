@@ -93,7 +93,6 @@ export default class CurrInfo extends React.Component {
         this.setState({
           articles: tempArr
         })
-        console.log(data.data.feed.entry)
        })
   }
 

@@ -4,7 +4,7 @@ const parser = require('body-parser')
 const axios = require('axios')
 const auth = require('./routes/auth.js');
 const auth0 = require('./controller/authenticateController.js');
-
+const redis = require('../database/redis/redis.js')
 const routes = require('./routes/routes.js');
 const jwt = require('jsonwebtoken');
 const cron = require('./CRON/cron.js');

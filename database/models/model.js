@@ -95,7 +95,11 @@ const TransactionHistory = db.define('transactionHistory', {
 });
 
 const dailyBalance = db.define('dailyBalance', {
-    balance: {
+    liquid: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+    },
+    currencies: {
         type: Sequelize.FLOAT,
         allowNull: false
     }
