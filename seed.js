@@ -6,7 +6,6 @@ db.User.sync({force: true})
 .then(() => db.PortfolioStock.sync({force: true}))
 .then(() => db.PortfolioHistory.sync({force: true}))
 .then(() => {
-    
     return db.User.bulkCreate([
         {handle: 'test', password: '$2a$10$6s5sHlMf.DhrSRWdlvT/iOjVTF8CvE7SG9O3lggCOCWGV8lUsoGHO'}
     ])

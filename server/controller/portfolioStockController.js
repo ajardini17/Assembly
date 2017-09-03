@@ -5,15 +5,7 @@ const axios = require('axios');
 
 module.exports = {
     coinQuery: (req, res) => {
-        // axios.get(`https://api.bitfinex.com/v1/pubticker/${req.query[0]}usd`)
-        // .then(result => {
-        //     res.send(result.data)
-        // })
-        // .catch(err => {
-        //     console.log('error in getting info from server side :: ',req.query)
-        // })
         Redis.get(`${req.query[0]}-price`, (err, data) => {
-            console.log(data);
             res.send(data);
         });
     },

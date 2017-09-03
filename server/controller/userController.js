@@ -35,33 +35,6 @@ module.exports = {
             })
             
     }
-    // login: (req, res) => {
-    //     Model.User.findOne({
-    //         where: {handle: req.query.handle}
-    //     })
-    //     .then(user => {
-    //         if(!user){
-    //             res.send('user doesn\'t exist');
-    //         } else {
-    //             hasher.comparePassword(req.query.password, user.dataValues.password, (reply) => {
-    //                 if(reply){
-    //                     Model.Portfolio.findAll({
-    //                         where: {userId: user.dataValues.id}
-    //                     })
-    //                     .then(portfolios => {
-    //                         Promise.all(portfolios.map(folder => Model.PortfolioStock.findAll({where: {portfolioId: folder.id}})))
-    //                         .then(results => {
-    //                             auth.getToken(user.dataValues.id, user.dataValues.handle, res, results)
-    //                         })
-    //                     })
-    //                 }else {
-    //                     res.send('invalid password');
-    //                 }
-    //             })
-    //         }
-    //     })
-    // }
-    
 
 }
 

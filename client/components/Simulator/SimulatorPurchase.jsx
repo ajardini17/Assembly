@@ -92,7 +92,6 @@ export default class StockSimulator extends React.Component {
             purchasePrice: '',
             animMessage: 'Successfully purchased ' + this.state.selectedCurrency
           }, () => {
-            console.log(this.state.animMessage);
             Animated.sequence([
               Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
               Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
@@ -101,7 +100,6 @@ export default class StockSimulator extends React.Component {
           })
         });
       } else {
-        console.log(finalPrice, 'finalPrice',this.state.portfolioBalance, 'balance')
         alert('Insufficient Funds');
       }
     }
