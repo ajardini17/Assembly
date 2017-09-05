@@ -110,8 +110,8 @@ th, td {
 }
 
 .createPortBtn {
-  padding-top: 120px;
-  padding-bottom: 45px;
+  padding-top: 75px;
+  padding-bottom: 20px;
 }
 
 .port-list-div {
@@ -166,4 +166,12 @@ th, td {
 #bottomSimPurchase {
   margin-bottom: 150px;
   
+}
+
+.landingChart {
+  height: 400px;
+  max-width: 80%;
+  min-width: 310px;
+  margin: auto;
+  margin-top: 100px;
 }
