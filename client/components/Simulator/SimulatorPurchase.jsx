@@ -48,6 +48,7 @@ export default class StockSimulator extends React.Component {
       })
     })
   }
+  
   handleInputChange(e) {
     this.setState({
         input: e.target.value

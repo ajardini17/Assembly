@@ -2,6 +2,9 @@ import React from 'react'
 import axios from 'axios'
 // import xml2json from 'xml2json'
 import Navigation from './Navbar.js'
+import PortfolioLandingCard from './Simulator/PortfolioLandingCard.jsx'
+import { Button, Modal } from 'react-bootstrap'
+import {Link} from 'react-router-dom'
 
 export default class CurrInfo extends React.Component {
   constructor() {
@@ -12,12 +15,32 @@ export default class CurrInfo extends React.Component {
       articles: [],
       data: [],
       valueIncrease: true,
-      valueChange: 0
+      valueChange: 0,
+      showModal: false,
+      portfolios: [],
+      token: localStorage.getItem('token'),
+      isLoggedIn: false,
+      portfolio_id: 0,
+      action: '',
+      input: '',
+      displayedValue: '',
+      purchasePrice: ''
     }
     this.getNewsFeed = this.getNewsFeed.bind(this)
     this.getCurrencyPrice = this.getCurrencyPrice.bind(this)
     this.getHistoricalCurrencyData = this.getHistoricalCurrencyData.bind(this)
     this.createChart = this.createChart.bind(this)
+    this.open = this.open.bind(this)
+    this.close = this.close.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleFetchData = this.handleFetchData.bind(this)
+    this.modalClick = this.modalClick.bind(this)
+    this.handleBuy = this.handleBuy.bind(this)
+    this.handleSell = this.handleSell.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this)
+    this.handleCurrencyGetRequest = this.handleCurrencyGetRequest.bind(this)
   }
 
   componentDidMount() {
@@ -50,6 +73,73 @@ export default class CurrInfo extends React.Component {
       }))
     })
     this.getNewsFeed()
+    this.handleFetchData()
+  }
+
+  handleFetchData(){
+    axios.get('/api/getUserData', {headers: {authorization:this.state.token}})
+    .then(reply => this.setState({portfolios: reply.data,
+                                  isLoggedIn: true}))
+    .catch(err => console.log(err, 'error'))
+  }
+
+  handleBuy() {
+    let action = 'Buy'
+    this.open()
+    this.setState({ action })
+  }
+
+  handleCurrencyGetRequest() {
+    axios.get('/api/coinQuery', {params: this.state.currencyName})
+    .then(result => {
+      let price = parseFloat(result.data).toFixed(2);
+      this.setState({
+        displayedValue: price,
+        purchasePrice: this.state.purchasePrice !== '' ? (Number(price) * Number(this.state.input)).toFixed(2) : ''
+      })
+    })
+  }
+
+  handleSell() {
+    let action = 'Sell' 
+    this.open()
+    this.setState({ action })
+  }
+
+  handleInputChange(e) {
+    this.setState({
+        input: e.target.value
+    }, () => {this.handleSubmitPriceCheck()})
+  }
+
+  handleSubmitPriceCheck(e) {
+    let tempPrice = this.state.displayedValue * parseFloat(this.state.input);
+    this.setState({
+      purchasePrice: `$${tempPrice.toFixed(2)}`
+    })
+  }
+
+  close() {
+    this.setState({ showModal: false })
+  }
+
+  open() {
+    this.setState({ showModal: true })
+  }
+
+  handleKeyPress(event) {
+    if(event.key == 'Enter'){
+      this.close()
+    }
+  }
+
+  handleSubmit() {
+    this.close()
+  }
+
+  modalClick(id) {
+    console.log('CurrInfo modal click invoked!', id)
+    this.setState({ portfolio_id: id }, () => { console.log('portfolio_id is :::', this.state.portfolio_id) })
   }
 
   getCurrencyPrice() {
@@ -61,7 +151,6 @@ export default class CurrInfo extends React.Component {
   }
 
   createChart(data, currency) {
-    
     Highcharts.stockChart('container', {
       rangeSelector: { 
         selected: 1 
@@ -109,11 +198,37 @@ export default class CurrInfo extends React.Component {
       marginTop: '20px'
     }
 
-    console.log('DID THE VALUE INCREASE SINCE YESTERDAY?! :::: ', this.state.valueIncrease)
-
     return (
       <div className='container-fluid'>
         <Navigation loggedIn={true}/>
+
+        <Modal show={this.state.showModal} onHide={this.close}>
+          <Modal.Header closeButton>
+            <Modal.Title>Choose portfolio</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form onSubmit={this.handleSubmitPriceCheck}>
+              <input id='currBuyInput' type='number' className='text-center' placeholder='Enter amount' onChange={this.handleInputChange} />
+            </form>
+
+            <br/>
+
+            <div className="container">
+              <div className="row">
+                {this.state.portfolios.map((item, index) => (
+                  <div className="port-list-modal" key={index}>
+                    <PortfolioLandingCard item={item} modalClick={this.modalClick} />
+                  </div> 
+                ))}
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.handleSubmit}>{this.state.action}</Button>
+            <Button onClick={this.close}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+        
         {this.state.currentValue !== '' ?
         <div className="currInfo">
           <div className='row'>
@@ -122,10 +237,10 @@ export default class CurrInfo extends React.Component {
               <p style={{ color: this.state.valueIncrease ? 'green' : 'red' }}><i className={this.state.valueIncrease ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i> {this.state.valueChange}% </p>
             </div>
             <div className='col-xs-1 col-xs-offset-2'>
-              <button className='btn btn-primary btn-block' style={buttonStyle}>Buy</button>
+              <button className='btn btn-primary btn-block' onClick={this.handleBuy} style={buttonStyle}>Buy</button>
             </div>
             <div className='col-xs-1'>
-              <button className='btn btn-danger btn-block' style={buttonStyle}>Sell</button>
+              <button className='btn btn-danger btn-block' onClick={this.handleSell} style={buttonStyle}>Sell</button>
             </div>
           </div>
           <div className='row'>
