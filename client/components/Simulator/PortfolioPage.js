@@ -44,13 +44,14 @@ export default class PortfolioPage extends React.Component {
       headers: {authorization: localStorage.getItem('token')},
       params: {id: this.state.portfolioId}
     })
-    .then(reply => {this.setState({
+    .then(reply => {
+      console.log(reply.data, 'REPLY');
+      this.setState({
       cash: reply.data.balance,
       portfolioName: reply.data.name,
       portfolio: reply.data,
       portfolioId: reply.data.id
-      })
-      this.calculatePortfolioValue(reply.data.stocks)
+    },() => {this.calculatePortfolioValue(reply.data.stocks)})
     })
     .catch(err => console.log(err, 'error'))
   }
@@ -111,7 +112,7 @@ export default class PortfolioPage extends React.Component {
       stocks.push(stockData);
       this.setState({
         portfolio: this.state.portfolio,
-        cash: this.state.cash - cashChange,
+        cash: (Number(this.state.cash) - Number(cashChange)).toFixed(2),
         stockValues: this.state.stockValues
       })
     }
