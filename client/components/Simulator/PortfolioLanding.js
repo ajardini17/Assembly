@@ -19,7 +19,10 @@ export default class PortfolioLanding extends React.Component {
       token: localStorage.getItem('token'),
       isLoggedIn: false,
       showModal: false,
-      name: ''
+      name: '',
+      seriesOptions: [],
+      seriesCounter: 0,
+      names: ['btc','bch','eth','ltc','xmr','xrp','zec']
     }
     this.handleFetchData = this.handleFetchData.bind(this)
     this.createPort = this.createPort.bind(this)
@@ -31,9 +34,12 @@ export default class PortfolioLanding extends React.Component {
     this.handleLogin = this.handleLogin.bind(this)
     this.handleSignUp = this.handleSignUp.bind(this)
     this.handleLogOut = this.handleLogOut.bind(this)
+    this.createChart = this.createChart.bind(this)
+    this.getChartData = this.getChartData.bind(this)
   }
   componentDidMount() {
     this.handleFetchData()
+    this.getChartData()
   }
   handleSignUp(){
     this.setState({token: localStorage.getItem('token')})
@@ -93,6 +99,55 @@ export default class PortfolioLanding extends React.Component {
     this.createPort(this.state.name)
     this.close()
   }
+
+  createChart() {
+    Highcharts.stockChart('container', {
+      rangeSelector: {
+        selected: 4
+      },
+      yAxis: {
+        labels: {
+          formatter: function () {
+            return (this.value > 0 ? ' + ' : '') + this.value + '%';
+          }
+        },
+        plotLines: [{
+          value: 0,
+          width: 2,
+          color: 'silver'
+        }]
+      },
+      plotOptions: {
+        series: {
+          compare: 'percent',
+          showInNavigator: true
+        }
+      },
+      tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+        valueDecimals: 2,
+        split: true
+      },
+      series: this.state.seriesOptions
+    });
+  }
+
+  getChartData() {
+    this.state.names.forEach((coin, i) => {
+      axios.get('/api/getHistoricalCurrencyData', {params: coin})
+      .then(reply => {
+        let arr = reply.data
+        this.state.seriesOptions[i] = {
+          name: coin,
+          data: arr.slice(arr.length - 30)
+        };
+        this.state.seriesCounter += 1;
+        if (this.state.seriesCounter === this.state.names.length) {
+          this.setState({ seriesOptions: this.state.seriesOptions }, () => { this.createChart() });
+        }
+      })
+    })
+  }
   
   render() {
     let loggedIn = this.state.isLoggedIn
@@ -102,6 +157,9 @@ export default class PortfolioLanding extends React.Component {
 
     return (
       <div>
+
+        <div id="container" className="landingChart"></div>
+
         {/* <Navigation handleLogOut={this.handleLogOut} isLoggedIn={this.state.isLoggedIn}/>   */}
         { nav }
 
