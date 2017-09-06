@@ -14,7 +14,6 @@ export default class PortfolioLandingCard extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.item)
     this.calculatePortfolioValue(this.props.item.stocks)
   }
 
@@ -38,11 +37,11 @@ export default class PortfolioLandingCard extends React.Component {
       currencyArr.forEach((x, i) => {
         axios.get('/api/coinQuery', {params: x.ticker})
           .then(reply => {
-            let price = parseFloat(reply.data).toFixed(2)
-            price *= x.shares
-            this.state.stockValues[x.ticker] = price
-            tempVal += price
-            count++
+            let price = Number(parseFloat(reply.data).toFixed(2));
+            price *= x.shares;
+            this.state.stockValues[x.ticker] = price;
+            tempVal += price;
+            count++;
             if (count === currencyArr.length) {
               let newValue = (tempVal + this.props.item.balance).toFixed(2)
               console.log('THIS IS THE NEW VALUE ::: ', newValue)

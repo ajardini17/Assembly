@@ -5,7 +5,9 @@ const stock = require('../controller/stockController.js');
 const portfolio = require('../controller/portfolioController.js');
 const portfolioStock = require('../controller/portfolioStockController.js');
 const transactionController = require('../controller/transactionController.jsx');
+const leaderboard = require('../controller/leaderboardController.js');
 const auth = require('../controller/authenticateController.js');
+
 const axios = require('axios');
 const xmlParser = require('xml2json');
 //////// AUTH
@@ -33,6 +35,8 @@ router.get('/getPortfolioHistory', portfolio.getPortfolioHistory);
 
 
 router.get('/transactionHistory', auth.authenticate, transactionController.totalHistory);
+router.get('/fetchLeaderboard', leaderboard.fetchLeaderboard);
+router.get('/fetchHash', leaderboard.fetchHash);
 
 router.get('/getNewsFeed', function(req, res) {
   let urls = {

@@ -58,9 +58,11 @@ export default class PortfolioLanding extends React.Component {
   }
   handleFetchData(){
     axios.get('/api/getUserData', {headers: {authorization:this.state.token}})
-    .then(reply => this.setState({portfolios: reply.data,
-                                  isLoggedIn: true}))
-    .catch(err => console.log(err, 'error'))
+    .then(reply => {
+      this.setState({portfolios: reply.data, isLoggedIn: true});
+      console.log(reply.data, 'WUBWUBWUWBUWBWUBWUWBUBUBUBUBUB');
+      })
+    .catch(err => console.log(err, ' fetch error error'))
   }
 
   createPort(name) {

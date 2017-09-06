@@ -84,7 +84,7 @@ export default class StockSimulator extends React.Component {
         }
         axios.post('/api/buy', buyObj, {headers: {authorization:localStorage.getItem('token')}})
         .then(reply => {
-
+          console.log(reply, 'BUBYBUBYBYYB');
           this.props.successfulBuy(finalPrice, reply.data);
           document.getElementById('currBuyInput').value = '';
           this.setState({
@@ -136,8 +136,8 @@ export default class StockSimulator extends React.Component {
 
       let finalPrice = (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2);
       let stockIndex = this.state.stocks.findIndex(x=>x.ticker === this.state.selectedCurrency);
-
       if(stockIndex > -1){
+        console.log('CAN SELLL')
         let sellObj = {
           shares: this.state.input,
           sellPrice: this.state.displayedValue,
@@ -163,16 +163,17 @@ export default class StockSimulator extends React.Component {
                 purchasePrice: '',
                 animMessage: 'Successfully sold ' + this.state.selectedCurrency
             }, () => {
-            Animated.sequence([
-              Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
-              Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
-              Animated.timing(this.state.anim, {toValue: 0, duration: 500})
-            ]).start()
-              
-            })
-          }
+              Animated.sequence([
+                Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
+                Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
+                Animated.timing(this.state.anim, {toValue: 0, duration: 500})
+              ]).start()
+              })
+            }
           })
+          }
         } else {
+          console.log('CANT SELL')
           this.setState({
             animMessage: `You don't have ${this.state.input} shares of ${this.state.selectedCurrency}`
           }, () => {
@@ -182,8 +183,7 @@ export default class StockSimulator extends React.Component {
               Animated.timing(this.state.anim, {toValue: 0, duration: 500})
             ]).start()
               
-            })
-        }
+          })
       }
     }
   }

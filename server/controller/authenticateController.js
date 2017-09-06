@@ -3,34 +3,34 @@ require('dotenv').config();
 require('dotenv').load();
 
 module.exports = {
-    getToken: (id, handle, res, data) => {
-        let user = {
-            handle: handle,
-            id: id
-        }
-        let token = jwt.sign(user, process.env.SECRET_KEY, {
-            expiresIn: (60 * 60 * 24 * 30)
-        });
-        if(data) {
-            res.json({success: true, token: token, data: data})
-        } else {
-            res.json({success: true, token: token});
-        }
-    },
-    authenticate: (req, res, next) => {
-        let header = req.headers['authorization'];
-        if(header !== undefined && header !== "null"){
-            jwt.verify(header, process.env.SECRET_KEY, (err, data) => {
-                if(err){
-                    console.log('ERROR IN AUTHENTICATE')
-                    res.sendStatus(403);
-                } else {
-                    req.token = data;
-                    next();
-                }
-            })
-        } else {
-            res.status(400).send('no token');
-        }
+  getToken: (id, handle, res, data) => {
+    let user = {
+      handle: handle,
+      id: id
     }
+    let token = jwt.sign(user, process.env.SECRET_KEY, {
+      expiresIn: (60 * 60 * 24 * 30)
+    });
+    if(data) {
+      res.json({success: true, token: token, data: data})
+    } else {
+      res.json({success: true, token: token});
+    }
+  },
+  authenticate: (req, res, next) => {
+
+    let header = req.headers['authorization'];
+    if(header !== undefined && header !== "null"){
+      jwt.verify(header, process.env.SECRET_KEY, (err, data) => {
+        if(err){
+          res.sendStatus(403);
+        } else {
+          req.token = data;
+          next();
+        }
+      })
+    } else {
+      res.status(400).send('no token');
+    }
+  }
 }
