@@ -28,8 +28,7 @@ export default class PortfolioLandingCard extends React.Component {
   }
 
   handleClick() {
-    console.log(this.props.item.id)
-    this.props.modalClick ? this.props.modalClick(this.props.item.id) : null
+    this.props.modalClick ? this.props.modalClick(this.props.item.id, this.props.item.balance, this.props.item.name) : null
   }
 
   calculatePortfolioValue(currencyArr) {

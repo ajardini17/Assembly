@@ -15,7 +15,7 @@ export default class PortfolioPage extends React.Component {
       portfolio: {},
       cash: 'Calculating...',
       portfolioName: '',
-      portfolioStocks: [],
+      // portfolioStocks: [],
       stockValues: {},
       annualReturn: 'Calculating...',
       history: []
