@@ -13,9 +13,10 @@ buy: (req, res) => {
   Model.PortfolioStock.findOne({where:{ticker: req.body.ticker, portfolioId: req.body.portfolioId}})
   .then(stockData => {
     if(stockData){
+      console.log(stockData.dataValues);
       let newStockValue = Math.round(Number(stockData.dataValues.shares) + Number(req.body.shares) * req.body.buyPrice * 100) / 100;
       Redis.hmget(`portfolio:${req.body.portfolioId}:hash`, 'total', `${req.body.ticker}:amount`,(err, data) => {
-        Redis.hmset(`portfolio:${portfolio.id}:hash`, `${req.body.ticker}:shares`, stockData.datavalues.shares + req.body.shares, `${req.body.ticker}:amount`, newStockValue, 'total', data[0] - data[1] + newStockValue);
+        Redis.hmset(`portfolio:${req.body.portfolioId}:hash`, `${req.body.ticker}:shares`, stockData.dataValues.shares + req.body.shares, `${req.body.ticker}:amount`, newStockValue, 'total', data[0] - data[1] + newStockValue);
       })
       db.query(`UPDATE portfolio_stocks SET shares = shares + ${req.body.shares} WHERE id = ${stockData.dataValues.id}`)
       .then(() => {
@@ -39,7 +40,7 @@ buy: (req, res) => {
     } else {
         Redis.hget(`portfolio:${req.body.portfolioId}:hash`, 'total', (err, data) => {
           console.log(err, data, 'FHJGHBJGHBHBJG');
-          Redis.hmset(`portfolio:${req.body.portfolio.id}:hash`, `${req.body.ticker}:shares`, req.body.shares, `${req.body.ticker}:amount`, req.body.finalPrice, 'total', Number(data[0]) + Number(req.body.finalPrice));
+          Redis.hmset(`portfolio:${req.body.portfolioId}:hash`, `${req.body.ticker}:shares`, req.body.shares, `${req.body.ticker}:amount`, req.body.finalPrice, 'total', Number(data[0]) + Number(req.body.finalPrice));
         });
         Model.PortfolioStock.create({
           portfolioId: req.body.portfolioId,
@@ -51,7 +52,6 @@ buy: (req, res) => {
           Redis.sadd(`${req.body.ticker}:members`, req.body.portfolioId);
           db.query(`UPDATE portfolios SET balance = balance - ${req.body.finalPrice} WHERE id = ${req.body.portfolioId}`)
           .then(() => {
-              console.log(stock.dataValues, ' WHAT I DO, DONT HAVE IT. GHJGHJGJHGBHJ')
               Model.TransactionHistory.create({
                 ticker: req.body.ticker,
                 shares: req.body.shares,

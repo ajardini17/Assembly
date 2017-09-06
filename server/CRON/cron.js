@@ -131,7 +131,6 @@ const triggerLeaderboardCalculation = (ticker, newValue) => {
 }
 
 const createSet = () => {
-  console.log(`CREATED SET`)
   Model.Portfolio.findAll({})
   .then(reply => {
     const portfolios = reply.map(x=>x.dataValues);
@@ -163,36 +162,6 @@ const getHistoricalData = new CronJob({cronTime: '*/60 * * * * *', onTick: ()=>{
 //const weeklyLeaderboard = new CronJob({cronTime: ''});
 //const dailyLeaderboard = new CronJob({cronTime: '', onTick: ()=>{}, });
 
-// getCoinsData.start();
-// collectDailyPortfolioData.start();
-// getHistoricalData.start();
-module.exports = {
-  fetchCoins: fetchCoins
-}
-
-
-
-
-// Redis.zadd('leaderboard', 250, "zander");
-
-// Redis.zadd('leaderboard', 40, 'kiki');
-
-// Redis.zadd('leaderboard', 110, "woolfey")
-
-// Redis.sadd('test', 1);
-// Redis.sadd('test', 2);
-// Redis.srem('test', 2);
-// Redis.smembers('test', (err, data) => {
-//   console.log(data);
-// })
-
-// Redis.zrevrange('leaderboard', 0,-1, (err, data) => {
-//   console.log(data, 'ZRANGE');
-// })
-
-// Redis.zcard('leaderboard', (err, data) => {
-//   console.log(data);
-// })
-// Redis.zrangebyscore('leaderboard', 30, 200, (err, data) => {
-//   console.log(data);
-// })
+getCoinsData.start();
+collectDailyPortfolioData.start();
+getHistoricalData.start();
