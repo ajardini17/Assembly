@@ -120,11 +120,10 @@ const triggerLeaderboardCalculation = (ticker, newValue) => {
   Redis.smembers(`${ticker}:members`, (err, members) => {
     members.forEach(id => {
       Redis.hmget(`portfolio:${id}:hash`, `${ticker}:shares`, `${ticker}:amount`,'total', (err, data) => {   
-        let newCurrencyValue = Math.round(Number(data[0]) * data[1] * 100) / 100;
-        let newTotal = Math.round((data[2] - data[1] + newCurrencyValue) * 100) / 100;
+        let newCurrencyValue = Math.round(Number(data[0]) * Number(data[1]) * 100) / 100;
+        let newTotal = Math.round((Number(data[2]) - Number(data[1]) + newCurrencyValue) * 100) / 100;
         Redis.hmset(`portfolio:${data}:hash`, `${ticker}:amount`, newCurrencyValue, 'total', newTotal);
-        Redis.zadd('leaderboard', newTotal, x);
-        resolve();
+        Redis.zadd('leaderboard', newTotal, id);
       })
     })
   })

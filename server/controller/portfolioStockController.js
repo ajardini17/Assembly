@@ -39,7 +39,6 @@ buy: (req, res) => {
       })
     } else {
         Redis.hget(`portfolio:${req.body.portfolioId}:hash`, 'total', (err, data) => {
-          console.log(err, data, 'FHJGHBJGHBHBJG');
           Redis.hmset(`portfolio:${req.body.portfolioId}:hash`, `${req.body.ticker}:shares`, req.body.shares, `${req.body.ticker}:amount`, req.body.finalPrice, 'total', Number(data[0]) + Number(req.body.finalPrice));
         });
         Model.PortfolioStock.create({
