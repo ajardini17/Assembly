@@ -158,9 +158,9 @@ const leaderboard = () => {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const getCoinsData = new CronJob({cronTime:'*/60 * * * * *', onTick: () => {coinSet()}, start: false,timeZone:'America/Los_Angeles', runOnInit: true});
+const getCoinsData = new CronJob({cronTime:'00 */2 * * * *', onTick: () => {coinSet()}, start: false,timeZone:'America/Los_Angeles', runOnInit: true});
 const collectDailyPortfolioData = new CronJob({cronTime:'00 30 23 * * *', onTick: () => {fetchCoins(storePortfolioData)}, start: false, timeZone:'America/Los_Angeles'});
-const getHistoricalData = new CronJob({cronTime: '*/60 * * * * *', onTick: ()=>{fetchHistory()}, start: false, timeZone:'America/Los_Angeles', runOnInit: true});
+//const getHistoricalData = new CronJob({cronTime: '00 */10 * * * *', onTick: ()=>{fetchHistory()}, start: false, timeZone:'America/Los_Angeles', runOnInit: true});
 //const weeklyLeaderboard = new CronJob({cronTime: ''});
 //const dailyLeaderboard = new CronJob({cronTime: '', onTick: ()=>{}, });
 

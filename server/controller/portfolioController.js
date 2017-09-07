@@ -1,5 +1,5 @@
 const Model = require('../../database/models/model.js');
-
+const Redis = require('../../database/redis/redis.js')
 module.exports ={
   createPortfolio: (req, res) => {
     Model.Portfolio.create({
@@ -7,7 +7,8 @@ module.exports ={
       userId: req.token.id
     })
     .then(portfolio => {
-      console.log(portfolio, 'NEW PORTFOLIO');
+      Redis.hmset(`portfolio:${portfolio.dataValues.id}:hash`, ['liquid', portfolio.dataValues.balance, 'total', portfolio.dataValues.balance]);
+      Redis.zadd('leaderboard', portfolio.dataValues.balance, portfolio.dataValues.id);
       res.send(portfolio);
     })
   },
