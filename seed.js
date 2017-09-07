@@ -1,7 +1,9 @@
 const db = require('./database/models/model.js');
+const axios = require('axios');
 
 db.User.sync({force: true})
 .then(() => db.Portfolio.sync({force: true}))
+.then(() => db.historicalGraphData.sync({force:true}))
 .then(() => db.TransactionHistory.sync({force: true}))
 .then(() => db.PortfolioStock.sync({force: true}))
 .then(() => db.PortfolioHistory.sync({force: true}))
@@ -59,10 +61,40 @@ db.User.sync({force: true})
     
 })
 .then(() => {
-    console.log(`
-
-    SEEDING SUCCESSFUL
-
-    `);
-    process.exit()
+  const coins = ['btc', 'bch', 'eth', 'ltc', 'xmr', 'xrp', 'zec'];
+  let current_time = Math.round((new Date()).getTime() / 1000);
+  var counter = coins.length;
+  Promise.all(coins.map(coin => axios.get(`https://min-api.cryptocompare.com/data/histoday?fsym=${coin.toUpperCase()}&tsym=USD&aggregate=1&toTs=${current_time}&allData=true`)))
+  .then(results => {
+    const coinData = results.map(x=>x.data.Data);
+    coinData.forEach((coin,i)=>{
+      let historicalData = []
+      coinData[i].forEach((data, j) => {
+        historicalData.push([coinData[i][j].time * 1000, coinData[i][j].close]);
+      });
+      //Redis.set(`${coins[i]}:history`, JSON.stringify(historicalData));
+      db.historicalGraphData.create({currency: coins[i], data: historicalData})
+      .then(() => {
+        counter--;
+        if(counter === 0){
+          console.log(`
+          
+              SEEDING SUCCESSFUL
+          
+              `);
+              process.exit()
+        }
+      })
+    })
+  })
+  .catch(err => console.log(err))
 })
+
+// .then(() => {
+//     console.log(`
+
+//     SEEDING SUCCESSFUL
+
+//     `);
+//     process.exit()
+// })

@@ -25,7 +25,7 @@ const coinSet = () => {
       })
     });  
     if(bool){
-      getHistoricalData.start();
+      //getHistoricalData.start();
       collectDailyPortfolioData.start();
       leaderboard();
       createSet();
@@ -75,7 +75,10 @@ const storePortfolioData = (coins, portfolios) => {
 
 const fetchHistory = () => {
   let current_time = Math.round((new Date()).getTime() / 1000);
-  Promise.all(coins.map(coin => axios.get(`https://min-api.cryptocompare.com/data/histoday?fsym=${coin.toUpperCase()}&tsym=USD&aggregate=1&toTs=${current_time}&allData=true`)))
+  Promise.all(coins.map(coin => axios({
+    url:`https://min-api.cryptocompare.com/data/histoday?fsym=${coin.toUpperCase()}&tsym=USD&aggregate=1&toTs=${current_time}&allData=true`,
+    method: 'get'
+  })))
   .then(results => {
     const coinData = results.map(x=>x.data.Data);
     coinData.forEach((coin,i)=>{
@@ -163,4 +166,4 @@ const getHistoricalData = new CronJob({cronTime: '*/60 * * * * *', onTick: ()=>{
 
 getCoinsData.start();
 collectDailyPortfolioData.start();
-getHistoricalData.start();
+//getHistoricalData.start();
