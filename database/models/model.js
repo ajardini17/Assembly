@@ -13,6 +13,17 @@ const User = db.define('user', {
 });
 
 
+const historicalGraphData = db.define(`historical_graph`, {
+  currency: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  data: {
+    type: Sequelize.ARRAY(Sequelize.TEXT),
+    allowNull: false
+  }
+});
+
 ////////////////// THIS SHOULD HAVE ALL THE STOCK INFORMATION, BUT PortfolioStock has the info for an individual's holdings//////
 
 
@@ -116,6 +127,7 @@ User.hasMany(Portfolio);
 
 User.sync();
 // Stock.sync();
+historicalGraphData.sync();
 TransactionHistory.sync();
 Portfolio.sync();
 PortfolioHistory.sync();
@@ -127,7 +139,8 @@ module.exports = {
   PortfolioHistory,
   PortfolioStock,
   TransactionHistory,
-  dailyBalance
+  dailyBalance,
+  historicalGraphData
 }
 
 
