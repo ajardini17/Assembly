@@ -29,22 +29,16 @@ module.exports = {
           .then(user => {
             element.push(user.dataValues.handle);
             element.push(portfolio.dataValues.name);
-            element.push(x[1]);
+            element.push(Math.round(x[1] * 100) / 100);
             resolve(element);
           })
         })
-
-      })))
+      })
+    ))
     .then(totalLeaderboard => {
       res.send(totalLeaderboard);
     })
    })
-  },
-  fetchHash: (req, res) => {
-    Redis.hgetall(`portfolio:1:hash`, (err, data) => {
-      console.log(err, data);
-      res.send(data);
-    })
   }
 
   
