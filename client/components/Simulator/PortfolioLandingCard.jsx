@@ -11,6 +11,7 @@ export default class PortfolioLandingCard extends React.Component {
     }
     this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this)
     this.isEmpty = this.isEmpty.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
@@ -24,6 +25,10 @@ export default class PortfolioLandingCard extends React.Component {
       }
     }
     return true;
+  }
+
+  handleClick() {
+    this.props.modalClick ? this.props.modalClick(this.props.item.id, this.props.item.balance, this.props.item.name) : null
   }
 
   calculatePortfolioValue(currencyArr) {
@@ -59,7 +64,7 @@ export default class PortfolioLandingCard extends React.Component {
   render() {
     return (
 
-      <button className='btn btn-default btn-lg port-list-btn'>
+      <button className='btn btn-default btn-lg port-list-btn' onClick={this.handleClick}>
         <h3>{this.props.item.name}</h3>
         <p>Portfolio value: ${this.state.portfolioValue}</p>
         <p>Cash: ${this.state.portfolioCash}</p>
