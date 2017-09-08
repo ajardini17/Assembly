@@ -4,22 +4,53 @@ from fbprophet import Prophet
 import quandl
 import matplotlib.pyplot as plt
 import quandl_key
+import requests
+import psycopg2
+from urllib import parse
+import server_key
 
 def getLitecoinData():
   quandl.ApiConfig.api_key = quandl_key.get_quandl_key()
-  # print(quandl.ApiConfig.api_key)
   df = quandl.get("BNC3/GWA_LTC")
-  df['y'] = df['High']
+  df['y'] = df['Close']
   df['ds'] = df.index
-
 
   m = Prophet()
   m.fit(df)
 
-  future = m.make_future_dataframe(periods=20)
-
+  future = m.make_future_dataframe(periods=30)
   forecast = m.predict(future)
+  futureData = forecast[['ds', 'yhat']][-30:]
+  futureData['ds'] = futureData['ds'].dt.strftime('%Y-%m-%d')
+  futureData = str(futureData.values.tolist())
 
-  m.plot(forecast);
+  print(futureData)
+
+  parse.uses_netloc.append("postgres")
+  url = parse.urlparse(server_key.get_server_key())
+
+  conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+
+  )
+  cur = conn.cursor()
+  cur.execute("DELETE FROM predictions WHERE name = %s", ('ltc', ))
+  cur.execute("INSERT INTO predictions (name, prediction) VALUES (%s, %s)", ('ltc', futureData))
+  # cur.execute("SELECT * FROM prediction;")
+  # print(cur.fetchall())
+  conn.commit()
+  cur.close()
+  conn.close()
+
+
+
+  #m.plot(forecast);
   # m.plot_components(forecast);
-  plt.savefig('static/images/litecoinPred.png', bbox_inches='tight')
+  # plt.savefig('static/images/litecoinPred.png', bbox_inches='tight')
+  ############################## SEND PREDICTION TO PRED DB TABLE
+
+getLitecoinData()
