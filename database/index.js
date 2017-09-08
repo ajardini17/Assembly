@@ -7,7 +7,8 @@ const db = new Sequelize(process.env.DATABASE_URL,{
   pool: {
     min: 0,
     idle: 1000
-  }
+  },
+  logging:false
 });
 db.authenticate()
 .then(() => console.log('connected to db'))

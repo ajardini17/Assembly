@@ -1,5 +1,5 @@
 const router = require('express').Router();
-
+const Model = require('../../database/models/model.js')
 const user = require('../controller/userController.js');
 const stock = require('../controller/stockController.js');
 const portfolio = require('../controller/portfolioController.js');
@@ -36,6 +36,13 @@ router.get('/getPortfolioHistory', portfolio.getPortfolioHistory);
 
 router.get('/transactionHistory', auth.authenticate, transactionController.totalHistory);
 router.get('/fetchLeaderboard', leaderboard.fetchLeaderboard);
+
+router.get('/getPrediction', (req, res) => {
+  Model.Prediction.findAll({})
+    .then(response => {
+      res.send(response);
+    })
+})
 
 router.get('/getNewsFeed', function(req, res) {
   let urls = {
