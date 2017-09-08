@@ -1,6 +1,14 @@
 from flask import Flask, flash, redirect, render_template, request, session, abort
 from random import randint 
 import json
+import schedule
+import time
+import pandas as pd
+import numpy as np
+from fbprophet import Prophet
+import quandl
+import matplotlib.pyplot as plt
+import litecoinQuandl3
 
 app = Flask(__name__)
  
@@ -11,3 +19,13 @@ def parse_data():
  
 if __name__ == "__main__":
     app.run()
+
+def job():
+    litecoinQuandl3.getLitecoinData()
+
+# schedule.every().day.at("5:30").do(job)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)
+
+job()
