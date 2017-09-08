@@ -7,3 +7,10 @@ static/.DS_Store
 *__pycache__
 .vscode
 *dump.rdb
+*.idea
+*cc_dfs
+*ccGetData.py
+*crypto_history_joined_closes.csv
+*testMachineLearn.py
+*testMachineLearn2.pickle
+*testMachineLearn2.py
