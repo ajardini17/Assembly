@@ -12,6 +12,18 @@ const User = db.define('user', {
   }
 });
 
+const Prediction = db.define('prediction', {
+  currency: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  prediction: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
+}, {
+  timestamps: false
+});
 
 const historicalGraphData = db.define(`historical_graph`, {
   currency: {
@@ -132,6 +144,7 @@ TransactionHistory.sync();
 Portfolio.sync();
 PortfolioHistory.sync();
 PortfolioStock.sync();
+Prediction.sync();
 
 module.exports = {
   User,
@@ -140,7 +153,8 @@ module.exports = {
   PortfolioStock,
   TransactionHistory,
   dailyBalance,
-  historicalGraphData
+  historicalGraphData,
+  Prediction
 }
 
 
