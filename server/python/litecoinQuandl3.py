@@ -22,4 +22,4 @@ def getLitecoinData():
 
   m.plot(forecast);
   # m.plot_components(forecast);
-  plt.show()
+  plt.savefig('static/images/litecoinPred.png', bbox_inches='tight')
