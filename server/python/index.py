@@ -9,6 +9,7 @@ from fbprophet import Prophet
 import quandl
 import matplotlib.pyplot as plt
 import litecoinQuandl3
+import bitcoinQuandl
 
 app = Flask(__name__)
  
@@ -22,6 +23,7 @@ if __name__ == "__main__":
 
 def job():
     litecoinQuandl3.getLitecoinData()
+    bitcoinQuandl.getBitcoinData()
 
 # schedule.every().day.at("5:30").do(job)
 # while True:
