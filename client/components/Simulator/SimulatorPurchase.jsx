@@ -189,34 +189,44 @@ export default class StockSimulator extends React.Component {
   }
 
   render() {
+
+    let noHighlight = {
+      boxShadow: "0px 0px 3px 0px rgba(50, 50, 50, 1)"
+    }
+
+    let highlight = {
+      boxShadow: "0px 0px 30px 0px yellow",
+      width: "100px"
+    }
+
     return (
 
       <div>
         <div className='row'>
           
           <div className='col-xs-1 col-xs-offset-3'>
-            <img src='/images/bitcoinlogo.jpg' className='currencyButton' id='btc' onClick={this.handleCurrencySelectionChange} />
+            <img src='/images/bitcoinlogo.jpg' style={this.state.selectedCurrency === 'btc' ? highlight : noHighlight } className='currencyButton' id='btc' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
-            <img src='/images/bitcoincashlogo.jpg' className='currencyButton' id='bch' onClick={this.handleCurrencySelectionChange} />
+            <img src='/images/bitcoincashlogo.jpg' style={this.state.selectedCurrency === 'bch' ? highlight : noHighlight } className='currencyButton' id='bch' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
-            <img src='/images/ethereumlogo.jpg' className='currencyButton' id='eth' onClick={this.handleCurrencySelectionChange} />
+            <img src='/images/ethereumlogo.jpg' style={this.state.selectedCurrency === 'eth' ? highlight : noHighlight } className='currencyButton' id='eth' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
-            <img src='/images/litecoinlogo.jpg' className='currencyButton' id='ltc' onClick={this.handleCurrencySelectionChange} />
+            <img src='/images/litecoinlogo.jpg' style={this.state.selectedCurrency === 'ltc' ? highlight : noHighlight } className='currencyButton' id='ltc' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
-            <img src='/images/monerologo.jpg' className='currencyButton' id='xmr' onClick={this.handleCurrencySelectionChange} />
+            <img src='/images/monerologo.jpg' style={this.state.selectedCurrency === 'xmr' ? highlight : noHighlight } className='currencyButton' id='xmr' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
-            <img src='/images/ripplelogo.jpg' className='currencyButton' id='xrp' onClick={this.handleCurrencySelectionChange} />
+            <img src='/images/ripplelogo.jpg' style={this.state.selectedCurrency === 'xrp' ? highlight : noHighlight } className='currencyButton' id='xrp' onClick={this.handleCurrencySelectionChange} />
           </div>
         </div>
 
         <div className='row'>
-          <div className='col-xs-4 col-xs-offset-4 text-center'>
-            <h4> {this.state.selectedCurrency} - ${this.state.displayedValue} </h4>
+          <div className='col-xs-4 col-xs-offset-4 text-center' id='simulatorSelectedCurrency'>
+            <h4 id='selectedCurrencyText'> {this.state.selectedCurrency} - ${this.state.displayedValue} </h4>
           </div>
         </div>
 
