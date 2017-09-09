@@ -45,7 +45,7 @@ const Portfolio = db.define('portfolio', {
   },
   balance: {
     type: Sequelize.FLOAT,
-    defaultValue: 1000000
+    defaultValue: 100000
   }
 });
 

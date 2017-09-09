@@ -14,13 +14,19 @@ module.exports ={
   },
   getSpecificPortfolio: (req, res) => {
     Model.Portfolio.findOne({where: {id: req.query.id}})
-    .then(reply => {
+    .then(reply => {   
       Model.PortfolioStock.findAll({where: {portfolioId: reply.dataValues.id}})
       .then(stocksData => {
         let stocks = stocksData.map(x => x.dataValues);
         let response = reply.dataValues;
         response.stocks = stocks;
-        res.send(response);
+        Redis.zrank('leaderboard', req.query.id, (err, rank) => {
+          Redis.zcard('leaderboard', (err, card) => {
+            response.portfolioRank = card - rank;
+            response.totalPortfolios = card;
+            res.send(response);
+          })
+        });
       })
     })
   },

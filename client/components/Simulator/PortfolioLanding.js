@@ -60,7 +60,6 @@ export default class PortfolioLanding extends React.Component {
     axios.get('/api/getUserData', {headers: {authorization:this.state.token}})
     .then(reply => {
       this.setState({portfolios: reply.data, isLoggedIn: true});
-      console.log(reply.data, 'WUBWUBWUWBUWBWUBWUWBUBUBUBUBUB');
       })
     .catch(err => console.log(err, ' fetch error error'))
   }
@@ -80,7 +79,11 @@ export default class PortfolioLanding extends React.Component {
   }
 
   open() {
-    this.setState({ showModal: true })
+    if(this.state.portfolios.length < 9) {
+      this.setState({ showModal: true })
+    } else {
+      alert('Maximum portfolios for free tier')
+    }
   }
 
   handleChange(e) {

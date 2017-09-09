@@ -20,8 +20,11 @@ class Signup extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         this.Auth.signup(this.state.username, this.state.password, (reply) => {
-            this.props.handleSignUp();
-            window.location = '/'
+            if(reply !== 'invalid'){
+              this.props.handleSignUp();
+              window.location = '/'
+            }
+
         })
         this.setState({username: '', password: ''});
     }

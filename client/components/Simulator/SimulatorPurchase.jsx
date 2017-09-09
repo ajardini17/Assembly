@@ -38,12 +38,14 @@ export default class StockSimulator extends React.Component {
       stocks: nextProps.portfolioStocks
     })
   }
-  handleCurrencyGetRequest() {
-    axios.get('/api/coinQuery', {params: this.state.selectedCurrency})
+  handleCurrencyGetRequest(input) {
+    let coin = input ? input : this.state.selectedCurrency;
+    axios.get('/api/coinQuery', {params: coin})
     .then(result => {
       let price = parseFloat(result.data).toFixed(2);
       this.setState({
         displayedValue: price,
+        selectedCurrency: coin,
         purchasePrice: this.state.purchasePrice !== '' ? (Number(price) * Number(this.state.input)).toFixed(2) : ''
       })
     })
@@ -56,9 +58,7 @@ export default class StockSimulator extends React.Component {
   }
 
   handleCurrencySelectionChange(e) {
-    this.setState({
-      selectedCurrency: e.target.id
-    }, () => {this.handleCurrencyGetRequest()})
+    this.handleCurrencyGetRequest(e.target.id)
   }
 
   handleSubmitPriceCheck(e) {
@@ -137,7 +137,6 @@ export default class StockSimulator extends React.Component {
       let finalPrice = (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2);
       let stockIndex = this.state.stocks.findIndex(x=>x.ticker === this.state.selectedCurrency);
       if(stockIndex > -1){
-        console.log('CAN SELLL')
         let sellObj = {
           shares: this.state.input,
           sellPrice: this.state.displayedValue,
@@ -173,7 +172,6 @@ export default class StockSimulator extends React.Component {
           })
           }
         } else {
-          console.log('CANT SELL')
           this.setState({
             animMessage: `You don't have ${this.state.input} shares of ${this.state.selectedCurrency}`
           }, () => {

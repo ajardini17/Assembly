@@ -13,7 +13,6 @@ buy: (req, res) => {
   Model.PortfolioStock.findOne({where:{ticker: req.body.ticker, portfolioId: req.body.portfolioId}})
   .then(stockData => {
     if(stockData){
-      console.log(stockData.dataValues);
       let newStockValue = Math.round(Number(stockData.dataValues.shares) + Number(req.body.shares) * req.body.buyPrice * 100) / 100;
       Redis.hmget(`portfolio:${req.body.portfolioId}:hash`, 'total', `${req.body.ticker}:amount`,(err, data) => {
         Redis.hmset(`portfolio:${req.body.portfolioId}:hash`, `${req.body.ticker}:shares`, stockData.dataValues.shares + req.body.shares, `${req.body.ticker}:amount`, newStockValue, 'total', data[0] - data[1] + newStockValue);

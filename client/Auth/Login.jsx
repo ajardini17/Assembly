@@ -20,9 +20,12 @@ class Login extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         this.Auth.login(this.state.username, this.state.password, (reply) => {
-            this.props.handleLogin();
-            window.location = '/'
+            if(reply !== 'invalid'){
+              this.props.handleLogin();
+              window.location = '/'
+            }
         })
+        this.setState({username: '', password: ''});
     }
     render() {
         return (

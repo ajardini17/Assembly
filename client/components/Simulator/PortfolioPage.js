@@ -14,9 +14,10 @@ export default class PortfolioPage extends React.Component {
       portfolioId: window.location.href.substr(window.location.href.lastIndexOf('/') + 1),
       portfolioValue: 'Calculating...',
       portfolio: {},
+      portfolioRank: '',
+      totalPortfolios: '',
       cash: 'Calculating...',
       portfolioName: '',
-      // portfolioStocks: [],
       stockValues: {},
       annualReturn: 'Calculating...',
       history: []
@@ -46,12 +47,13 @@ export default class PortfolioPage extends React.Component {
       params: {id: this.state.portfolioId}
     })
     .then(reply => {
-      console.log(reply.data, 'REPLY');
       this.setState({
       cash: reply.data.balance,
       portfolioName: reply.data.name,
       portfolio: reply.data,
-      portfolioId: reply.data.id
+      portfolioId: reply.data.id,
+      totalPortfolios: reply.data.totalPortfolios,
+      portfolioRank: reply.data.portfolioRank
     },() => {this.calculatePortfolioValue(reply.data.stocks)})
     })
     .catch(err => console.log(err, 'error'))
@@ -148,7 +150,7 @@ export default class PortfolioPage extends React.Component {
   }
 
   calculateReturn() {
-    let annualReturn = (this.state.portfolioValue - 1000000)/1000000;
+    let annualReturn = (this.state.portfolioValue - 100000)/100000;
     this.setState({ annualReturn })
   }
 
@@ -174,8 +176,7 @@ export default class PortfolioPage extends React.Component {
     return (
       <div className='container-fluid' id='portPage'>
         <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true}/> 
-        <PortfolioInfo portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} history={this.state.history} portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} annualReturn={this.state.annualReturn}/>
-        {/* <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} /> */}
+        <PortfolioInfo totalPortfolios={this.state.totalPortfolios} portfolioRank={this.state.portfolioRank} portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} history={this.state.history} portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} annualReturn={this.state.annualReturn}/>
         <SimulatorPurchase successfulPurge = {this.successfulPurge} portfolioStocks={this.state.portfolio.stocks} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
       </div>
     )

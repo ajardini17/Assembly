@@ -49,7 +49,6 @@ export default class PortfolioLandingCard extends React.Component {
             count++;
             if (count === currencyArr.length) {
               let newValue = (tempVal + this.props.item.balance).toFixed(2)
-              console.log('THIS IS THE NEW VALUE ::: ', newValue)
               this.setState({
                 portfolioValue: newValue,
                 stockValues: this.state.stockValues,

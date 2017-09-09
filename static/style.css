@@ -82,6 +82,9 @@ body, html {
   margin-top: 25px;
   width: 80px;
 }
+.rank{
+  font-size: 15px;
+}
 .portfolioLanding {
   width: 30%;
   margin: auto;
