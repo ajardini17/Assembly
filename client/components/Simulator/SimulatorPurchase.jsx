@@ -195,7 +195,8 @@ export default class StockSimulator extends React.Component {
     }
 
     let highlight = {
-      boxShadow: "0px 0px 30px 0px yellow",
+      boxShadow: "0px 0px 15px 0px rgba(0, 85, 255, 1)",
+      borderRadius: "10px",
       width: "100px"
     }
 

@@ -28,7 +28,6 @@ export default class Navigation extends React.Component {
                 <MenuItem eventKey={3.4} href="/currency/ltc">Litecoin &nbsp;&nbsp;ltc</MenuItem>
                 <MenuItem eventKey={3.5} href="/currency/xrp">Ripple &nbsp;&nbsp;xmr</MenuItem>
                 <MenuItem eventKey={3.6} href="/currency/xmr">Monero &nbsp;&nbsp;xrp</MenuItem>
-                <MenuItem eventKey={3.7} href="/currency/zec">ZCash &nbsp;&nbsp;zec</MenuItem>
               </NavDropdown>
             </Nav>
          
