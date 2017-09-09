@@ -24,10 +24,12 @@ export default class Leaderboard extends React.Component {
 
   render() {
     return (
-
+      
       <table className='portfolioEntryTable'>
+        <caption id="table-caption">Leaderboards</caption>
         <tbody>
           <tr>
+            <th style={{ 'textAlign':'center' }}>Rank</th>
             <th style={{ 'textAlign':'center' }}>Username</th>
             <th style={{ 'textAlign':'center' }}>portfolio name</th>
             <th style={{ 'textAlign':'center' }}>Value</th>

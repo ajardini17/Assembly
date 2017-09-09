@@ -1,11 +1,12 @@
 {
-  "name": "humfer",
+  "name": "woolfey",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack -w & node server/index.js & FLASK_APP=server/python/index.py FLASK_DEBUG=0 python3 -m flask run & redis-server"
+    "start": "node server/index.js & redis-server",
+    "build": "webpack --config webpack.prod.js"
   },
   "keywords": [],
   "author": "",
@@ -38,5 +39,10 @@
     "socket.io": "^2.0.3",
     "webpack": "^3.5.5",
     "xml2json": "^0.11.0"
+  },
+  "devDependencies": {
+    "uglifyjs-webpack-plugin": "^0.4.6",
+    "webpack-dev-middleware": "^1.12.0",
+    "webpack-merge": "^4.1.0"
   }
 }
