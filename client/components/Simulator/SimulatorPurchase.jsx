@@ -212,9 +212,6 @@ export default class StockSimulator extends React.Component {
           <div className='col-xs-1'>
             <img src='/images/ripplelogo.jpg' className='currencyButton' id='xrp' onClick={this.handleCurrencySelectionChange} />
           </div>
-          <div className='col-xs-1'>
-            <img src='/images/zcashlogo.jpg' className='currencyButton' id='zec' onClick={this.handleCurrencySelectionChange} />
-          </div>
         </div>
 
         <div className='row'>
