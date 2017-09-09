@@ -12,7 +12,7 @@ module.exports = {
           .then(user => auth.getToken(user.dataValues.id, user.dataValues.handle, res))
         })
       } else {
-        res.send('User taken!');
+        res.send('invalid');
       }
     })
   },
@@ -20,13 +20,13 @@ module.exports = {
     Model.User.findOne({where: {handle: req.query.handle}})
     .then(user => {
       if(!user){
-          res.send('user doesn\'t exist');
+          res.send('invalid');
       } else {
           hasher.comparePassword(req.query.password, user.dataValues.password, (reply) => {
             if(reply){
               auth.getToken(user.dataValues.id, user.dataValues.handle, res);
             } else {
-              res.send('invalid password');
+              res.send('invalid');
             }
           })
       }

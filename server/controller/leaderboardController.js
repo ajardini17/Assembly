@@ -3,12 +3,6 @@ const Redis = require('../../database/redis/redis.js');
 const chunk = require('lodash.chunk');
 
 module.exports = {
-  handleAdd: buyObj => {
-      
-  },
-  handleSell: sellObj => {
-
-  },
   weeklyTopPortfolioBalances: (req, res) => {
       
   },

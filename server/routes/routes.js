@@ -36,6 +36,8 @@ router.get('/getPortfolioHistory', portfolio.getPortfolioHistory);
 
 router.get('/transactionHistory', auth.authenticate, transactionController.totalHistory);
 router.get('/fetchLeaderboard', leaderboard.fetchLeaderboard);
+router.get('/portfolioRank', leaderboard.portfolioRank)
+
 
 router.get('/getPrediction', (req, res) => {
   Model.Prediction.findAll({})

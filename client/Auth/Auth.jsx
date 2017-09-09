@@ -9,8 +9,9 @@ export default class Auth {
     signup(handle, password, callback){
         axios.post('/api/signup', {handle: handle, password: password})
         .then(reply => {
-            if(reply.data === 'User taken!'){
-                callback(reply.data);
+            if(reply.data === 'invalid'){
+                alert('Username taken')
+                callback('invalid');
             } else {
                 this.setSession(reply.data);
                 callback('success');
@@ -20,8 +21,9 @@ export default class Auth {
     login(handle, password, callback) {
         axios.get('/api/login', {params: {handle: handle, password: password}})
         .then(reply => {
-            if(reply.data === 'User taken!'){
-                callback(reply.data);
+            if(reply.data === 'invalid'){
+                alert('Username or password invalid')
+                callback('invalid');
             } else {
                 this.setSession(reply.data);
                 callback('success');
@@ -30,7 +32,6 @@ export default class Auth {
     }
     setSession(token){
         localStorage.setItem('token', token.token);
-
     }
     logout(){
 

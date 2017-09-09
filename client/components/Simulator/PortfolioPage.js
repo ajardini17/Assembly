@@ -14,9 +14,10 @@ export default class PortfolioPage extends React.Component {
       portfolioId: window.location.href.substr(window.location.href.lastIndexOf('/') + 1),
       portfolioValue: 'Calculating...',
       portfolio: {},
+      portfolioRank: '',
+      totalPortfolios: '',
       cash: 'Calculating...',
       portfolioName: '',
-      // portfolioStocks: [],
       stockValues: {},
       annualReturn: 'Calculating...',
       history: []
@@ -46,12 +47,13 @@ export default class PortfolioPage extends React.Component {
       params: {id: this.state.portfolioId}
     })
     .then(reply => {
-      console.log(reply.data, 'REPLY');
       this.setState({
       cash: reply.data.balance,
       portfolioName: reply.data.name,
       portfolio: reply.data,
-      portfolioId: reply.data.id
+      portfolioId: reply.data.id,
+      totalPortfolios: reply.data.totalPortfolios,
+      portfolioRank: reply.data.portfolioRank
     },() => {this.calculatePortfolioValue(reply.data.stocks)})
     })
     .catch(err => console.log(err, 'error'))
@@ -148,7 +150,7 @@ export default class PortfolioPage extends React.Component {
   }
 
   calculateReturn() {
-    let annualReturn = (this.state.portfolioValue - 1000000)/1000000;
+    let annualReturn = (this.state.portfolioValue - 100000)/100000;
     this.setState({ annualReturn })
   }
 
