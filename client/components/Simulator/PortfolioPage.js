@@ -172,10 +172,10 @@ export default class PortfolioPage extends React.Component {
 
   render() {
     return (
-      <div className='container'>
+      <div className='container-fluid' id='portPage'>
         <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true}/> 
-        <PortfolioInfo history={this.state.history} portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} annualReturn={this.state.annualReturn}/>
-        <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} />
+        <PortfolioInfo portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} history={this.state.history} portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} annualReturn={this.state.annualReturn}/>
+        {/* <PortfolioTable portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} /> */}
         <SimulatorPurchase successfulPurge = {this.successfulPurge} portfolioStocks={this.state.portfolio.stocks} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}/>
       </div>
     )

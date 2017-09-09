@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import PortfolioTable from './PortfolioTable.js'
 
 export default class PortfolioInfo extends React.Component {
   constructor(props) {
@@ -49,18 +50,28 @@ export default class PortfolioInfo extends React.Component {
 
     var highchartStyle = {
       height: '400px',
-      maxWidth: '800px',
+      maxWidth: '1200px',
       midWidth: '310px',
-      margin: '100px auto'
+      margin: '10px auto'
     };
 
     return (
-      <div style={{'textAlign':'center', 'marginTop':'100px'}}>
-        <h2>{this.state.portfolioName}</h2>
-        <p>Portfolio Value: ${this.state.portfolioValue}</p>
-        <p>Cash: ${this.state.cash}</p>
-        <p>Annual Return: {(this.state.annualReturn * 100).toFixed(2)}%</p>
-        <div id="container" style={highchartStyle}></div>
+      <div>
+        <div style={{'textAlign':'center', 'marginTop':'60px'}} className='row'>
+          <div className='col-xs-2 col-xs-offset-1 portfolioDetails'>
+            <h2>{this.state.portfolioName}</h2>
+            <p>Portfolio Value: ${this.state.portfolioValue}</p>
+            <p>Cash: ${this.state.cash}</p>
+            <p>Annual Return: {(this.state.annualReturn * 100).toFixed(2)}%</p>
+          </div>
+          <div className='col-xs-9'>
+            <PortfolioTable portfolioStocks={this.props.portfolioStocks} stockValues={this.props.stockValues} portfolioValue={this.props.portfolioValue} />
+          </div>
+        </div>
+
+        <div className='row'>
+          <div id="container" style={highchartStyle}></div>
+        </div>
       </div>
     )
   }
