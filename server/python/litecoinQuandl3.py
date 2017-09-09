@@ -18,13 +18,13 @@ def getLitecoinData():
   m = Prophet()
   m.fit(df)
 
-  future = m.make_future_dataframe(periods=30)
+  future = m.make_future_dataframe(periods=20)
   forecast = m.predict(future)
-  futureData = forecast[['ds', 'yhat']][-30:]
+  futureData = forecast[['ds', 'yhat']][-20:]
   futureData['ds'] = futureData['ds'].dt.strftime('%Y-%m-%d')
-  futureData = str(futureData.values.tolist())
+  futureData = str(futureData.round(2).values.tolist())
 
-  print(futureData)
+  # print(futureData)
 
   parse.uses_netloc.append("postgres")
   url = parse.urlparse(server_key.get_server_key())
@@ -38,8 +38,9 @@ def getLitecoinData():
 
   )
   cur = conn.cursor()
-  cur.execute("DELETE FROM predictions WHERE name = %s", ('ltc', ))
-  cur.execute("INSERT INTO predictions (name, prediction) VALUES (%s, %s)", ('ltc', futureData))
+  # cur.execute("DELETE FROM predictions WHERE currency = %s", ('ltc', ))
+  # cur.execute("INSERT INTO predictions (currency, prediction) VALUES (%s, %s)", ('ltc', futureData))
+  cur.execute("UPDATE predictions SET prediction = %s WHERE currency = %s", (futureData, 'ltc'))
   # cur.execute("SELECT * FROM prediction;")
   # print(cur.fetchall())
   conn.commit()
@@ -52,5 +53,3 @@ def getLitecoinData():
   # m.plot_components(forecast);
   # plt.savefig('static/images/litecoinPred.png', bbox_inches='tight')
   ############################## SEND PREDICTION TO PRED DB TABLE
-
-getLitecoinData()
