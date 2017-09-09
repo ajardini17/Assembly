@@ -1,7 +1,6 @@
 import React from 'react'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
-import Leaderboard from '../Leaderboard/Leaderboard.jsx'
 import * as Animated from 'animated/lib/targets/react-dom'
 
 
@@ -193,11 +192,6 @@ export default class StockSimulator extends React.Component {
     return (
 
       <div>
-        <div className='row'>
-        <div className='col-lg-3'>
-          <Leaderboard />
-          </div>
-        </div>
         <div className='row'>
           
           <div className='col-xs-1 col-xs-offset-3'>

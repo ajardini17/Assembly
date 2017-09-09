@@ -1,5 +1,6 @@
 import React from 'react'
 import LeaderboardEntry from './LeaderboardEntry.jsx'
+import Navbar from '../Navbar.js'
 import axios from 'axios'
 
 export default class Leaderboard extends React.Component {
@@ -24,7 +25,8 @@ export default class Leaderboard extends React.Component {
 
   render() {
     return (
-      
+      <div>
+      <Navbar />
       <table className='portfolioEntryTable'>
         <caption id="table-caption">Leaderboards</caption>
         <tbody>
@@ -44,6 +46,7 @@ export default class Leaderboard extends React.Component {
           }
         </tbody>
       </table>
+      </div>
 
     )
   }

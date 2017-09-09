@@ -9,6 +9,7 @@ import PortfolioLanding from './Simulator/PortfolioLanding.js'
 import PortfolioPage from './Simulator/PortfolioPage.js'
 import CurrInfo from './CurrInfo.jsx'
 import LoginPage from './LoginPage.js'
+import Leaderboard from './Leaderboard/Leaderboard.jsx'
 
 
 export default class App extends React.Component {
@@ -26,6 +27,7 @@ export default class App extends React.Component {
           <Route path='/currency/:ticker' render={() => <CurrInfo />} />
           <Route path='/simulator/:portfolioId' render={(props) => <PortfolioPage userInfo={props}/>} />
           <Route exact path='/login' render={() => <LoginPage />} />
+          <Route exact path='/leaderboard' render={() => <Leaderboard />} />
         </div>
 
       </Router>

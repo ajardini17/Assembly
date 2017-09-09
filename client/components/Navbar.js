@@ -1,6 +1,7 @@
 import React from 'react'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import {Link} from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 
 export default class Navigation extends React.Component {
   constructor(props) {
@@ -18,6 +19,7 @@ export default class Navigation extends React.Component {
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
+    
             <Nav>
               <NavDropdown eventKey={3} title="Currencies" id="basic-nav-dropdown">
                 <MenuItem eventKey={3.1} href="/currency/btc">Bitcoin &nbsp;&nbsp;btc</MenuItem>
@@ -29,6 +31,12 @@ export default class Navigation extends React.Component {
                 <MenuItem eventKey={3.7} href="/currency/zec">ZCash &nbsp;&nbsp;zec</MenuItem>
               </NavDropdown>
             </Nav>
+         
+            <Nav>
+            <LinkContainer to='/leaderboard'>
+            <NavItem eventKey={3} >Leaderboard</NavItem>
+            </LinkContainer>
+          </Nav>
 
             {this.props.loggedIn ?
             
