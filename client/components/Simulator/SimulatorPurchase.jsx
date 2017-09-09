@@ -85,7 +85,6 @@ export default class StockSimulator extends React.Component {
         }
         axios.post('/api/buy', buyObj, {headers: {authorization:localStorage.getItem('token')}})
         .then(reply => {
-          console.log(reply, 'BUBYBUBYBYYB');
           this.props.successfulBuy(finalPrice, reply.data);
           document.getElementById('currBuyInput').value = '';
           this.setState({
@@ -193,8 +192,8 @@ export default class StockSimulator extends React.Component {
     return (
 
       <div>
-
         <div className='row'>
+          
           <div className='col-xs-1 col-xs-offset-3'>
             <img src='/images/bitcoinlogo.jpg' className='currencyButton' id='btc' onClick={this.handleCurrencySelectionChange} />
           </div>

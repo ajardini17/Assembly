@@ -39,21 +39,6 @@ const historicalGraphData = db.define(`historical_graph`, {
 ////////////////// THIS SHOULD HAVE ALL THE STOCK INFORMATION, BUT PortfolioStock has the info for an individual's holdings//////
 
 
-// const Stock = db.define('stocks', {
-//     ticker: {
-//         type: Sequelize.STRING,
-//         allowNull: false
-//     },
-//     name: {
-//         type: Sequelize.STRING,
-//         allowNull: false
-//     },
-//     newsStories: {
-//         type: Sequelize.ARRAY(Sequelize.TEXT)
-//     }
-    
-// });
-
 const Portfolio = db.define('portfolio', {
   name: {
     type: Sequelize.STRING,
@@ -79,7 +64,7 @@ const PortfolioStock = db.define('portfolio_stock', {
   }
 });
 
-const PortfolioHistory = db.define('portfolioHistory', {
+const PortfolioHistory = db.define('portfolio_history', {
   portfolio_id: {
     type: Sequelize.INTEGER,
     allowNull: false
@@ -94,7 +79,7 @@ const PortfolioHistory = db.define('portfolioHistory', {
   }
 });
 
-const TransactionHistory = db.define('transactionHistory', {
+const TransactionHistory = db.define('transaction_history', {
   ticker: {
     type: Sequelize.STRING,
     allowNull: false
@@ -117,7 +102,7 @@ const TransactionHistory = db.define('transactionHistory', {
   }
 });
 
-const dailyBalance = db.define('dailyBalance', {
+const dailyBalance = db.define('daily_balance', {
   liquid: {
     type: Sequelize.FLOAT,
     allowNull: false

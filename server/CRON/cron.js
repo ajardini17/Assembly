@@ -25,8 +25,6 @@ const coinSet = () => {
       })
     });  
     if(bool){
-      //getHistoricalData.start();
-      collectDailyPortfolioData.start();
       leaderboard();
       createSet();
       bool = false;
@@ -56,6 +54,7 @@ const fetchPortfolios = (coins, cb) => {
 }
 
 const storePortfolioData = (coins, portfolios) => {
+  addDailyHistoricalGraphData(coins);
   portfolios.forEach((portfolio, i) => {
     Model.PortfolioStock.findAll({where:{id:portfolio.id}})
     .then(reply => {
@@ -72,26 +71,50 @@ const storePortfolioData = (coins, portfolios) => {
     })
   });
 }
+/////////////////////////////////////////////////
+const addDailyHistoricalGraphData = coins => {
+  let date = Date.now();
+  for(let key in coins){
+    appendCoinHistoricalData(key, coins[key], date);
+  }
 
-const fetchHistory = () => {
-  let current_time = Math.round((new Date()).getTime() / 1000);
-  Promise.all(coins.map(coin => axios({
-    url:`https://min-api.cryptocompare.com/data/histoday?fsym=${coin.toUpperCase()}&tsym=USD&aggregate=1&toTs=${current_time}&allData=true`,
-    method: 'get'
-  })))
-  .then(results => {
-    const coinData = results.map(x=>x.data.Data);
-    coinData.forEach((coin,i)=>{
-      let historicalData = []
-      coinData[i].forEach((data, j) => {
-        historicalData.push([coinData[i][j].time * 1000, coinData[i][j].close]);
-      });
-      Redis.set(`${coins[i]}:history`, JSON.stringify(historicalData));
-    })
-  })
-  .catch(err => console.log(err))
 }
 
+const appendCoinHistoricalData = (coin, price, date) => {
+  Model.historicalGraphData.findOne({where: {currency: coin}})
+  .then(graph => {
+    console.log(price, `
+    
+    
+    appended to history!
+    
+    
+    `)
+    const newData = graph.dataValues.data;
+    newData.push([date, Math.round(price * 100) / 100]);
+    Model.historicalGraphData.update({data: newData}, {where: {currency: coin}})
+  })
+}
+
+/////////////////////////////////////////////////////
+// const fetchHistory = () => {
+//   let current_time = Math.round((new Date()).getTime() / 1000);
+//   Promise.all(coins.map(coin => axios({
+//     url:`https://min-api.cryptocompare.com/data/histoday?fsym=${coin.toUpperCase()}&tsym=USD&aggregate=1&toTs=${current_time}&allData=true`,
+//     method: 'get'
+//   })))
+//   .then(results => {
+//     const coinData = results.map(x=>x.data.Data);
+//     coinData.forEach((coin,i)=>{
+//       let historicalData = []
+//       coinData[i].forEach((data, j) => {
+//         historicalData.push([coinData[i][j].time * 1000, coinData[i][j].close]);
+//       });
+//       Redis.set(`${coins[i]}:history`, JSON.stringify(historicalData));
+//     })
+//   })
+//   .catch(err => console.log(err))
+// }
 
 
 ///////////////////////////// LEADERBOARD /////////////////////////////////////
@@ -159,7 +182,7 @@ const leaderboard = () => {
 ////////////////////////////////////////////////////////////////////////////////
 
 const getCoinsData = new CronJob({cronTime:'00 */2 * * * *', onTick: () => {coinSet()}, start: false,timeZone:'America/Los_Angeles', runOnInit: true});
-const collectDailyPortfolioData = new CronJob({cronTime:'00 30 23 * * *', onTick: () => {fetchCoins(storePortfolioData)}, start: false, timeZone:'America/Los_Angeles'});
+const collectDailyPortfolioData = new CronJob({cronTime:'00 30 23 * * *', onTick: () => {fetchCoins(storePortfolioData)}, start: false, timeZone:'America/Los_Angeles', runOnInit: false});
 //const getHistoricalData = new CronJob({cronTime: '00 */10 * * * *', onTick: ()=>{fetchHistory()}, start: false, timeZone:'America/Los_Angeles', runOnInit: true});
 //const weeklyLeaderboard = new CronJob({cronTime: ''});
 //const dailyLeaderboard = new CronJob({cronTime: '', onTick: ()=>{}, });
