@@ -39,7 +39,7 @@ export default class StockSimulator extends React.Component {
     })
   }
   handleCurrencyGetRequest(input) {
-    coin = input ? input : this.state.selectedCurrency;
+    let coin = input ? input : this.state.selectedCurrency;
     axios.get('/api/coinQuery', {params: coin})
     .then(result => {
       let price = parseFloat(result.data).toFixed(2);
@@ -172,7 +172,6 @@ export default class StockSimulator extends React.Component {
           })
           }
         } else {
-          console.log('CANT SELL')
           this.setState({
             animMessage: `You don't have ${this.state.input} shares of ${this.state.selectedCurrency}`
           }, () => {

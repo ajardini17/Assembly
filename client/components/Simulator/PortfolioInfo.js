@@ -11,7 +11,9 @@ export default class PortfolioInfo extends React.Component {
       annualReturn: .01,
       portfolioID: decodeURI(window.location.pathname.slice(11)),
       portfolioName: '',
-      history: []
+      history: [],
+      portfolioRank: this.props.portfolioRank,
+      totalPortfolios: this.props.totalPortfolios
     }
     this.createGraph = this.createGraph.bind(this)
   }
@@ -22,7 +24,9 @@ export default class PortfolioInfo extends React.Component {
       cash: nextProps.cash,
       portfolioName: nextProps.portfolioName,
       annualReturn: nextProps.annualReturn,
-      history: nextProps.history
+      history: nextProps.history,
+      portfolioRank: nextProps.portfolioRank,
+      totalPortfolios: nextProps.totalPortfolios
     }, () => this.createGraph(this.state.history))
   }
 
@@ -59,7 +63,7 @@ export default class PortfolioInfo extends React.Component {
       <div>
         <div style={{'textAlign':'center', 'marginTop':'60px'}} className='row'>
           <div className='col-xs-2 col-xs-offset-1 portfolioDetails'>
-            <h2>{this.state.portfolioName}</h2>
+            <h2>{this.state.portfolioName} <span className='rank'>&nbsp; Ranked: {this.state.portfolioRank}</span></h2>
             <p>Portfolio Value: ${this.state.portfolioValue}</p>
             <p>Cash: ${this.state.cash}</p>
             <p>Annual Return: {(this.state.annualReturn * 100).toFixed(2)}%</p>

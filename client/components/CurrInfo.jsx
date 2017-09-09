@@ -52,7 +52,6 @@ export default class CurrInfo extends React.Component {
       axios.all([this.getCurrencyPrice(), this.getHistoricalCurrencyData()])
       .then(axios.spread((price, history) => {
         let currentValue = '$' + String(parseFloat(price.data).toFixed(2))
-        console.log('THIS IS THE CLOSE PRICE YESTERDAY :::: ', history.data[history.data.length - 2][1])
         let valuePercentChange = ((parseFloat(price.data).toFixed(2) - history.data[history.data.length - 2][1]) / history.data[history.data.length - 2][1]) * 100
         valuePercentChange = valuePercentChange.toFixed(2)
         if (parseFloat(price.data).toFixed(2) > history.data[history.data.length - 2][1]) {

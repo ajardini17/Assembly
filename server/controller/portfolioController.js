@@ -20,7 +20,7 @@ module.exports ={
         let stocks = stocksData.map(x => x.dataValues);
         let response = reply.dataValues;
         response.stocks = stocks;
-        Redis.zrank('leaderboard', req.query.portfolioId, (err, rank) => {
+        Redis.zrank('leaderboard', req.query.id, (err, rank) => {
           Redis.zcard('leaderboard', (err, card) => {
             response.portfolioRank = card - rank;
             response.totalPortfolios = card;

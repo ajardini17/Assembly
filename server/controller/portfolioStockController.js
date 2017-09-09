@@ -6,7 +6,6 @@ const axios = require('axios');
 module.exports = {
 coinQuery: (req, res) => {
   Redis.get(`${req.query[0]}:price`, (err, data) => {
-    console.log(data);
     res.send(data);
   });
 },
@@ -39,7 +38,6 @@ buy: (req, res) => {
       })
     } else {
         Redis.hget(`portfolio:${req.body.portfolioId}:hash`, 'total', (err, data) => {
-          console.log(data, 'PORTFOLIO THINGS')
           Redis.hmset(`portfolio:${req.body.portfolioId}:hash`, `${req.body.ticker}:shares`, req.body.shares, `${req.body.ticker}:amount`, req.body.finalPrice, 'total', Number(data[0]) + Number(req.body.finalPrice));
         });
         Model.PortfolioStock.create({
