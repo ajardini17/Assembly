@@ -14,6 +14,13 @@ module.exports = {
       })
       res.send(reformatted); 
     })
+  },
+  getPredictionData: (req, res) => {
+    Model.Prediction.findOne({where: {currency: req.query[0]}})
+    .then(response => {
+      let data = JSON.parse(response)
+      res.send(data);
+    })
   }
 }
 
