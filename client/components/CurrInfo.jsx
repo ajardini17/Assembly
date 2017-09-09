@@ -25,7 +25,8 @@ export default class CurrInfo extends React.Component {
       purchasePrice: '',
       portfolioBalance: '',
       portfolioName: '',
-      stocks: []
+      stocks: [],
+      predictions: ''
     }
     this.getNewsFeed = this.getNewsFeed.bind(this)
     this.getCurrencyPrice = this.getCurrencyPrice.bind(this)
@@ -44,6 +45,7 @@ export default class CurrInfo extends React.Component {
     this.handleSellStock = this.handleSellStock.bind(this)
     this.sellAll = this.sellAll.bind(this)
     this.handleArticleClick = this.handleArticleClick.bind(this)
+    this.getPredictionData = this.getPredictionData.bind(this)
   }
 
   componentDidMount() {
@@ -73,6 +75,7 @@ export default class CurrInfo extends React.Component {
           })
         })
       }))
+      this.getPredictionData()
     })
     this.getNewsFeed()
     this.handleFetchData()
@@ -83,6 +86,24 @@ export default class CurrInfo extends React.Component {
     .then(reply => this.setState({portfolios: reply.data,
                                   isLoggedIn: true}))
     .catch(err => console.log(err, 'error'))
+  }
+
+  getPredictionData() {
+    axios({
+      method: 'get',
+      url: '/api/getPrediction',
+      headers: {authorization: this.state.token},
+      params: {currency: this.state.currencyName}
+    })
+    .then(reply => {
+      let data = JSON.parse(reply.data.prediction)
+      let predictions = []
+      for (var key in data.ds) {
+        predictions.push([data.ds[key], data.yhat[key]])
+      }
+      this.setState({ predictions })
+    })
+    .catch(err => console.log('error', err))
   }
 
   handleBuy() {

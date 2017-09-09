@@ -22,7 +22,7 @@ def getLitecoinData():
   forecast = m.predict(future)
   futureData = forecast[['ds', 'yhat']][-20:]
   futureData['ds'] = futureData['ds'].dt.strftime('%Y-%m-%d')
-  futureData = str(futureData.round(2).values.tolist())
+  futureData = futureData.round(2).to_json()
 
   # print(futureData)
 
