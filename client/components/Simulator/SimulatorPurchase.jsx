@@ -251,9 +251,6 @@ export default class StockSimulator extends React.Component {
                 <button className='btn btn-primary buySellBtn' onClick={this.handleAddStock}>Buy</button>
                 <button className='btn btn-danger buySellBtn' onClick={this.handleSellStock}>Sell</button>
               </span>
-              <Animated.div style={{transform: [{scale: this.state.anim}]}}>
-                <p id='animatedMessage'>{this.state.animMessage}</p>
-              </Animated.div>
             </form>
           </div>
           <div className='col-xs-3 text-left'>
@@ -262,6 +259,12 @@ export default class StockSimulator extends React.Component {
               : <p>Purchase price:  0.00 </p>
             }
           </div>
+        </div>
+
+        <div className='row text-center'>
+          <Animated.div style={{transform: [{scale: this.state.anim}]}}>
+            <p id='animatedMessage'>{this.state.animMessage}</p>
+          </Animated.div>
         </div>
 
       </div>
