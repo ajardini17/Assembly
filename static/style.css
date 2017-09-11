@@ -84,7 +84,7 @@ body {
 }
 
 #simulatorSelectedCurrency {
-  margin-top: 5px;
+  margin-top: 6px;
 }
 
 .infoBuySell {
@@ -206,6 +206,14 @@ th, td {
   margin-bottom: 50px;
 }
 
+.purchasePrice {
+  margin-left: -40px;
+}
+
+#currBuyInput {
+  margin-left: -12px;
+}
+
 .landingChart {
   height: 400px;
   max-width: 80%;
@@ -216,6 +224,7 @@ th, td {
 
 #selectedCurrencyText {
   font-size: 20px;
+  margin-top: -5px;
 }
 
 .loginSignupSubmitBtn {
