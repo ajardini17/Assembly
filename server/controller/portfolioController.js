@@ -20,13 +20,17 @@ module.exports ={
         let stocks = stocksData.map(x => x.dataValues);
         let response = reply.dataValues;
         response.stocks = stocks;
-        Redis.zrank('leaderboard', req.query.id, (err, rank) => {
-          Redis.zcard('leaderboard', (err, card) => {
-            response.portfolioRank = card - rank;
-            response.totalPortfolios = card;
-            res.send(response);
-          })
-        });
+        if(!req.query.simple){
+          Redis.zrank('leaderboard', req.query.id, (err, rank) => {
+            Redis.zcard('leaderboard', (err, card) => {
+              response.portfolioRank = card - rank;
+              response.totalPortfolios = card;
+              res.send(response);
+            })
+          });
+        } else {
+          res.send(response);
+        }
       })
     })
   },
@@ -38,9 +42,11 @@ module.exports ={
   },
   deletePortfolio: (req, res) => {
     Model.Portfolio.destroy({
-      where: {id: req.query.id}
+      where: {id: req.query.portfolioId}
     })
-    .then(reply => res.send(reply))
+    .then(reply => {
+      res.json(reply)
+    })
   } 
 }
 

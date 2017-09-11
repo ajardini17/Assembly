@@ -113,12 +113,17 @@ const dailyBalance = db.define('daily_balance', {
   }
 });
 
-PortfolioStock.belongsTo(Portfolio);
-TransactionHistory.belongsTo(Portfolio);
-dailyBalance.belongsTo(Portfolio);
+PortfolioStock.belongsTo(Portfolio, {onDelete: 'CASCADE'});
+Portfolio.hasMany(PortfolioStock, {onDelete: 'CASCADE'});
 
-Portfolio.belongsTo(User);
-User.hasMany(Portfolio);
+TransactionHistory.belongsTo(Portfolio, {onDelete: 'CASCADE'});
+Portfolio.hasMany(TransactionHistory, {onDelete: 'CASCADE'});
+
+dailyBalance.belongsTo(Portfolio, {onDelete: 'CASCADE'});
+Portfolio.hasMany(dailyBalance, {onDelete: 'CASCADE'})
+
+Portfolio.belongsTo(User, {onDelete: 'CASCADE'});
+User.hasMany(Portfolio, {onDelete: 'CASCADE'});
 
 
 

@@ -20,8 +20,10 @@ export default class PortfolioPage extends React.Component {
       portfolioName: '',
       stockValues: {},
       annualReturn: 'Calculating...',
-      history: []
+      history: [],
+      isOwner: false
     }
+    this.checkForOwner = this.checkForOwner.bind(this)
     this.handleFetchData = this.handleFetchData.bind(this)
     this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this)
     this.successfulBuy = this.successfulBuy.bind(this)
@@ -31,10 +33,22 @@ export default class PortfolioPage extends React.Component {
     this.getPortfolioHistory = this.getPortfolioHistory.bind(this)
     this.successfulPurge = this.successfulPurge.bind(this)
     this.isEmpty = this.isEmpty.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
   }
   componentDidMount() {
     this.handleFetchData()
     this.getPortfolioHistory()
+  }
+  checkForOwner(){
+    axios({
+      method: 'get',
+      url: '/api/isOwnerOfPortfolio',
+      headers: {authorization: localStorage.getItem('token')},
+      params: {portfolioId: this.state.portfolioId}
+    })
+    .then(reply => {
+      this.setState({isOwner: reply.data})
+    })
   }
   handleLogOutAndRedirect(){
     localStorage.removeItem('token');
@@ -146,6 +160,20 @@ export default class PortfolioPage extends React.Component {
           cash: (Number(this.state.cash) + Number(cashChange)).toFixed(2)
         });
       }
+    }
+  }
+  handleDelete(){
+    if(confirm('Are you sure you want to delete this portfolio?')){
+
+      axios({
+        method:'delete',
+        url: '/api/deletePortfolio',
+        headers: {authorization: localStorage.getItem('token')},
+        params: {portfolioId: this.state.portfolioId}
+      })
+      .then(() => {
+        window.location = '/';
+      })
     }
   }
 

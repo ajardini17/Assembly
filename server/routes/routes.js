@@ -25,6 +25,7 @@ router.post('/signup', user.signup);
 
 router.get('/getUserData', auth.authenticate, portfolioStock.getUserData);
 router.get('/getSpecificPortfolio', auth.authenticate, portfolio.getSpecificPortfolio);
+router.delete('/deletePortfolio', auth.authenticate, portfolio.deletePortfolio);
 
 router.post('/buy', auth.authenticate, portfolioStock.buy);
 router.put('/sell', auth.authenticate, portfolioStock.sell);
@@ -34,7 +35,7 @@ router.post('/createPortfolio', auth.authenticate, portfolio.createPortfolio);
 router.get('/getPortfolioHistory', portfolio.getPortfolioHistory);
 
 
-router.get('/transactionHistory', auth.authenticate, transactionController.totalHistory);
+router.get('/portfolioTransactionHistory', auth.authenticate, transactionController.portfolioHistory);
 router.get('/fetchLeaderboard', leaderboard.fetchLeaderboard);
 
 

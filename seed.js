@@ -126,12 +126,3 @@ db.User.sync({force: true})
   })
   .catch(err => console.log(err))
 })
-
-// .then(() => {
-//     console.log(`
-
-//     SEEDING SUCCESSFUL
-
-//     `);
-//     process.exit()
-// })

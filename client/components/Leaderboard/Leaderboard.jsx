@@ -2,16 +2,31 @@ import React from 'react'
 import LeaderboardEntry from './LeaderboardEntry.jsx'
 import Navbar from '../Navbar.js'
 import axios from 'axios'
+<<<<<<< f011ac7dcb56a8bc879e0b6e224cada06df9d331
 import {Tab, Tabs} from 'react-bootstrap'
+=======
+import {Modal, Button} from 'react-bootstrap'
+>>>>>>> added delete portfolio button, can click portfolio in leaderboard for more info, transactionHistory routes coming together
 
 export default class Leaderboard extends React.Component {
   constructor(){
     super();
     this.state = {
-      entries: []
+      entries: [],
+      clickedPortfolio: [],
+      clickedPortfolioName: '',
+      clickedUsername: '',
+      showModal: false
     }
-    this.fetchLeaderboards = this.fetchLeaderboards.bind(this);
+    this.fetchLeaderboards = this.fetchLeaderboards.bind(this)
+    this.getPortfolioAndShowModal = this.getPortfolioAndShowModal.bind(this)
+    this.closeModal = this.closeModal.bind(this)
   }
+
+  componentWillMount() {
+    this.fetchLeaderboards();
+  }
+
   fetchLeaderboards(){
     axios.get('/api/fetchLeaderboard')
     .then(reply => {
@@ -20,10 +35,26 @@ export default class Leaderboard extends React.Component {
       })
     })
   }
-  componentWillMount() {
-    this.fetchLeaderboards();
+  
+  getPortfolioAndShowModal(portfolioId, portfolioUsername, portfolioName){
+    axios({
+      method: 'get',
+      url: '/api/getSpecificPortfolio',
+      headers: {authorization: localStorage.getItem('token')},
+      params: {id: portfolioId, simple: 1}
+    })
+    .then(reply => {
+      this.setState({
+        showModal:true, 
+        clickedPortfolio: reply.data, 
+        clickedUsername: portfolioUsername, 
+        clickedPortfolioName: portfolioName
+      });
+    })
   }
-
+  closeModal(){
+    this.setState({showModal: false})
+  }
   render() {
     return (
       <div className='container'>

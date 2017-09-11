@@ -9,6 +9,7 @@ export default class Navigation extends React.Component {
   }
 
   render() {
+
     return (
       <div className="navbar">
         <Navbar inverse collapseOnSelect>
@@ -36,14 +37,15 @@ export default class Navigation extends React.Component {
             <NavItem eventKey={3} >Leaderboard</NavItem>
             </LinkContainer>
           </Nav>
+          
 
             {this.props.loggedIn ?
             
             <Nav pullRight>
-              <NavDropdown eventKey={4} title="Profile" id="basic-nav-dropdown">
-                <MenuItem eventKey={4.1} href="/">My Portfolios</MenuItem>
-                <MenuItem eventKey={4.2} href="/settings">Settings</MenuItem>
-                <MenuItem eventKey={4.3} href="/" onClick={this.props.handleLogOut}>Logout</MenuItem>
+              <NavDropdown eventKey={5} title="Profile" id="basic-nav-dropdown">
+                <MenuItem eventKey={5.1} href="/">My Portfolios</MenuItem>
+                <MenuItem eventKey={5.2} href="/settings">Settings</MenuItem>
+                <MenuItem eventKey={5.3} href="/" onClick={this.props.handleLogOut}>Logout</MenuItem>
               </NavDropdown>
             </Nav>
 
@@ -56,6 +58,15 @@ export default class Navigation extends React.Component {
             </Nav>
             
             }
+            {this.props.handleDelete ?
+
+          <Nav pullRight onDoubleClick ={this.props.handleDelete}>
+            
+            <NavItem eventKey={4} className='deleteButton'>Delete</NavItem>
+            
+          </Nav>
+          :
+          null}
 
           </Navbar.Collapse>
         </Navbar>
