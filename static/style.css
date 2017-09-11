@@ -4,6 +4,10 @@ body, html {
     color: #777;
     line-height: 1.8;
 }
+
+body {
+  background-color: #fcfcfc;
+}
 #table-caption{
   text-align: center;
 }
@@ -66,16 +70,21 @@ body, html {
 
 .currencyButton {
   border-radius: 10px;
-  width: 80px;
+  width: 60px;
   height: auto;
   /* margin-right: 10px; */
-  margin-left: -15px;
+  /*margin-left: -5px;*/
   cursor: pointer;
   display: inline-block;
 }
 
+.buySellBtn {
+  margin-left: 5px;
+  margin-top: -4px;
+}
+
 #simulatorSelectedCurrency {
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 .infoBuySell {
@@ -107,7 +116,7 @@ body, html {
 
 .portfolioEntryTable {
   border: 1px solid gray;
-  width: 78%;
+  width: 95%;
   margin: auto;
   margin-bottom: 20px;
   text-align: center;
@@ -193,8 +202,7 @@ th, td {
 }
 
 #bottomSimPurchase {
-  margin-bottom: 150px;
-  
+  margin-bottom: 50px;
 }
 
 .landingChart {
@@ -206,7 +214,7 @@ th, td {
 }
 
 #selectedCurrencyText {
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .loginSignupSubmitBtn {
