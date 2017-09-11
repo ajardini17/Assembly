@@ -208,3 +208,7 @@ th, td {
 #selectedCurrencyText {
   font-size: 30px;
 }
+
+.loginSignupSubmitBtn {
+  margin-top: 10px;
+}
