@@ -1,4 +1,5 @@
 import React from 'react';
+import { LinkContainer } from 'react-router-bootstrap';
 
 class LeaderboardEntry extends React.Component {
   constructor(props){
@@ -10,8 +11,6 @@ class LeaderboardEntry extends React.Component {
       portfolioId: this.props.item.portfolioId,
       index: this.props.index + 1
     }
-    this.clickHandler = this.clickHandler.bind(this)
-
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -22,18 +21,17 @@ class LeaderboardEntry extends React.Component {
       index: nextProps.index + 1
     })
   }
-  clickHandler(){
-    this.props.getPortfolioData(this.state.portfolioId, this.state.username, this.state.portfolioName);
-  }
+
+  
   render() {
 
     return (
-      <tr onClick = {this.clickHandler} className ='leaderboard-entry'>
+      <LinkContainer to={`/simulator/${this.state.portfolioId}`}><tr className ='leaderboard-entry' >
         <td>{this.state.index} </td>
         <td>{this.state.username} </td>
         <td>{this.state.portfolioName} </td>
         <td>${this.state.value} </td>
-      </tr>
+      </tr></LinkContainer>
     );
   }
 }

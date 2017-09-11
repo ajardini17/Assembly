@@ -12,15 +12,10 @@ export default class Leaderboard extends React.Component {
   constructor(){
     super();
     this.state = {
-      entries: [],
-      clickedPortfolio: [],
-      clickedPortfolioName: '',
-      clickedUsername: '',
-      showModal: false
+      entries: []
     }
     this.fetchLeaderboards = this.fetchLeaderboards.bind(this)
-    this.getPortfolioAndShowModal = this.getPortfolioAndShowModal.bind(this)
-    this.closeModal = this.closeModal.bind(this)
+
   }
 
   componentWillMount() {
@@ -28,7 +23,7 @@ export default class Leaderboard extends React.Component {
   }
 
   fetchLeaderboards(){
-    axios.get('/api/fetchLeaderboard')
+    axios.get('/api/fetchCurrentLeaderboard')
     .then(reply => {
       this.setState({
         entries: reply.data
@@ -36,25 +31,7 @@ export default class Leaderboard extends React.Component {
     })
   }
   
-  getPortfolioAndShowModal(portfolioId, portfolioUsername, portfolioName){
-    axios({
-      method: 'get',
-      url: '/api/getSpecificPortfolio',
-      headers: {authorization: localStorage.getItem('token')},
-      params: {id: portfolioId, simple: 1}
-    })
-    .then(reply => {
-      this.setState({
-        showModal:true, 
-        clickedPortfolio: reply.data, 
-        clickedUsername: portfolioUsername, 
-        clickedPortfolioName: portfolioName
-      });
-    })
-  }
-  closeModal(){
-    this.setState({showModal: false})
-  }
+ 
   render() {
     return (
       <div className='container'>

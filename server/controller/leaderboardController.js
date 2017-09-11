@@ -12,7 +12,7 @@ module.exports = {
   currentTopPortfoliosBalances: (req, res) => {
 
   },
-  fetchLeaderboard: (req, res) => {
+  fetchCurrentLeaderboard: (req, res) => {
     Redis.zrevrange('leaderboard', 0, -1, 'withscores', (err, data) => {
       if(data){
   

@@ -36,7 +36,7 @@ router.get('/getPortfolioHistory', portfolio.getPortfolioHistory);
 
 
 router.get('/portfolioTransactionHistory', auth.authenticate, transactionController.portfolioHistory);
-router.get('/fetchLeaderboard', leaderboard.fetchLeaderboard);
+router.get('/fetchCurrentLeaderboard', leaderboard.fetchCurrentLeaderboard);
 
 
 router.get('/getPrediction', (req, res) => {
