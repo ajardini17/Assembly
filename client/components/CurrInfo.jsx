@@ -4,7 +4,6 @@ import Navigation from './Navbar.js'
 import PortfolioLandingCard from './Simulator/PortfolioLandingCard.jsx'
 import { Button, Modal } from 'react-bootstrap'
 import {Link, Redirect} from 'react-router-dom'
-import {Link} from 'react-router-dom'
 
 export default class CurrInfo extends React.Component {
   constructor() {
@@ -527,6 +526,7 @@ export default class CurrInfo extends React.Component {
     if(confirm(`You are leaving Woolfey and going to ${url}`)){
       window.location = article[1];
     }
+<<<<<<< HEAD
   }
 
   handleLogOut(){
@@ -534,7 +534,18 @@ export default class CurrInfo extends React.Component {
     this.setState({
       loggedIn: false
     })
+=======
+>>>>>>> Make buy sell buttons responsive
   }
+  
+  handleLogOut(){
+    localStorage.removeItem('token')
+    this.setState({
+      loggedIn: false
+    })
+  }
+
+  render() {
 
   render() {
 
@@ -595,8 +606,15 @@ export default class CurrInfo extends React.Component {
               <p style={{ color: this.state.valueIncrease ? 'green' : 'red' }}><i className={this.state.valueIncrease ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i> {this.state.valueChange}% </p>
             </div>
             <div className='col-xs-4 col-xs-offset-2'>
+<<<<<<< HEAD
               <button className='btn btn-primary buy-btn' onClick={this.handleBuy} style={buttonStyle}>Buy</button>
               <button className='btn btn-danger sell-btn' onClick={this.handleSell} style={buttonStyle}>Sell</button>
+=======
+              {/* <ButtonGroup> */}
+                <button className='btn btn-primary buy-btn' onClick={this.handleBuy} style={buttonStyle}>Buy</button>
+                <button className='btn btn-danger sell-btn' onClick={this.handleSell} style={buttonStyle}>Sell</button>
+              {/* </ButtonGroup> */}
+>>>>>>> Make buy sell buttons responsive
             </div>
           </div>
           <div className='row'>
