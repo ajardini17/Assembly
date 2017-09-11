@@ -1,5 +1,5 @@
 import React from 'react';
-import TransactionHistoryEntry from './TransactionHistoryEntry'; 
+import TransactionHistoryEntry from './TransactionHistoryEntry.jsx'; 
 import axios from 'axios'
 
 export default class TransactionHistory extends React.Component {
@@ -18,7 +18,7 @@ export default class TransactionHistory extends React.Component {
         method: 'get',
         url:'/api/portfolioTransactionHistory', 
         headers: {authorization: localStorage.getItem('token')},
-        params: {portfolioId: this.props.id}
+        params: {portfolioId: this.props.portfolioId}
       })
       .then(reply => {
         this.setState({transactions: reply.data});

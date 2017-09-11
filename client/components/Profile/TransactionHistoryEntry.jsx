@@ -10,12 +10,13 @@ export default class TransactionHistoryEntry extends Component {
 
     
     render() {
+      console.log(this.props.item);
         return (
             <div>
               <div>
                 <div>
                   <div>
-  
+                      wub
                   </div>
                 </div>
               </div>

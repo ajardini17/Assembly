@@ -18,6 +18,7 @@ module.exports = {
   
         const leaderboard = chunk(data,2);
         Promise.all(leaderboard.map(x => new Promise((resolve, reject) => {
+          console.log(x, 'XXX');
           const element = {};
           Model.Portfolio.findOne({where: {id:x[0]}})
           .then(portfolio => {

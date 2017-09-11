@@ -3,7 +3,7 @@ import axios from 'axios'
 import Navigation from './Navbar.js'
 import PortfolioLandingCard from './Simulator/PortfolioLandingCard.jsx'
 import { Button, Modal } from 'react-bootstrap'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 
 export default class CurrInfo extends React.Component {
   constructor() {
@@ -43,6 +43,7 @@ export default class CurrInfo extends React.Component {
     this.handleAddStock = this.handleAddStock.bind(this)
     this.handleSellStock = this.handleSellStock.bind(this)
     this.sellAll = this.sellAll.bind(this)
+    this.handleArticleClick = this.handleArticleClick.bind(this)
   }
 
   componentDidMount() {
@@ -453,6 +454,18 @@ export default class CurrInfo extends React.Component {
       })
     })
   }
+  handleArticleClick(e, article){
+    
+    console.log(e, article[1].slice(42));
+    let newsArticle = article[1].slice(42);
+    let url = newsArticle.slice(newsArticle.indexOf('www'), newsArticle.indexOf('.com/')+4);
+    if(confirm(`You are leaving Woolfey and going to ${url}`)){
+      window.location = article[1];
+
+    }
+    
+
+  }
 
   render() {
 
@@ -532,11 +545,7 @@ export default class CurrInfo extends React.Component {
               <h2>Recent News</h2>
               <ul>
                 {this.state.articles.map((article, index) => 
-                  <a key={index} href={article[1]}>
-                    <li>
-                      {article[0]}
-                    </li>
-                  </a>
+                  <a key={index}  onClick={(e) => this.handleArticleClick(e, article)}><li>{article[0]}</li></a>
                 )}
               </ul>
             </div>

@@ -102,3 +102,4 @@ export default class Leaderboard extends React.Component {
     )
   }
 }
+

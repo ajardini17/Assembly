@@ -28,7 +28,7 @@ class LeaderboardEntry extends React.Component {
   render() {
 
     return (
-      <tr onClick = {this.clickHandler}>
+      <tr onClick = {this.clickHandler} className ='leaderboard-entry'>
         <td>{this.state.index} </td>
         <td>{this.state.username} </td>
         <td>{this.state.portfolioName} </td>

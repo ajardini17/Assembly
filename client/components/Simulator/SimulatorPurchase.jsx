@@ -74,8 +74,8 @@ export default class StockSimulator extends React.Component {
 
     if (confirm('Are you sure you want to buy?')) {
 
-      let finalPrice = (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2);
-      if(finalPrice < this.state.portfolioBalance){
+      let finalPrice = Math.round(this.state.displayedValue * parseFloat(this.state.input) * 100) / 100;
+      if(finalPrice < Number(this.state.portfolioBalance)){
         let buyObj = {
           shares: this.state.input,
           buyPrice: this.state.displayedValue,
