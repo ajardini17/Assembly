@@ -264,6 +264,8 @@ export default class CurrInfo extends React.Component {
 
   render() {
 
+    console.log(this.state.articles)
+
     var highchartStyle = {
       height: '400px',
       maxWidth: '1200px',
@@ -338,7 +340,11 @@ export default class CurrInfo extends React.Component {
               <h2>Recent News</h2>
               <ul>
                 {this.state.articles.map((article, index) => 
-                  <a key={index} href={article[1]}><li>{article[0]}</li></a>
+                  <a key={index} href={article[1]}>
+                    <li>
+                      {article[0]}
+                    </li>
+                  </a>
                 )}
               </ul>
             </div>

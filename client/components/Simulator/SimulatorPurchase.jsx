@@ -28,7 +28,7 @@ export default class StockSimulator extends React.Component {
   }
   
   componentDidMount() {
-    this.handleCurrencyGetRequest();
+    this.handleCurrencyGetRequest()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,7 +58,7 @@ export default class StockSimulator extends React.Component {
   }
 
   handleCurrencySelectionChange(e) {
-    this.handleCurrencyGetRequest(e.target.id)
+    this.handleCurrencyGetRequest(e.target.value)
   }
 
   handleSubmitPriceCheck(e) {
@@ -203,7 +203,7 @@ export default class StockSimulator extends React.Component {
       <div>
         <div className='row' style={{'marginTop':'40px'}}>
           
-          <div className='col-xs-1 col-xs-offset-3'>
+          {/* <div className='col-xs-1 col-xs-offset-3'>
             <img src='/images/bitcoinlogo.jpg' style={this.state.selectedCurrency === 'btc' ? highlight : noHighlight } className='currencyButton' id='btc' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
@@ -220,48 +220,54 @@ export default class StockSimulator extends React.Component {
           </div>
           <div className='col-xs-1'>
             <img src='/images/ripplelogo.jpg' style={this.state.selectedCurrency === 'xrp' ? highlight : noHighlight } className='currencyButton' id='xrp' onClick={this.handleCurrencySelectionChange} />
+          </div> */}
+          <div className='col-xs-6'>
+            <select defaultValue='btc' onChange={this.handleCurrencySelectionChange} >
+              <option value="btc">Bitcoin (BTC)</option>
+              <option value="bch">Bitcoin Cash (BCH)</option>
+              <option value="eth">Ethereum (ETH)</option>
+              <option value="ltc">Litecoin (LTC)</option>
+              <option value="xmr">Monero (XMR)</option>
+              <option value="xrp">Ripple (XRP)</option>
+            </select>
+          </div>
+          <div className='col-xs-6'>
+            <div id='simulatorSelectedCurrency'>
+              <h4 id='selectedCurrencyText'> {this.state.selectedCurrency} - ${this.state.displayedValue} </h4>
+            </div>
           </div>
         </div>
 
         <div className='row'>
-          <div className='col-xs-4 col-xs-offset-4 text-center' id='simulatorSelectedCurrency'>
-            <h4 id='selectedCurrencyText'> {this.state.selectedCurrency} - ${this.state.displayedValue} </h4>
-          </div>
-        </div>
-
-        <div className='row'>
-          <div className='col-xs-4 col-xs-offset-4 text-center'>
+          <div className='col-xs-12 text-center'>
             <Link to={`/currency/${this.state.selectedCurrency}`}>
               <p>More details</p>
             </Link>
           </div>
         </div>
 
-        {/* <div className='row'>
-          <div className='col-xs-4 col-xs-offset-4 text-center'>
-            {this.state.purchasePrice !== '$NaN' ? <p> {this.state.purchasePrice}</p> : <p> </p>}
-          </div>
-        </div> */}
-
         <div className='row' id='bottomSimPurchase'>
-          <div className='col-xs-4 col-xs-offset-4 text-center'>
+          <div className='col-xs-10'>
             <form onSubmit={this.handleSubmitPriceCheck}>
               <input id='currBuyInput' type='number' className='text-center' placeholder='Enter amount to buy' onChange={this.handleInputChange} />
               <span>
                 <button className='btn btn-primary buySellBtn' onClick={this.handleAddStock}>Buy</button>
                 <button className='btn btn-danger buySellBtn' onClick={this.handleSellStock}>Sell</button>
               </span>
-              <Animated.div style={{transform: [{scale: this.state.anim}]}}>
-                <p id='animatedMessage'>{this.state.animMessage}</p>
-              </Animated.div>
             </form>
           </div>
-          <div className='col-xs-3 text-left'>
-            {this.state.purchasePrice !== '$NaN' 
-              ? <p> Purchase price:  {this.state.purchasePrice} </p> 
-              : <p>Purchase price:  0.00 </p>
+          <div className='col-xs-2 text-left purchasePrice'>
+            {this.state.purchasePrice !== '$NaN' && this.state.purchasePrice !== '' && !(!this.state.purchasePrice) 
+              ? <p>{this.state.purchasePrice}</p> 
+              : <p>0.00</p>
             }
           </div>
+        </div>
+
+        <div className='row text-center'>
+          <Animated.div style={{transform: [{scale: this.state.anim}]}}>
+            <p id='animatedMessage'>{this.state.animMessage}</p>
+          </Animated.div>
         </div>
 
       </div>

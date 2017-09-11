@@ -174,7 +174,7 @@ export default class PortfolioPage extends React.Component {
 
   render() {
     return (
-      <div className='container-fluid' id='portPage'>
+      <div className='container' id='portPage'>
 
         <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true}/> 
 

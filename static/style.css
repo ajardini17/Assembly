@@ -84,7 +84,7 @@ body {
 }
 
 #simulatorSelectedCurrency {
-  margin-top: 5px;
+  margin-top: 7px;
 }
 
 .infoBuySell {
@@ -116,7 +116,7 @@ body {
 
 .portfolioEntryTable {
   border: 1px solid gray;
-  width: 95%;
+  width: 100%;
   margin: auto;
   margin-bottom: 20px;
   text-align: center;
@@ -198,11 +198,20 @@ th, td {
 }
 
 #animatedMessage {
-  font-size: 25px;
+  font-size: 20px;
+  margin-top: -50px;
 }
 
 #bottomSimPurchase {
   margin-bottom: 50px;
+}
+
+.purchasePrice {
+  margin-left: -40px;
+}
+
+#currBuyInput {
+  margin-left: -12px;
 }
 
 .landingChart {
@@ -215,6 +224,7 @@ th, td {
 
 #selectedCurrencyText {
   font-size: 20px;
+  margin-top: -5px;
 }
 
 .loginSignupSubmitBtn {
