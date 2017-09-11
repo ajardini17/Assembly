@@ -246,7 +246,7 @@ export default class StockSimulator extends React.Component {
         <div className='row' id='bottomSimPurchase'>
           <div className='col-xs-4 col-xs-offset-4 text-center'>
             <form onSubmit={this.handleSubmitPriceCheck}>
-              <input id='currBuyInput' type='number' className='text-center' placeholder='Enter amount to buy...' onChange={this.handleInputChange} />
+              <input id='currBuyInput' type='number' className='text-center' placeholder='Enter amount to buy' onChange={this.handleInputChange} />
               <span>
                 <button className='btn btn-primary buySellBtn' onClick={this.handleAddStock}>Buy</button>
                 <button className='btn btn-danger buySellBtn' onClick={this.handleSellStock}>Sell</button>
@@ -256,8 +256,11 @@ export default class StockSimulator extends React.Component {
               </Animated.div>
             </form>
           </div>
-          <div className='col-xs-1'>
-            {this.state.purchasePrice !== '$NaN' ? <p> {this.state.purchasePrice} </p> : <p> 0.00 </p>}
+          <div className='col-xs-3 text-left'>
+            {this.state.purchasePrice !== '$NaN' 
+              ? <p> Purchase price:  {this.state.purchasePrice} </p> 
+              : <p>Purchase price:  0.00 </p>
+            }
           </div>
         </div>
 

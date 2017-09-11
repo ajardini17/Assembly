@@ -78,6 +78,11 @@ body {
   display: inline-block;
 }
 
+.buySellBtn {
+  margin-left: 5px;
+  margin-top: -4px;
+}
+
 #simulatorSelectedCurrency {
   margin-top: 5px;
 }
