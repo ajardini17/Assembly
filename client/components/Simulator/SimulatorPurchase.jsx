@@ -28,7 +28,7 @@ export default class StockSimulator extends React.Component {
   }
   
   componentDidMount() {
-    this.handleCurrencyGetRequest();
+    this.handleCurrencyGetRequest()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,7 +58,7 @@ export default class StockSimulator extends React.Component {
   }
 
   handleCurrencySelectionChange(e) {
-    this.handleCurrencyGetRequest(e.target.id)
+    this.handleCurrencyGetRequest(e.target.value)
   }
 
   handleSubmitPriceCheck(e) {
@@ -203,7 +203,7 @@ export default class StockSimulator extends React.Component {
       <div>
         <div className='row' style={{'marginTop':'40px'}}>
           
-          <div className='col-xs-1 col-xs-offset-3'>
+          {/* <div className='col-xs-1 col-xs-offset-3'>
             <img src='/images/bitcoinlogo.jpg' style={this.state.selectedCurrency === 'btc' ? highlight : noHighlight } className='currencyButton' id='btc' onClick={this.handleCurrencySelectionChange} />
           </div>
           <div className='col-xs-1'>
@@ -220,7 +220,16 @@ export default class StockSimulator extends React.Component {
           </div>
           <div className='col-xs-1'>
             <img src='/images/ripplelogo.jpg' style={this.state.selectedCurrency === 'xrp' ? highlight : noHighlight } className='currencyButton' id='xrp' onClick={this.handleCurrencySelectionChange} />
-          </div>
+          </div> */}
+          <select defaultValue='btc' onChange={this.handleCurrencySelectionChange} >
+            <option value="btc">Bitcoin (BTC)</option>
+            <option value="bch">Bitcoin Cash (BCH)</option>
+            <option value="eth">Ethereum (ETH)</option>
+            <option value="ltc">Litecoin (LTC)</option>
+            <option value="xmr">Monero (XMR)</option>
+            <option value="xrp">Ripple (XRP)</option>
+          </select>
+
         </div>
 
         <div className='row'>
