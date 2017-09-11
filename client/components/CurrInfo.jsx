@@ -46,6 +46,7 @@ export default class CurrInfo extends React.Component {
     this.sellAll = this.sellAll.bind(this)
     this.handleArticleClick = this.handleArticleClick.bind(this)
     this.getPredictionData = this.getPredictionData.bind(this)
+    this.handleLogOut = this.handleLogOut.bind(this)
   }
 
   componentDidMount() {
@@ -484,10 +485,14 @@ export default class CurrInfo extends React.Component {
     }
     if(confirm(`You are leaving Woolfey and going to ${url}`)){
       window.location = article[1];
-
     }
-    
+  }
 
+  handleLogOut(){
+    localStorage.removeItem('token')
+    this.setState({
+      loggedIn: false
+    })
   }
 
   render() {
@@ -511,7 +516,7 @@ export default class CurrInfo extends React.Component {
 
     return (
       <div className='container-fluid'>
-        <Navigation loggedIn={this.state.isLoggedIn}/>
+        <Navigation handleLogOut={this.handleLogOut} loggedIn={this.state.isLoggedIn}/>
 
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
@@ -544,15 +549,15 @@ export default class CurrInfo extends React.Component {
         {this.state.currentValue !== '' ?
         <div className="currInfo">
           <div className='row'>
-            <div className='col-xs-4 col-xs-offset-2'>
+            <div className='col-xs-4 col-xs-offset-2 curr-info-price'>
               <h1>{this.state.currencyName.toUpperCase()} - {this.state.currentValue}</h1>
               <p style={{ color: this.state.valueIncrease ? 'green' : 'red' }}><i className={this.state.valueIncrease ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i> {this.state.valueChange}% </p>
             </div>
-            <div className='col-xs-1 col-xs-offset-2'>
-              <button className='btn btn-primary btn-block' onClick={this.handleBuy} style={buttonStyle}>Buy</button>
-            </div>
-            <div className='col-xs-1'>
-              <button className='btn btn-danger btn-block' onClick={this.handleSell} style={buttonStyle}>Sell</button>
+            <div className='col-xs-4 col-xs-offset-2'>
+              {/* <ButtonGroup> */}
+                <button className='btn btn-primary buy-btn' onClick={this.handleBuy} style={buttonStyle}>Buy</button>
+                <button className='btn btn-danger sell-btn' onClick={this.handleSell} style={buttonStyle}>Sell</button>
+              {/* </ButtonGroup> */}
             </div>
           </div>
           <div className='row'>
