@@ -20,8 +20,8 @@ export default class PortfolioTable extends React.Component {
 
   render() {
     return (
-      <table className='portfolioEntryTable'>
-        <caption id="table-caption">Portfolios</caption>
+      <table className='table-responsive table-hover portfolioEntryTable'>
+        <caption id="table-caption">Portfolio</caption>
         <tbody>
           <tr>
             <th style={{ 'textAlign':'center' }}>Asset</th>

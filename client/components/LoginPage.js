@@ -4,6 +4,7 @@ import Login from '../Auth/Login.jsx';
 import Auth from '../Auth/Auth.jsx';
 import axios from 'axios'
 import Navigation from './Navbar';
+import {Tab, Tabs} from 'react-bootstrap'
 
 export default class LoginPage extends React.Component {
   constructor() {
@@ -36,10 +37,25 @@ export default class LoginPage extends React.Component {
   render() {
 
     return (
-      <div>
-        <Navigation handleLogOut={this.handleLogOut} isLoggedIn={this.state.isLoggedIn}/>  
+      <div className='container'>
+        <Navigation handleLogOut={this.handleLogOut} isLoggedIn={this.state.isLoggedIn}/>
+
+        <div className='row'>
+          <div className='col-xs-6 col-xs-offset-3'>
+            <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" style={{'marginTop':'100px'}}>
+              <Tab eventKey={1} title="Login">
+                <Login fetch={this.handleFetchData} handleLogin={this.handleLogin}/>
+              </Tab>
+              <Tab eventKey={2} title="Signup">
+                <Signup fetch={this.handleFetchData} handleSignUp={this.handleSignUp}/>
+              </Tab>
+            </Tabs>
+          </div>
+        </div>
+
+        {/* <Navigation handleLogOut={this.handleLogOut} isLoggedIn={this.state.isLoggedIn}/>  
         <Login fetch={this.handleFetchData} handleLogin={this.handleLogin}/>
-        <Signup fetch={this.handleFetchData} handleSignUp={this.handleSignUp}/>
+        <Signup fetch={this.handleFetchData} handleSignUp={this.handleSignUp}/> */}
       </div>
     )
   }

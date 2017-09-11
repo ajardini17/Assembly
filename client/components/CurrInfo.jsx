@@ -335,6 +335,7 @@ export default class CurrInfo extends React.Component {
 
           <div className='row'>
             <div className='col-xs-10 col-xs-offset-1'>
+              <h2>Recent News</h2>
               <ul>
                 {this.state.articles.map((article, index) => 
                   <a key={index} href={article[1]}><li>{article[0]}</li></a>

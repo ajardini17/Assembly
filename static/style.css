@@ -208,3 +208,14 @@ th, td {
 #selectedCurrencyText {
   font-size: 30px;
 }
+
+.loginSignupSubmitBtn {
+  margin-top: 10px;
+}
+
+.leaderboardTable {
+  margin-top: 100px;
+  border: 1px solid gray;
+  width: 100%;
+  text-align: center;
+}
