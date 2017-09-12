@@ -73,10 +73,14 @@ export default class StockSimulator extends React.Component {
 
   handleAddStock(e){
     e.preventDefault();
-
-    if (confirm('Are you sure you want to buy?')) {
+    if(this.state.input < 0){
+      alert("values must be greater than zero");
+    }
+    else if (confirm('Are you sure you want to buy?')) {
 
       let finalPrice = Math.round(this.state.displayedValue * parseFloat(this.state.input) * 100) / 100;
+      console.log(finalPrice);
+      console.log(Number(this.state.portfolioBalance));
       if(finalPrice < Number(this.state.portfolioBalance)){
         let buyObj = {
           shares: this.state.input,
@@ -133,57 +137,59 @@ export default class StockSimulator extends React.Component {
 
   handleSellStock(e){
     e.preventDefault();
+    if(this.state.input < 0){
+      alert("values must be greater than zero");
+    }
+    else if (confirm('Are you sure you want to sell?')) {
 
-    if (confirm('Are you sure you want to sell?')) {
-
-      let finalPrice = (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2);
-      let stockIndex = this.state.stocks.findIndex(x=>x.ticker === this.state.selectedCurrency);
-      if(stockIndex > -1){
-        let sellObj = {
-          shares: this.state.input,
-          sellPrice: this.state.displayedValue,
-          ticker: this.state.selectedCurrency,
-          portfolioId: this.state.portfolioId,
-          finalPrice: finalPrice
-        }
-        if(Math.abs(this.state.stocks[stockIndex].shares - this.state.input) < .2){
-          this.sellAll(sellObj);
-        } else if(this.state.stocks[stockIndex].shares > this.state.input){
-          axios({
-            method: 'put',
-            url: '/api/sell',
-            headers: {authorization: localStorage.getItem('token')},
-            params: sellObj
-          })
-          .then(reply => {
-            if(reply.data !== 'do not own'){
-              this.props.successfulSell(finalPrice, reply.data);     
-              document.getElementById('currBuyInput').value = '';
-              this.setState({
-                input: '',
-                purchasePrice: '',
-                animMessage: 'Successfully sold ' + this.state.selectedCurrency
-            }, () => {
-              Animated.sequence([
-                Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
-                Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
-                Animated.timing(this.state.anim, {toValue: 0, duration: 500})
-              ]).start()
-              })
-            }
-          })
-          }
-        } else {
-          this.setState({
-            animMessage: `You don't have ${this.state.input} shares of ${this.state.selectedCurrency}`
+    let finalPrice = (this.state.displayedValue * parseFloat(this.state.input)).toFixed(2);
+    let stockIndex = this.state.stocks.findIndex(x=>x.ticker === this.state.selectedCurrency);
+    if(stockIndex > -1){
+      let sellObj = {
+        shares: this.state.input,
+        sellPrice: this.state.displayedValue,
+        ticker: this.state.selectedCurrency,
+        portfolioId: this.state.portfolioId,
+        finalPrice: finalPrice
+      }
+      if(Math.abs(this.state.stocks[stockIndex].shares - this.state.input) < .2){
+        this.sellAll(sellObj);
+      } else if(this.state.stocks[stockIndex].shares > this.state.input){
+        axios({
+          method: 'put',
+          url: '/api/sell',
+          headers: {authorization: localStorage.getItem('token')},
+          params: sellObj
+        })
+        .then(reply => {
+          if(reply.data !== 'do not own'){
+            this.props.successfulSell(finalPrice, reply.data);     
+            document.getElementById('currBuyInput').value = '';
+            this.setState({
+              input: '',
+              purchasePrice: '',
+              animMessage: 'Successfully sold ' + this.state.selectedCurrency
           }, () => {
             Animated.sequence([
               Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
               Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
               Animated.timing(this.state.anim, {toValue: 0, duration: 500})
             ]).start()
-              
-          })
+            })
+          }
+        })
+        }
+      } else {
+        this.setState({
+          animMessage: `You don't have ${this.state.input} shares of ${this.state.selectedCurrency}`
+        }, () => {
+          Animated.sequence([
+            Animated.timing(this.state.anim, {toValue: 1, duration: 500}),
+            Animated.timing(this.state.anim, {toValue: 1, duration: 1000}),
+            Animated.timing(this.state.anim, {toValue: 0, duration: 500})
+          ]).start()
+            
+        })
       }
     }
   }
