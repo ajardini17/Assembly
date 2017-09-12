@@ -456,9 +456,11 @@ export default class CurrInfo extends React.Component {
   }
   handleArticleClick(e, article){
     
-    console.log(e, article[1].slice(42));
     let newsArticle = article[1].slice(42);
     let url = newsArticle.slice(newsArticle.indexOf('www'), newsArticle.indexOf('.com/')+4);
+    if(!url){
+      url = newsArticle.slice(newsArticle.indexOf('http'), newsArticle.indexOf('.com')+4);
+    }
     if(confirm(`You are leaving Woolfey and going to ${url}`)){
       window.location = article[1];
 
@@ -468,8 +470,6 @@ export default class CurrInfo extends React.Component {
   }
 
   render() {
-
-    console.log(this.state.articles)
 
     var highchartStyle = {
       height: '400px',
@@ -545,7 +545,7 @@ export default class CurrInfo extends React.Component {
               <h2>Recent News</h2>
               <ul>
                 {this.state.articles.map((article, index) => 
-                  <a key={index}  onClick={(e) => this.handleArticleClick(e, article)}><li>{article[0]}</li></a>
+                  <a key={index}  onClick={(e) => this.handleArticleClick(e, article)} className="newsArticle"><li>{article[0]}</li></a>
                 )}
               </ul>
             </div>

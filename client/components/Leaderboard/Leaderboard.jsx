@@ -2,11 +2,7 @@ import React from 'react'
 import LeaderboardEntry from './LeaderboardEntry.jsx'
 import Navbar from '../Navbar.js'
 import axios from 'axios'
-<<<<<<< f011ac7dcb56a8bc879e0b6e224cada06df9d331
 import {Tab, Tabs} from 'react-bootstrap'
-=======
-import {Modal, Button} from 'react-bootstrap'
->>>>>>> added delete portfolio button, can click portfolio in leaderboard for more info, transactionHistory routes coming together
 
 export default class Leaderboard extends React.Component {
   constructor(){
@@ -56,8 +52,8 @@ export default class Leaderboard extends React.Component {
                       <th style={{ 'textAlign':'center' }}>Value</th>
                     </tr>
 
-                    {this.state.entries.length > 0 ?
-                    this.state.entries.map((item, index) => (
+                    {this.state.total.length > 0 ?
+                    this.state.total.map((item, index) => (
                       <LeaderboardEntry item={item} key={index} index={index}  /> 
                     ))
                     :
@@ -67,7 +63,24 @@ export default class Leaderboard extends React.Component {
                 </table>
               </Tab>
               <Tab eventKey={2} title="Hourly Gain">
-                
+              <table className='table-responsive table-hover leaderboardTable' style={{'marginTop':'10px'}}>
+                  <tbody>
+                    <tr>
+                      <th style={{ 'textAlign':'center' }}>Rank</th>
+                      <th style={{ 'textAlign':'center' }}>Username</th>
+                      <th style={{ 'textAlign':'center' }}>portfolio name</th>
+                      <th style={{ 'textAlign':'center' }}>Value</th>
+                    </tr>
+
+                    {this.state.hourly.length > 0 ?
+                    this.state.hourly.map((item, index) => (
+                      <LeaderboardEntry item={item} key={index} index={index}  /> 
+                    ))
+                    :
+                    null
+                    }
+                  </tbody>
+                </table>
               </Tab>
               <Tab eventKey={3} title='Monthly Gain'>
 

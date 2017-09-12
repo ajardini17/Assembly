@@ -255,14 +255,8 @@ export default class PortfolioInfo extends React.Component {
     };
     return (
       <div>
-<<<<<<< d2e8ade3f5cd5442bcfbb8e159cb6e3d32f58d8a
         <div style={{'marginTop':'60px'}} className='row'>
           <div className='col-xs-4 portfolioDetails'>
-=======
-        <TransactionHistory/>
-        <div style={{'textAlign':'center', 'marginTop':'60px'}} className='row'>
-          <div className='col-xs-2 col-xs-offset-1 portfolioDetails'>
->>>>>>> fixed buy/uy/sell insufficient funds bug, alert for going off site
             <h2>{this.state.portfolioName} <span className='rank'>&nbsp; Ranked: {this.state.portfolioRank}</span></h2>
             <p>Portfolio Value: ${this.state.portfolioValue}</p>
             <p>Cash: ${this.state.cash}</p>

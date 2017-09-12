@@ -243,3 +243,6 @@ th, td {
 .leaderboard-entry {
   cursor: pointer;
 }
+.newsArticle {
+  cursor: pointer;
+}
