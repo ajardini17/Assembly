@@ -526,16 +526,6 @@ export default class CurrInfo extends React.Component {
     if(confirm(`You are leaving Woolfey and going to ${url}`)){
       window.location = article[1];
     }
-<<<<<<< HEAD
-  }
-
-  handleLogOut(){
-    localStorage.removeItem('token')
-    this.setState({
-      loggedIn: false
-    })
-=======
->>>>>>> Make buy sell buttons responsive
   }
   
   handleLogOut(){
@@ -544,9 +534,7 @@ export default class CurrInfo extends React.Component {
       loggedIn: false
     })
   }
-
-  render() {
-
+  
   render() {
 
     var highchartStyle = {
@@ -606,15 +594,8 @@ export default class CurrInfo extends React.Component {
               <p style={{ color: this.state.valueIncrease ? 'green' : 'red' }}><i className={this.state.valueIncrease ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i> {this.state.valueChange}% </p>
             </div>
             <div className='col-xs-4 col-xs-offset-2'>
-<<<<<<< HEAD
               <button className='btn btn-primary buy-btn' onClick={this.handleBuy} style={buttonStyle}>Buy</button>
               <button className='btn btn-danger sell-btn' onClick={this.handleSell} style={buttonStyle}>Sell</button>
-=======
-              {/* <ButtonGroup> */}
-                <button className='btn btn-primary buy-btn' onClick={this.handleBuy} style={buttonStyle}>Buy</button>
-                <button className='btn btn-danger sell-btn' onClick={this.handleSell} style={buttonStyle}>Sell</button>
-              {/* </ButtonGroup> */}
->>>>>>> Make buy sell buttons responsive
             </div>
           </div>
           <div className='row'>
