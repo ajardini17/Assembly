@@ -51,10 +51,10 @@ export default class LandingPage extends React.Component {
 
         
         <div className="w3-content w3-container w3-padding-64" id="about">
-          <h3 className="w3-center">WOLF VISION</h3>
+          <h3 className="w3-center">WOOLF VISION</h3>
           <p className="w3-center"><em>Make trades before anyone else</em></p>
           <p>Using machine learning and sentiment analysis, we have developed a program that can predict the future prices of multiple 
-            crypto currencies, including Bitcoin, Ethereum, and Litecoin. Utilizing data from a number of resources, our WolfVision technology 
+            crypto currencies, including Bitcoin, Ethereum, and Litecoin. Utilizing data from a number of resources, our WoolfVision technology 
             is able to make predictions with up to 99% accuracy.
           </p>
           <div className="w3-row">
@@ -100,7 +100,7 @@ export default class LandingPage extends React.Component {
             <br /> 
               Use our crypto-currency trading simulator to practice your trades before you spend your actual money. 
               Our simulator uses real time data for all crypto-currencies, allowing you to perform your trades the same as 
-              you would normally. You also have access to our WolfVision technology, giving you the edge in your trades. 
+              you would normally. You also have access to our WoolfVision technology, giving you the edge in your trades. 
               Be the best trader on Woolfey and reach the top of our leaderboards.
           </p>
           <br />
