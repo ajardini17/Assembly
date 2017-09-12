@@ -4,6 +4,7 @@ import Navigation from './Navbar.js'
 import PortfolioLandingCard from './Simulator/PortfolioLandingCard.jsx'
 import { Button, Modal } from 'react-bootstrap'
 import {Link, Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 export default class CurrInfo extends React.Component {
   constructor() {
@@ -26,7 +27,8 @@ export default class CurrInfo extends React.Component {
       portfolioBalance: '',
       portfolioName: '',
       stocks: [],
-      predictions: ''
+      predictions: '',
+      chartCounter: 0
     }
     this.getNewsFeed = this.getNewsFeed.bind(this)
     this.getCurrencyPrice = this.getCurrencyPrice.bind(this)
@@ -72,7 +74,19 @@ export default class CurrInfo extends React.Component {
         this.setState({ currentValue }, () => {
           let data = history.data
           this.setState({ data }, () => {
-            this.createChart(this.state.data, this.state.currencyName)
+            this.state.chartCounter += 1
+            if (this.state.chartCounter === 2) {
+              this.createChart()
+              let seriesOptions = [{
+                name: 'actual',
+                data: this.state.data
+              },
+              {
+                name: 'predicted',
+                data: this.state.predictions
+              }]
+              console.log(seriesOptions)
+            }
           })
         })
       }))
@@ -100,9 +114,14 @@ export default class CurrInfo extends React.Component {
       let data = JSON.parse(reply.data.prediction)
       let predictions = []
       for (var key in data.ds) {
-        predictions.push([data.ds[key], data.yhat[key]])
+        predictions.push([Date.parse(data.ds[key]), data.yhat[key]])
       }
-      this.setState({ predictions })
+      this.setState({ predictions }, () => { 
+        this.state.chartCounter += 1
+        if (this.state.chartCounter === 2) {
+          this.createChart()
+        }
+      })
     })
     .catch(err => console.log('error', err))
   }
@@ -175,8 +194,8 @@ export default class CurrInfo extends React.Component {
   getHistoricalCurrencyData() {
     return axios.get('/api/getHistoricalCurrencyData', {params: this.state.currencyName})
   }
-
-  createChart(data, currency) {
+    
+  createChart() {
     Highcharts.theme = {
       colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066', '#eeaaee',
           '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
@@ -370,21 +389,43 @@ export default class CurrInfo extends React.Component {
     };
     Highcharts.setOptions(Highcharts.theme);
     Highcharts.stockChart('container', {
-      rangeSelector: { 
-        selected: 1 
+      legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'middle'
       },
-      title: { 
-        text: currency.toUpperCase() 
+      rangeSelector: {
+          selected: 4
+      },
+      navigator: {
+        enabled: true
+      },
+      title: {
+          text: this.state.currencyName.toUpperCase()
+      },
+      plotOptions: {
+        series: {
+          showInNavigator: true
+        }
+      },
+      tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+        valueDecimals: 2,
+        split: true
       },
       series: [{
-        name: currency,
-        data: data,
-        tooltip: {
-          valueDecimals: 2
-        }
+        name: 'actual',
+        data: this.state.data,
+        color: '#6f7582'
+      },
+      {
+        name: 'predicted',
+        data: this.state.predictions,
+        color: '#42cef4'
       }]
-    });
+    })
   }
+
 
   getNewsFeed() {
     axios.get('/api/getNewsFeed', {params: decodeURI(window.location.pathname.slice(10))})
@@ -554,10 +595,8 @@ export default class CurrInfo extends React.Component {
               <p style={{ color: this.state.valueIncrease ? 'green' : 'red' }}><i className={this.state.valueIncrease ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i> {this.state.valueChange}% </p>
             </div>
             <div className='col-xs-4 col-xs-offset-2'>
-              {/* <ButtonGroup> */}
-                <button className='btn btn-primary buy-btn' onClick={this.handleBuy} style={buttonStyle}>Buy</button>
-                <button className='btn btn-danger sell-btn' onClick={this.handleSell} style={buttonStyle}>Sell</button>
-              {/* </ButtonGroup> */}
+              <button className='btn btn-primary buy-btn' onClick={this.handleBuy} style={buttonStyle}>Buy</button>
+              <button className='btn btn-danger sell-btn' onClick={this.handleSell} style={buttonStyle}>Sell</button>
             </div>
           </div>
           <div className='row'>
