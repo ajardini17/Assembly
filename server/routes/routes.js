@@ -39,14 +39,6 @@ router.get('/getPortfolioHistory', portfolio.getPortfolioHistory);
 router.get('/portfolioTransactionHistory', auth.authenticate, transactionController.portfolioHistory);
 router.get('/fetchLeaderboard', leaderboard.fetchLeaderboard);
 
-
-router.get('/getPrediction', (req, res) => {
-  Model.Prediction.findAll({})
-    .then(response => {
-      res.send(response);
-    })
-})
-
 router.get('/getNewsFeed', function(req, res) {
   let urls = {
     btc: 'https://www.google.com/alerts/feeds/09786470827379239761/3670693558918612812',
@@ -69,5 +61,7 @@ router.get('/getNewsFeed', function(req, res) {
 })
 
 router.get('/getHistoricalCurrencyData', stock.getHistoricalData);
+
+router.get('/getPrediction', auth.authenticate, stock.getPredictionData)
 
 module.exports = router;

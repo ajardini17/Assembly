@@ -18,11 +18,11 @@ def getBitcoinData():
   m = Prophet()
   m.fit(df)
 
-  future = m.make_future_dataframe(periods=20)
+  future = m.make_future_dataframe(periods=60)
   forecast = m.predict(future)
-  futureData = forecast[['ds', 'yhat']][-20:]
+  futureData = forecast[['ds', 'yhat']][-200:]
   futureData['ds'] = futureData['ds'].dt.strftime('%Y-%m-%d')
-  futureData = str(futureData.round(2).values.tolist())
+  futureData = futureData.round(2).to_json()
 
   # print(futureData)
 

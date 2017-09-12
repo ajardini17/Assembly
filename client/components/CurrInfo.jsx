@@ -25,7 +25,9 @@ export default class CurrInfo extends React.Component {
       purchasePrice: '',
       portfolioBalance: '',
       portfolioName: '',
-      stocks: []
+      stocks: [],
+      predictions: '',
+      chartCounter: 0
     }
     this.getNewsFeed = this.getNewsFeed.bind(this)
     this.getCurrencyPrice = this.getCurrencyPrice.bind(this)
@@ -44,6 +46,8 @@ export default class CurrInfo extends React.Component {
     this.handleSellStock = this.handleSellStock.bind(this)
     this.sellAll = this.sellAll.bind(this)
     this.handleArticleClick = this.handleArticleClick.bind(this)
+    this.getPredictionData = this.getPredictionData.bind(this)
+    this.handleLogOut = this.handleLogOut.bind(this)
   }
 
   componentDidMount() {
@@ -69,10 +73,14 @@ export default class CurrInfo extends React.Component {
         this.setState({ currentValue }, () => {
           let data = history.data
           this.setState({ data }, () => {
-            this.createChart(this.state.data, this.state.currencyName)
+            this.state.chartCounter += 1
+            if (this.state.chartCounter === 2) {
+              this.createChart()
+            }
           })
         })
       }))
+      this.getPredictionData()
     })
     this.getNewsFeed()
     this.handleFetchData()
@@ -83,6 +91,29 @@ export default class CurrInfo extends React.Component {
     .then(reply => this.setState({portfolios: reply.data,
                                   isLoggedIn: true}))
     .catch(err => console.log(err, 'error'))
+  }
+
+  getPredictionData() {
+    axios({
+      method: 'get',
+      url: '/api/getPrediction',
+      headers: {authorization: this.state.token},
+      params: {currency: this.state.currencyName}
+    })
+    .then(reply => {
+      let data = JSON.parse(reply.data.prediction)
+      let predictions = []
+      for (var key in data.ds) {
+        predictions.push([Date.parse(data.ds[key]), data.yhat[key]])
+      }
+      this.setState({ predictions }, () => { 
+        this.state.chartCounter += 1
+        if (this.state.chartCounter === 2) {
+          this.createChart()
+        }
+      })
+    })
+    .catch(err => console.log('error', err))
   }
 
   handleBuy() {
@@ -153,8 +184,8 @@ export default class CurrInfo extends React.Component {
   getHistoricalCurrencyData() {
     return axios.get('/api/getHistoricalCurrencyData', {params: this.state.currencyName})
   }
-
-  createChart(data, currency) {
+    
+  createChart() {
     Highcharts.theme = {
       colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066', '#eeaaee',
           '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
@@ -176,7 +207,7 @@ export default class CurrInfo extends React.Component {
           style: {
             color: '#E0E0E3',
             fontSize: '20px'
-          }
+          },
       },
       subtitle: {
           style: {
@@ -348,21 +379,43 @@ export default class CurrInfo extends React.Component {
     };
     Highcharts.setOptions(Highcharts.theme);
     Highcharts.stockChart('container', {
-      rangeSelector: { 
-        selected: 1 
+      legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'middle'
       },
-      title: { 
-        text: currency.toUpperCase() 
+      rangeSelector: {
+          selected: 4
+      },
+      navigator: {
+        enabled: true
+      },
+      title: {
+          text: this.state.currencyName.toUpperCase()
+      },
+      plotOptions: {
+        series: {
+          showInNavigator: true
+        }
+      },
+      tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+        valueDecimals: 2,
+        split: true
       },
       series: [{
-        name: currency,
-        data: data,
-        tooltip: {
-          valueDecimals: 2
-        }
+        name: 'actual',
+        data: this.state.data,
+        color: '#6f7582'
+      },
+      {
+        name: 'predicted',
+        data: this.state.predictions,
+        color: '#42cef4'
       }]
-    });
+    })
   }
+
 
   getNewsFeed() {
     axios.get('/api/getNewsFeed', {params: decodeURI(window.location.pathname.slice(10))})
@@ -463,10 +516,14 @@ export default class CurrInfo extends React.Component {
     }
     if(confirm(`You are leaving Woolfey and going to ${url}`)){
       window.location = article[1];
-
     }
-    
-
+  }
+  
+  handleLogOut(){
+    localStorage.removeItem('token')
+    this.setState({
+      loggedIn: false
+    })
   }
 
   render() {
@@ -490,7 +547,7 @@ export default class CurrInfo extends React.Component {
 
     return (
       <div className='container-fluid'>
-        <Navigation loggedIn={this.state.isLoggedIn}/>
+        <Navigation handleLogOut={this.handleLogOut} loggedIn={this.state.isLoggedIn}/>
 
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
@@ -523,15 +580,13 @@ export default class CurrInfo extends React.Component {
         {this.state.currentValue !== '' ?
         <div className="currInfo">
           <div className='row'>
-            <div className='col-xs-4 col-xs-offset-2'>
+            <div className='col-xs-4 col-xs-offset-2 curr-info-price'>
               <h1>{this.state.currencyName.toUpperCase()} - {this.state.currentValue}</h1>
               <p style={{ color: this.state.valueIncrease ? 'green' : 'red' }}><i className={this.state.valueIncrease ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i> {this.state.valueChange}% </p>
             </div>
-            <div className='col-xs-1 col-xs-offset-2'>
-              <button className='btn btn-primary btn-block' onClick={this.handleBuy} style={buttonStyle}>Buy</button>
-            </div>
-            <div className='col-xs-1'>
-              <button className='btn btn-danger btn-block' onClick={this.handleSell} style={buttonStyle}>Sell</button>
+            <div className='col-xs-4 col-xs-offset-2'>
+              <button className='btn btn-primary buy-btn' onClick={this.handleBuy} style={buttonStyle}>Buy</button>
+              <button className='btn btn-danger sell-btn' onClick={this.handleSell} style={buttonStyle}>Sell</button>
             </div>
           </div>
           <div className='row'>

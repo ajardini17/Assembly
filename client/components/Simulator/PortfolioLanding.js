@@ -17,7 +17,7 @@ export default class PortfolioLanding extends React.Component {
       portfolios: [],
       portfolioId: 0,
       token: localStorage.getItem('token'),
-      isLoggedIn: false,
+      loggedIn: false,
       showModal: false,
       name: '',
       seriesOptions: [],
@@ -50,7 +50,7 @@ export default class PortfolioLanding extends React.Component {
   handleLogOut(){
     localStorage.removeItem('token')
     this.setState({
-      isLoggedIn: false,
+      loggedIn: false,
       portfolios: [],
       portfolioId: 0,
       name: ''
@@ -59,7 +59,7 @@ export default class PortfolioLanding extends React.Component {
   handleFetchData(){
     axios.get('/api/getUserData', {headers: {authorization:this.state.token}})
     .then(reply => {
-      this.setState({portfolios: reply.data, isLoggedIn: true});
+      this.setState({portfolios: reply.data, loggedIn: true});
       })
     .catch(err => console.log(err, ' fetch error error'))
   }
@@ -155,25 +155,16 @@ export default class PortfolioLanding extends React.Component {
   }
   
   render() {
-    let loggedIn = this.state.isLoggedIn
-    let login = !loggedIn ? <Login fetch={this.handleFetchData} handleLogin={this.handleLogin}/> : null
-    let signup = !loggedIn ? <Signup fetch={this.handleFetchData} handleSignUp={this.handleSignUp}/> : null
-    let nav = !loggedIn ? <Navigation handleLogOut={this.handleLogOut} loggedIn={false}/> : <Navigation handleLogOut={this.handleLogOut} loggedIn={true}/>
-
     return (
       <div>
 
         <div id="container" className="landingChart"></div>
 
-        {/* <Navigation handleLogOut={this.handleLogOut} isLoggedIn={this.state.isLoggedIn}/>   */}
-        { nav }
+        <Navigation handleLogOut={this.handleLogOut} loggedIn={this.state.loggedIn}/>
 
         <div className="container text-center createPortBtn">
           <Button className="text-center" bsStyle="primary" bsSize="large" onClick={this.open}>+ Create Portfolio</Button>
         </div>
-
-        {/* { signup }
-        { login } */}
 
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>

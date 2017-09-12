@@ -246,3 +246,32 @@ th, td {
 .newsArticle {
   cursor: pointer;
 }
+
+.buy-btn {
+  width: 90px;
+  margin-right: 10px;
+}
+
+.sell-btn {
+  width: 90px;
+  margin-right: 10px;
+}
+
+@media screen and (max-width: 840px) {
+  .buy-btn {
+    width: 60px;
+    border-radius: 4px;
+  }
+
+  .sell-btn {
+    width: 60px;
+    border-radius: 4px;
+    margin-right: 40px;
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .curr-info-price {
+    margin-left: 14%;
+  }
+}

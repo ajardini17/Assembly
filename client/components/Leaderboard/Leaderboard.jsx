@@ -9,14 +9,34 @@ export default class Leaderboard extends React.Component {
     super();
     this.state = {
       total: [],
-      hourly: []
+      hourly: [],
+      loggedIn: false
     }
-    this.fetchLeaderboards = this.fetchLeaderboards.bind(this)
-
+    this.fetchLeaderboards = this.fetchLeaderboards.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
+  }
+  
+  fetchLeaderboards(){
+    axios.get('/api/fetchLeaderboard')
+    .then(reply => {
+      this.setState({
+        entries: reply.data
+      })
+    })
   }
 
   componentWillMount() {
     this.fetchLeaderboards();
+    if (localStorage.getItem('token')) {
+      this.setState({ loggedIn: true })
+    }
+  }
+
+  handleLogOut(){
+    localStorage.removeItem('token')
+    this.setState({
+      loggedIn: false
+    })
   }
 
   fetchLeaderboards(){
@@ -35,7 +55,7 @@ export default class Leaderboard extends React.Component {
     return (
       <div className='container'>
         <div className='row'>
-          <Navbar />
+          <Navbar handleLogOut={this.handleLogOut} loggedIn={this.state.loggedIn}/>
         </div>
         <div className='row'>
           <div className='col-xs-12'>
