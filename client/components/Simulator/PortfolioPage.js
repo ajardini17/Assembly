@@ -138,7 +138,8 @@ export default class PortfolioPage extends React.Component {
     for(var i = 0; i < stocks.length; i++){
       if(stocks[i].ticker === stockData.ticker){
         stocks[i] = stockData;
-        this.state.stockValues[stockData.ticker] = Number(this.state.stockValues[stockData.ticker]) - Number(cashChange);
+        this.state.stockValues[stockData.ticker] = Math.round((Number(this.state.stockValues[stockData.ticker]) - Number(cashChange)) * 100)/100;
+        console.log(this.state.stockValues, 'NEW VALUE AFTER THING')
         this.setState({
           portfolio: this.state.portfolio,
           stockValues: this.state.stockValues,
