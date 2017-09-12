@@ -534,7 +534,6 @@ export default class CurrInfo extends React.Component {
       loggedIn: false
     })
   }
-  
   render() {
 
     var highchartStyle = {
