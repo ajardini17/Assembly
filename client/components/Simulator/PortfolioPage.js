@@ -20,8 +20,10 @@ export default class PortfolioPage extends React.Component {
       portfolioName: '',
       stockValues: {},
       annualReturn: 'Calculating...',
-      history: []
+      history: [],
+      isOwner: false
     }
+    this.checkForOwner = this.checkForOwner.bind(this)
     this.handleFetchData = this.handleFetchData.bind(this)
     this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this)
     this.successfulBuy = this.successfulBuy.bind(this)
@@ -31,10 +33,21 @@ export default class PortfolioPage extends React.Component {
     this.getPortfolioHistory = this.getPortfolioHistory.bind(this)
     this.successfulPurge = this.successfulPurge.bind(this)
     this.isEmpty = this.isEmpty.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
   }
   componentDidMount() {
-    this.handleFetchData()
-    this.getPortfolioHistory()
+    this.checkForOwner()
+  }
+  checkForOwner(){
+    axios({
+      method: 'get',
+      url: '/api/isOwnerOfPortfolio',
+      headers: {authorization: localStorage.getItem('token')},
+      params: {portfolioId: this.state.portfolioId}
+    })
+    .then(reply => {
+      this.setState({isOwner: reply.data}, () => {this.handleFetchData(); this.getPortfolioHistory()})
+    })
   }
   handleLogOutAndRedirect(){
     localStorage.removeItem('token');
@@ -148,6 +161,20 @@ export default class PortfolioPage extends React.Component {
       }
     }
   }
+  handleDelete(){
+    if(confirm('Are you sure you want to delete this portfolio?')){
+
+      axios({
+        method:'delete',
+        url: '/api/deletePortfolio',
+        headers: {authorization: localStorage.getItem('token')},
+        params: {portfolioId: this.state.portfolioId}
+      })
+      .then(() => {
+        window.location = '/';
+      })
+    }
+  }
 
   calculateReturn() {
     let annualReturn = (this.state.portfolioValue - 100000)/100000;
@@ -175,17 +202,15 @@ export default class PortfolioPage extends React.Component {
   render() {
     return (
       <div className='container' id='portPage'>
-
-        <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true}/> 
-
-        <PortfolioInfo totalPortfolios={this.state.totalPortfolios} portfolioRank={this.state.portfolioRank} 
-          portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} history={this.state.history} 
+        <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true} handleDelete={this.handleDelete}/> 
+        <PortfolioInfo totalPortfolios={this.state.totalPortfolios} portfolioRank={this.state.portfolioRank} portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} history={this.state.history} 
           portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} 
           annualReturn={this.state.annualReturn} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} 
           portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}
-          successfulPurge = {this.successfulPurge}
+          successfulPurge={this.successfulPurge} isOwner={this.state.isOwner}
         />
-
+       
+        
       </div>
     )
   }

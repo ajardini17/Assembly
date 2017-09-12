@@ -79,7 +79,7 @@ export default class PortfolioLanding extends React.Component {
   }
 
   open() {
-    if(this.state.portfolios.length < 9) {
+    if(this.state.portfolios.length < 3) {
       this.setState({ showModal: true })
     } else {
       alert('Maximum portfolios for free tier')

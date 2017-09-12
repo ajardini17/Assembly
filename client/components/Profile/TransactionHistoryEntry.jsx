@@ -7,14 +7,19 @@ export default class TransactionHistoryEntry extends Component {
 
         }
     }
-    componentDidMount() {
-    }
-    componentWillReceiveProps(nextProps) {
 
-    }
+    
     render() {
+      console.log(this.props.item);
         return (
             <div>
+              <div>
+                <div>
+                  <div>
+                      wub
+                  </div>
+                </div>
+              </div>
             </div>
         );
     }

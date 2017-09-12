@@ -8,22 +8,29 @@ export default class Leaderboard extends React.Component {
   constructor(){
     super();
     this.state = {
-      entries: []
+      total: [],
+      hourly: []
     }
-    this.fetchLeaderboards = this.fetchLeaderboards.bind(this);
+    this.fetchLeaderboards = this.fetchLeaderboards.bind(this)
+
   }
-  fetchLeaderboards(){
-    axios.get('/api/fetchLeaderboard')
-    .then(reply => {
-      this.setState({
-        entries: reply.data
-      })
-    })
-  }
+
   componentWillMount() {
     this.fetchLeaderboards();
   }
 
+  fetchLeaderboards(){
+    axios.all([axios.get('/api/fetchLeaderboard', {params: {leaderboard: 'leaderboard'}}), axios.get('/api/fetchLeaderboard', {params: {leaderboard: 'hourlyLeaderboard'}})])
+    .then(axios.spread((total, hourly) => {
+      this.setState({
+        total: total.data,
+        hourly: hourly.data
+      })
+    }))
+  
+  }
+  
+ 
   render() {
     return (
       <div className='container'>
@@ -45,8 +52,8 @@ export default class Leaderboard extends React.Component {
                       <th style={{ 'textAlign':'center' }}>Value</th>
                     </tr>
 
-                    {this.state.entries.length > 0 ?
-                    this.state.entries.map((item, index) => (
+                    {this.state.total.length > 0 ?
+                    this.state.total.map((item, index) => (
                       <LeaderboardEntry item={item} key={index} index={index}  /> 
                     ))
                     :
@@ -56,7 +63,24 @@ export default class Leaderboard extends React.Component {
                 </table>
               </Tab>
               <Tab eventKey={2} title="Hourly Gain">
-                
+              <table className='table-responsive table-hover leaderboardTable' style={{'marginTop':'10px'}}>
+                  <tbody>
+                    <tr>
+                      <th style={{ 'textAlign':'center' }}>Rank</th>
+                      <th style={{ 'textAlign':'center' }}>Username</th>
+                      <th style={{ 'textAlign':'center' }}>portfolio name</th>
+                      <th style={{ 'textAlign':'center' }}>Value</th>
+                    </tr>
+
+                    {this.state.hourly.length > 0 ?
+                    this.state.hourly.map((item, index) => (
+                      <LeaderboardEntry item={item} key={index} index={index}  /> 
+                    ))
+                    :
+                    null
+                    }
+                  </tbody>
+                </table>
               </Tab>
               <Tab eventKey={3} title='Monthly Gain'>
 
@@ -71,3 +95,4 @@ export default class Leaderboard extends React.Component {
     )
   }
 }
+

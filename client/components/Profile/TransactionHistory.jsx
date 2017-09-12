@@ -1,22 +1,33 @@
 import React from 'react';
-import TransactionHistoryEntry from './TransactionHistoryEntry'; 
+import TransactionHistoryEntry from './TransactionHistoryEntry.jsx'; 
+import axios from 'axios'
 
 export default class TransactionHistory extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            entries: ''
+            transactions: []
         }
+        this.fetchPortfolioTransactions = this.fetchPortfolioTransactions.bind(this)
     }
-    componentWillReceiveProps(nextProps){
-        this.setState({
-            entries: nextProps.entries
-        })
+    componentWillMount() {
+      this.fetchPortfolioTransactions()
+    }
+    fetchPortfolioTransactions(){
+      axios({
+        method: 'get',
+        url:'/api/portfolioTransactionHistory', 
+        headers: {authorization: localStorage.getItem('token')},
+        params: {portfolioId: this.props.portfolioId}
+      })
+      .then(reply => {
+        this.setState({transactions: reply.data});
+      })
     }
     render() {
         return (
             <div>
-                {this.props.entries.map((key, index) => (
+                {this.state.transactions.map((item, index) => (
                     <TransactionHistoryEntry item={item} key={index}/>
                 ))}
             </div>

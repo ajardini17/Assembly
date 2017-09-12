@@ -1,5 +1,6 @@
 const Model = require('../../database/models/model.js');
-const Redis = require('../../database/redis/redis.js')
+const Redis = require('../../database/redis/redis.js');
+
 module.exports ={
   createPortfolio: (req, res) => {
     Model.Portfolio.create({
@@ -20,13 +21,17 @@ module.exports ={
         let stocks = stocksData.map(x => x.dataValues);
         let response = reply.dataValues;
         response.stocks = stocks;
-        Redis.zrank('leaderboard', req.query.id, (err, rank) => {
-          Redis.zcard('leaderboard', (err, card) => {
-            response.portfolioRank = card - rank;
-            response.totalPortfolios = card;
-            res.send(response);
-          })
-        });
+        if(!req.query.simple){
+          Redis.zrank('leaderboard', req.query.id, (err, rank) => {
+            Redis.zcard('leaderboard', (err, card) => {
+              response.portfolioRank = card - rank;
+              response.totalPortfolios = card;
+              res.send(response);
+            })
+          });
+        } else {
+          res.send(response);
+        }
       })
     })
   },
@@ -37,10 +42,29 @@ module.exports ={
     })
   },
   deletePortfolio: (req, res) => {
-    Model.Portfolio.destroy({
-      where: {id: req.query.id}
+    Model.PortfolioStock.findAll({where:{portfolioId: req.query.portfolioId}})
+    .then(reply => {
+      const portfolios = reply.map(x => x.dataValues);
+      portfolios.forEach(x => Redis.srem(`${x.ticker}:members`));
     })
-    .then(reply => res.send(reply))
+    Model.Portfolio.destroy({
+      where: {id: req.query.portfolioId}
+    })
+    .then(reply => {
+      Redis.hdel(`portfolio:${req.query.portfolioId}:hash`);
+      Redis.zrem('leaderboard', req.query.portfolioId);
+      res.json(reply)
+    })
+  },
+  isOwnerOfPortfolio: (req, res) => {
+    Model.Portfolio.findOne({where: {userId: req.token.id, id: req.query.portfolioId}})
+    .then(reply => {
+      if(reply){
+        res.json(true);
+      } else {
+        res.json(false);
+      }
+    })
   } 
 }
 

@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import PortfolioTable from './PortfolioTable.js'
 import SimulatorPurchase from './SimulatorPurchase.jsx'
+import TransactionHistory from '../Profile/TransactionHistory.jsx'
 
 export default class PortfolioInfo extends React.Component {
   constructor(props) {
@@ -27,7 +28,8 @@ export default class PortfolioInfo extends React.Component {
       annualReturn: nextProps.annualReturn,
       history: nextProps.history,
       portfolioRank: nextProps.portfolioRank,
-      totalPortfolios: nextProps.totalPortfolios
+      totalPortfolios: nextProps.totalPortfolios,
+
     }, () => this.createGraph(this.state.history))
   }
 
@@ -251,7 +253,6 @@ export default class PortfolioInfo extends React.Component {
       midWidth: '310px',
       margin: '10px auto'
     };
-
     return (
       <div>
         <div style={{'marginTop':'60px'}} className='row'>
@@ -263,8 +264,8 @@ export default class PortfolioInfo extends React.Component {
             <hr />
             <SimulatorPurchase successfulPurge = {this.props.successfulPurge} portfolioStocks={this.props.portfolio.stocks} 
               portfolioId ={this.props.portfolioId} portfolio = {this.props.portfolio} portfolioBalance={this.props.cash} 
-              successfulBuy={this.props.successfulBuy} successfulSell={this.props.successfulSell}
-            />
+              successfulBuy={this.props.successfulBuy} successfulSell={this.props.successfulSell} isOwner={this.props.isOwner} />
+            
           </div>
           <div className='col-xs-8'>
             <PortfolioTable portfolioStocks={this.props.portfolioStocks} stockValues={this.props.stockValues} 

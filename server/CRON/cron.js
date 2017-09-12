@@ -27,6 +27,7 @@ const coinSet = () => {
     if(bool){
       leaderboard();
       createSet();
+      hourlyLeaderboard.start();
       bool = false;
     }
   }));
@@ -119,8 +120,8 @@ const appendCoinHistoricalData = (coin, price, date) => {
 
 ///////////////////////////// LEADERBOARD /////////////////////////////////////
 
-const setLeaderboard = (coins,portfolios) => {
-  portfolios.forEach((portfolio, i) => {
+const setCurrentLeaderboard = (coins,portfolios, cb) => {
+  portfolios.forEach((portfolio, ind) => {
     Model.PortfolioStock.findAll({where:{portfolioId:portfolio.id}})
     .then(reply => {
       const stocks = reply.map(x => x.dataValues);
@@ -140,6 +141,31 @@ const setLeaderboard = (coins,portfolios) => {
       Redis.zadd('leaderboard', Math.round((currencyValue + portfolio.balance) * 100) / 100, portfolio.id);
     })
   });
+}
+
+const hourlyLeaderboardHandler = () => {
+ 
+  fetchCoins((coins, portfolios) => {
+    portfolios.forEach((portfolio, ind) => {
+      Model.PortfolioStock.findAll({where:{portfolioId:portfolio.id}})
+      .then(reply => {
+        const stocks = reply.map(x => x.dataValues);
+        let portfolioValue = 0;
+        for(var i = 0; i < stocks.length; i++){
+          portfolioValue += (coins[stocks[i].ticker] * stocks[i].shares);
+        }
+        portfolioValue += portfolio.balance;
+        portfolioValue = Math.round(portfolioValue * 100) / 100;
+        Redis.hget(`hourlyLeaderboard:${portfolio.id}:setter`, 'total', (err, data) => {
+          if(data){
+            Redis.zadd('hourlyLeaderboard', Math.round((portfolioValue - Number(data)) * 100) / 100, portfolio.id);
+          }
+
+          Redis.hset(`hourlyLeaderboard:${portfolio.id}:setter`, 'total', portfolioValue);
+        })
+      })
+    })
+  })
 }
 
 const triggerLeaderboardCalculation = (ticker, newValue) => {
@@ -176,17 +202,16 @@ const makeCurrencySet = (portfolios) => {
 }
 
 const leaderboard = () => {
-  fetchCoins(setLeaderboard);
+  fetchCoins(setCurrentLeaderboard);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 const getCoinsData = new CronJob({cronTime:'00 */2 * * * *', onTick: () => {coinSet()}, start: false,timeZone:'America/Los_Angeles', runOnInit: true});
 const collectDailyPortfolioData = new CronJob({cronTime:'00 30 23 * * *', onTick: () => {fetchCoins(storePortfolioData)}, start: false, timeZone:'America/Los_Angeles', runOnInit: false});
-//const getHistoricalData = new CronJob({cronTime: '00 */10 * * * *', onTick: ()=>{fetchHistory()}, start: false, timeZone:'America/Los_Angeles', runOnInit: true});
-//const weeklyLeaderboard = new CronJob({cronTime: ''});
-//const dailyLeaderboard = new CronJob({cronTime: '', onTick: ()=>{}, });
+const hourlyLeaderboard = new CronJob({cronTime: '00 00 * * * *', onTick: () => {hourlyLeaderboardHandler()}, start: false, timeZone: 'America/Los_Angeles', runOnInit: true});
+
 
 getCoinsData.start();
 collectDailyPortfolioData.start();
-//getHistoricalData.start();
