@@ -26,7 +26,7 @@ export default class CurrInfo extends React.Component {
       portfolioBalance: '',
       portfolioName: '',
       stocks: [],
-      predictions: '',
+      predictions: [],
       chartCounter: 0
     }
     this.getNewsFeed = this.getNewsFeed.bind(this)
@@ -101,17 +101,25 @@ export default class CurrInfo extends React.Component {
       params: {currency: this.state.currencyName}
     })
     .then(reply => {
-      let data = JSON.parse(reply.data.prediction)
-      let predictions = []
-      for (var key in data.ds) {
-        predictions.push([Date.parse(data.ds[key]), data.yhat[key]])
-      }
-      this.setState({ predictions }, () => { 
-        this.state.chartCounter += 1
-        if (this.state.chartCounter === 2) {
-          this.createChart()
+      if(reply.data.prediction){
+
+        let data = JSON.parse(reply.data.prediction)
+        let predictions = []
+        for (var key in data.ds) {
+          predictions.push([Date.parse(data.ds[key]), data.yhat[key]])
         }
-      })
+        this.setState({ predictions }, () => { 
+          this.state.chartCounter += 1
+          if (this.state.chartCounter === 2) {
+            this.createChart()
+          }
+        })
+      } else {
+        this.state.chartCounter++;
+        if(this.state.chartCounter === 2){
+          this.createChart();
+        }
+      }
     })
     .catch(err => console.log('error', err))
   }
@@ -410,7 +418,7 @@ export default class CurrInfo extends React.Component {
       },
       {
         name: 'predicted',
-        data: this.state.predictions,
+        data: this.state.predictions ? this.state.predictions : [],
         color: '#42cef4'
       }]
     })

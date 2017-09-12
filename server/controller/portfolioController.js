@@ -45,13 +45,13 @@ module.exports ={
     Model.PortfolioStock.findAll({where:{portfolioId: req.query.portfolioId}})
     .then(reply => {
       const portfolios = reply.map(x => x.dataValues);
-      portfolios.forEach(x => Redis.srem(`${x.ticker}:members`));
+      portfolios.forEach(x => Redis.srem(`${x.ticker}:members`, req.query.portfolioId));
     })
     Model.Portfolio.destroy({
       where: {id: req.query.portfolioId}
     })
     .then(reply => {
-      Redis.hdel(`portfolio:${req.query.portfolioId}:hash`);
+      Redis.del(`portfolio:${req.query.portfolioId}:hash`);
       Redis.zrem('leaderboard', req.query.portfolioId);
       res.json(reply)
     })
