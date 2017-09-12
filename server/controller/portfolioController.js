@@ -1,5 +1,6 @@
 const Model = require('../../database/models/model.js');
-const Redis = require('../../database/redis/redis.js')
+const Redis = require('../../database/redis/redis.js');
+
 module.exports ={
   createPortfolio: (req, res) => {
     Model.Portfolio.create({
@@ -53,6 +54,16 @@ module.exports ={
       Redis.hdel(`portfolio:${req.query.portfolioId}:hash`);
       Redis.zrem('leaderboard', req.query.portfolioId);
       res.json(reply)
+    })
+  },
+  isOwnerOfPortfolio: (req, res) => {
+    Model.Portfolio.findOne({where: {userId: req.token.id, id: req.query.portfolioId}})
+    .then(reply => {
+      if(reply){
+        res.json(true);
+      } else {
+        res.json(false);
+      }
     })
   } 
 }

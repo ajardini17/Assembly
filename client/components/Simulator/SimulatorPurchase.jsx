@@ -16,7 +16,8 @@ export default class StockSimulator extends React.Component {
       portfolioBalance: 0,
       anim: new Animated.Value(0),
       animMessage: '',
-      stocks: []
+      stocks: [],
+      isOwner: this.props.isOwner
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmitPriceCheck = this.handleSubmitPriceCheck.bind(this);
@@ -35,7 +36,8 @@ export default class StockSimulator extends React.Component {
     this.setState({
       portfolioId: nextProps.portfolioId,
       portfolioBalance: nextProps.portfolioBalance,
-      stocks: nextProps.portfolioStocks
+      stocks: nextProps.portfolioStocks,
+      isOwner: nextProps.isOwner
     })
   }
   handleCurrencyGetRequest(input) {
@@ -197,7 +199,6 @@ export default class StockSimulator extends React.Component {
       borderRadius: "10px",
       width: "70px"
     }
-
     return (
 
       <div>
@@ -246,6 +247,15 @@ export default class StockSimulator extends React.Component {
           </div>
         </div>
 
+<<<<<<< e31f1c24ff2c0118991884e3e9b61496ab16d003
+=======
+        {/* <div className='row'>
+          <div className='col-xs-4 col-xs-offset-4 text-center'>
+            {this.state.purchasePrice !== '$NaN' ? <p> {this.state.purchasePrice}</p> : <p> </p>}
+          </div>
+        </div> */}
+        {this.state.isOwner ? 
+>>>>>>> hourly leaderboard added. modularized code
         <div className='row' id='bottomSimPurchase'>
           <div className='col-xs-10'>
             <form onSubmit={this.handleSubmitPriceCheck}>
@@ -263,6 +273,7 @@ export default class StockSimulator extends React.Component {
             }
           </div>
         </div>
+        : null}
 
         <div className='row text-center'>
           <Animated.div style={{transform: [{scale: this.state.anim}]}}>

@@ -12,7 +12,8 @@ export default class Leaderboard extends React.Component {
   constructor(){
     super();
     this.state = {
-      entries: []
+      total: [],
+      hourly: []
     }
     this.fetchLeaderboards = this.fetchLeaderboards.bind(this)
 
@@ -23,12 +24,14 @@ export default class Leaderboard extends React.Component {
   }
 
   fetchLeaderboards(){
-    axios.get('/api/fetchCurrentLeaderboard')
-    .then(reply => {
+    axios.all([axios.get('/api/fetchLeaderboard', {params: {leaderboard: 'leaderboard'}}), axios.get('/api/fetchLeaderboard', {params: {leaderboard: 'hourlyLeaderboard'}})])
+    .then(axios.spread((total, hourly) => {
       this.setState({
-        entries: reply.data
+        total: total.data,
+        hourly: hourly.data
       })
-    })
+    }))
+  
   }
   
  

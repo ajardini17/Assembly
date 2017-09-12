@@ -36,8 +36,7 @@ export default class PortfolioPage extends React.Component {
     this.handleDelete = this.handleDelete.bind(this)
   }
   componentDidMount() {
-    this.handleFetchData()
-    this.getPortfolioHistory()
+    this.checkForOwner()
   }
   checkForOwner(){
     axios({
@@ -47,7 +46,7 @@ export default class PortfolioPage extends React.Component {
       params: {portfolioId: this.state.portfolioId}
     })
     .then(reply => {
-      this.setState({isOwner: reply.data})
+      this.setState({isOwner: reply.data}, () => {this.handleFetchData(); this.getPortfolioHistory()})
     })
   }
   handleLogOutAndRedirect(){
@@ -203,17 +202,15 @@ export default class PortfolioPage extends React.Component {
   render() {
     return (
       <div className='container' id='portPage'>
-
-        <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true}/> 
-
-        <PortfolioInfo totalPortfolios={this.state.totalPortfolios} portfolioRank={this.state.portfolioRank} 
-          portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} history={this.state.history} 
+        <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true} handleDelete={this.handleDelete}/> 
+        <PortfolioInfo totalPortfolios={this.state.totalPortfolios} portfolioRank={this.state.portfolioRank} portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} history={this.state.history} 
           portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} 
           annualReturn={this.state.annualReturn} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} 
           portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}
-          successfulPurge = {this.successfulPurge}
+          successfulPurge={this.successfulPurge} isOwner={this.state.isOwner}
         />
-
+       
+        
       </div>
     )
   }

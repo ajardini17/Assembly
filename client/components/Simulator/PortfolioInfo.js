@@ -28,7 +28,8 @@ export default class PortfolioInfo extends React.Component {
       annualReturn: nextProps.annualReturn,
       history: nextProps.history,
       portfolioRank: nextProps.portfolioRank,
-      totalPortfolios: nextProps.totalPortfolios
+      totalPortfolios: nextProps.totalPortfolios,
+
     }, () => this.createGraph(this.state.history))
   }
 
@@ -252,7 +253,6 @@ export default class PortfolioInfo extends React.Component {
       midWidth: '310px',
       margin: '10px auto'
     };
-
     return (
       <div>
 <<<<<<< d2e8ade3f5cd5442bcfbb8e159cb6e3d32f58d8a
@@ -270,8 +270,8 @@ export default class PortfolioInfo extends React.Component {
             <hr />
             <SimulatorPurchase successfulPurge = {this.props.successfulPurge} portfolioStocks={this.props.portfolio.stocks} 
               portfolioId ={this.props.portfolioId} portfolio = {this.props.portfolio} portfolioBalance={this.props.cash} 
-              successfulBuy={this.props.successfulBuy} successfulSell={this.props.successfulSell}
-            />
+              successfulBuy={this.props.successfulBuy} successfulSell={this.props.successfulSell} isOwner={this.props.isOwner} />
+            
           </div>
           <div className='col-xs-8'>
             <PortfolioTable portfolioStocks={this.props.portfolioStocks} stockValues={this.props.stockValues} 

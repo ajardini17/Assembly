@@ -22,6 +22,7 @@ router.get('/coinQuery', portfolioStock.coinQuery);
 
 router.get('/login', user.login);
 router.post('/signup', user.signup);
+router.get('/isOwnerOfPortfolio', auth.authenticate, portfolio.isOwnerOfPortfolio);
 
 router.get('/getUserData', auth.authenticate, portfolioStock.getUserData);
 router.get('/getSpecificPortfolio', auth.authenticate, portfolio.getSpecificPortfolio);
@@ -36,7 +37,7 @@ router.get('/getPortfolioHistory', portfolio.getPortfolioHistory);
 
 
 router.get('/portfolioTransactionHistory', auth.authenticate, transactionController.portfolioHistory);
-router.get('/fetchCurrentLeaderboard', leaderboard.fetchCurrentLeaderboard);
+router.get('/fetchLeaderboard', leaderboard.fetchLeaderboard);
 
 
 router.get('/getPrediction', (req, res) => {
