@@ -43,7 +43,7 @@ export default class LoginPage extends React.Component {
 
         <div className='row'>
 
-          <div className='col-xs-6'>
+          {/* <div className='col-xs-6'>
           <Carousel style={{'marginTop':'100px'}}>
             <Carousel.Item>
               <img width={500} height={900} alt="500x900" src="/images/portfoliolanding.png"/>
@@ -64,9 +64,9 @@ export default class LoginPage extends React.Component {
               </Carousel.Caption>
             </Carousel.Item>
           </Carousel>
-          </div>
+          </div> */}
 
-          <div className='col-xs-6'>
+          <div className='col-xs-6 col-xs-offset-3'>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" style={{'marginTop':'100px'}}>
               <Tab eventKey={1} title="Login">
                 <Login fetch={this.handleFetchData} handleLogin={this.handleLogin}/>
