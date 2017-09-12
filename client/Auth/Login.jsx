@@ -31,7 +31,7 @@ class Login extends React.Component {
         return (
             <div>
                 <div className='col-xs-10 col-xs-offset-1'>
-                    <h2>Login</h2>
+                    <h2 style={{'marginTop':'20px'}}>Login</h2>
                     <form className='form-horizontal' onSubmit = {this.handleSubmit}>
                         <label className='control-label' >Username: </label>
                         <div className='input-group'>

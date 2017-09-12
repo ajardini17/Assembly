@@ -63,7 +63,7 @@ export default class Leaderboard extends React.Component {
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
               
               <Tab eventKey={1} title="Total Value">
-                <table className='table-responsive table-hover leaderboardTable' style={{'marginTop':'10px'}}>
+                <table className='table-responsive table-hover leaderboardTable'>
                   <tbody>
                     <tr>
                       <th style={{ 'textAlign':'center' }}>Rank</th>
@@ -83,7 +83,7 @@ export default class Leaderboard extends React.Component {
                 </table>
               </Tab>
               <Tab eventKey={2} title="Hourly Gain">
-              <table className='table-responsive table-hover leaderboardTable' style={{'marginTop':'10px'}}>
+              <table className='table-responsive table-hover leaderboardTable'>
                   <tbody>
                     <tr>
                       <th style={{ 'textAlign':'center' }}>Rank</th>

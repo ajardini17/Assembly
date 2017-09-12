@@ -236,7 +236,8 @@ th, td {
 }
 
 .leaderboardTable {
-  border: 1px solid gray;
+  border: 1px solid lightgray;
+  border-top: none;
   width: 100%;
   text-align: center;
 }
