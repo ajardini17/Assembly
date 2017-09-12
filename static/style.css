@@ -220,7 +220,7 @@ th, td {
 
 .landingChart {
   height: 400px;
-  max-width: 80%;
+  max-width: 100%;
   min-width: 310px;
   margin: auto;
   margin-top: 100px;
@@ -275,3 +275,33 @@ th, td {
     margin-left: 14%;
   }
 }
+
+/* .btn-primary {
+  background-color: #42cef4 !important;
+  border-color: #42cef4 !important;
+}
+
+.btn-primary:hover {
+  background-color: #0dadd9 !important;
+  border-color: #42cef4 !important;
+}
+
+.btn-primary:active, .btn-primary:focus, .btn-primary:visited, .btn-primary:active:focus, .btn-primary:active:hover {
+  background-color: #0a86a9 !important;
+  border-color: #42cef4 !important;
+}
+
+.btn-danger {
+  background-color: #ff8100 !important;
+  border-color: #ff8100 !important;
+}
+
+.btn-danger:hover {
+  background-color: #cc6600 !important;
+  border-color: #ff8100 !important;
+}
+
+.btn-danger:active, .btn-danger:focus, .btn-danger:visited, .btn-danger:active:focus, .btn-danger:active:hover {
+  background-color: #994d00 !important;
+  border-color: #ff8100 !important;
+} */
