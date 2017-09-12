@@ -78,7 +78,7 @@ export default class StockSimulator extends React.Component {
     }
     else if (confirm('Are you sure you want to buy?')) {
 
-      let finalPrice = Math.round(this.state.displayedValue * parseFloat(this.state.input) * 100) / 100;
+      let finalPrice = Math.round(Number(this.state.displayedValue) * parseFloat(this.state.input) * 100) / 100;
       console.log(finalPrice);
       console.log(Number(this.state.portfolioBalance));
       if(finalPrice < Number(this.state.portfolioBalance)){
@@ -105,9 +105,18 @@ export default class StockSimulator extends React.Component {
             ]).start()
           })
         });
+      } else if(isNaN(finalPrice)) {
+        this.setState({
+          input: '',
+          purchasePrice: '',
+        })
+        document.getElementById('currBuyInput').value = '';
+        alert(`Invalid entry`)
+
       } else {
-        alert('Insufficient Funds');
+        alert(`Insufficient Funds`);
       }
+      
     }
   }
   sellAll(sellObj){

@@ -52,7 +52,7 @@ export default class PortfolioLandingCard extends React.Component {
               this.setState({
                 portfolioValue: newValue,
                 stockValues: this.state.stockValues,
-                portfolioCash: this.props.item.balance
+                portfolioCash: Math.round(this.props.item.balance * 100) / 100
               })
             }
           })

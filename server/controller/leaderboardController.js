@@ -15,7 +15,7 @@ module.exports = {
   fetchLeaderboard: (req, res) => {
     // leaderboard
     // hourlyLeaderboard
-
+    Redis.zcard(`${req.query.leaderboard}`, )
     Redis.zrevrange(`${req.query.leaderboard}`, 0, -1, 'withscores', (err, data) => {
       if(data){
         const leaderboard = chunk(data,2);
