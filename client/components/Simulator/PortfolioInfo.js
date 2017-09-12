@@ -260,6 +260,7 @@ export default class PortfolioInfo extends React.Component {
             <p>Portfolio Value: ${this.state.portfolioValue}</p>
             <p>Cash: ${this.state.cash}</p>
             <p>Annual Return: {(this.state.annualReturn * 100).toFixed(2)}%</p>
+            <hr />
             <SimulatorPurchase successfulPurge = {this.props.successfulPurge} portfolioStocks={this.props.portfolio.stocks} 
               portfolioId ={this.props.portfolioId} portfolio = {this.props.portfolio} portfolioBalance={this.props.cash} 
               successfulBuy={this.props.successfulBuy} successfulSell={this.props.successfulSell}
