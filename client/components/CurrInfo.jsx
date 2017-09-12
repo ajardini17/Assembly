@@ -414,12 +414,12 @@ export default class CurrInfo extends React.Component {
       series: [{
         name: 'actual',
         data: this.state.data,
-        color: '#6f7582'
+        color: '#42cef4'
       },
       {
         name: 'predicted',
         data: this.state.predictions ? this.state.predictions : [],
-        color: '#42cef4'
+        color: '#ff8100'
       }]
     })
   }
