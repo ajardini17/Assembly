@@ -76,15 +76,6 @@ export default class CurrInfo extends React.Component {
             this.state.chartCounter += 1
             if (this.state.chartCounter === 2) {
               this.createChart()
-              let seriesOptions = [{
-                name: 'actual',
-                data: this.state.data
-              },
-              {
-                name: 'predicted',
-                data: this.state.predictions
-              }]
-              console.log(seriesOptions)
             }
           })
         })
@@ -216,7 +207,7 @@ export default class CurrInfo extends React.Component {
           style: {
             color: '#E0E0E3',
             fontSize: '20px'
-          }
+          },
       },
       subtitle: {
           style: {
@@ -534,6 +525,7 @@ export default class CurrInfo extends React.Component {
       loggedIn: false
     })
   }
+
   render() {
 
     var highchartStyle = {
