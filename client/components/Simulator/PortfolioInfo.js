@@ -239,7 +239,8 @@ export default class PortfolioInfo extends React.Component {
           data: data,
           tooltip: {
             valueDecimals: 2
-          }
+          },
+          color: '#42cef4'
         }]
       });
     }

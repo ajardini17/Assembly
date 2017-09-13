@@ -414,12 +414,12 @@ export default class CurrInfo extends React.Component {
       series: [{
         name: 'actual',
         data: this.state.data,
-        color: '#6f7582'
+        color: '#42cef4'
       },
       {
         name: 'predicted',
         data: this.state.predictions ? this.state.predictions : [],
-        color: '#42cef4'
+        color: '#ff8100'
       }]
     })
   }
@@ -538,7 +538,7 @@ export default class CurrInfo extends React.Component {
 
     var highchartStyle = {
       height: '400px',
-      maxWidth: '1200px',
+      maxWidth: '100%',
       midWidth: '310px',
       margin: '10px auto'
     }
@@ -554,7 +554,7 @@ export default class CurrInfo extends React.Component {
     let displayPurchasePrice = this.state.purchasePrice ? <span style={spanStyle}>  x  {this.state.currentValue}  =  {`$${this.state.purchasePrice}`}</span> : null
 
     return (
-      <div className='container-fluid'>
+      <div className='container'>
         <Navigation handleLogOut={this.handleLogOut} loggedIn={this.state.isLoggedIn}/>
 
         <Modal show={this.state.showModal} onHide={this.close}>
