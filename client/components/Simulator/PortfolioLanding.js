@@ -321,7 +321,7 @@ export default class PortfolioLanding extends React.Component {
         }
       },
       title: {
-        text: '% change last 30 days, all currencies'
+        text: '% Change, Last 30 Days'
       },
       tooltip: {
         pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
