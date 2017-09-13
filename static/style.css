@@ -308,7 +308,7 @@ th, td {
   border-color: #ff8100 !important;
 } */
 tbody tr:nth-child(odd) {
-  background-color: rgba(66, 206, 244, 0.1);
+  background-color: #f1f1f1;
 }
 
 .leaderboardTableData {

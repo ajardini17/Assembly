@@ -22,14 +22,15 @@ export default class PortfolioTable extends React.Component {
     return (
       <table className='table-responsive table-hover portfolioEntryTable'>
         <caption id="table-caption">Portfolio</caption>
-        <tbody>
+        <thead className='thead-default'>
           <tr>
             <th style={{ 'textAlign':'center' }}>Asset</th>
             <th style={{ 'textAlign':'center' }}>Qty</th>
             <th style={{ 'textAlign':'center' }}>Value</th>
             <th style={{ 'textAlign':'center' }}>Mix</th>
           </tr>
-
+        </thead>
+        <tbody>
           {this.state.entries ?
           this.state.entries.map((item, index) => (
             this.state.stockValues[item.ticker] !== undefined ? <PortfolioEntry item={item} key={index} stockValues={this.state.stockValues} portfolioValue={this.state.portfolioValue} /> : null
