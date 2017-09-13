@@ -252,7 +252,8 @@ export default class PortfolioInfo extends React.Component {
       height: '400px',
       maxWidth: '1400px',
       midWidth: '310px',
-      margin: '10px auto'
+      margin: '10px auto',
+      marginBottom: '60px'
     };
     return (
       <div>

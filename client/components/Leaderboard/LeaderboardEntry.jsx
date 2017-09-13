@@ -27,10 +27,10 @@ class LeaderboardEntry extends React.Component {
 
     return (
       <LinkContainer to={`/simulator/${this.state.portfolioId}`}><tr className ='leaderboard-entry' >
-        <td>{this.state.index} </td>
-        <td>{this.state.username} </td>
-        <td>{this.state.portfolioName} </td>
-        <td>${this.state.value} </td>
+        <td className='leaderboardTableData'>{this.state.index} </td>
+        <td className='leaderboardTableData'>{this.state.username} </td>
+        <td className='leaderboardTableData'>{this.state.portfolioName} </td>
+        <td className='leaderboardTableData'>${this.state.value.toFixed(2)} </td>
       </tr></LinkContainer>
     );
   }
