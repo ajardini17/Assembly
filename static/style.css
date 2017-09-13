@@ -278,6 +278,12 @@ th, td {
   }
 }
 
+.woolfVision {
+  width: 20%;
+  height: auto;
+  margin-top: -8px;
+}
+
 /* .btn-primary {
   background-color: #42cef4 !important;
   border-color: #42cef4 !important;
