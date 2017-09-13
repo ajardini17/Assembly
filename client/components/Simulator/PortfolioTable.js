@@ -7,10 +7,17 @@ export default class PortfolioTable extends React.Component {
     this.state = {
       entries: [],
       stockValues: {}, 
-      portfolioValue: ''
+      portfolioValue: '',
+      currency:['btc','bch','xrp','xmr','ltc','eth']
     }
   }
   componentWillReceiveProps(nextProps) {
+    // for(var i = 0; i < this.state.currency.length; i++){
+    //   if(nextProps.entries.indexOf(this.state.currency[i]) > -1){
+    //     entries.push({ticker: this.state.currency[i], shares: 0});
+        
+    //   }
+    // }
     this.setState({
       entries: nextProps.portfolioStocks,
       stockValues: nextProps.stockValues,
