@@ -23,12 +23,12 @@ export default class Navigation extends React.Component {
     
             <Nav>
               <NavDropdown eventKey={3} title="Currencies" id="basic-nav-dropdown">
-                <MenuItem eventKey={3.1} href="/currency/btc">Bitcoin &nbsp;&nbsp;btc</MenuItem>
+                <MenuItem eventKey={3.1} href="/currency/btc">Bitcoin &nbsp;&nbsp;btc &nbsp;&nbsp;<img src='images/wolfHead.png' className='woolfVision' /> </MenuItem>
                 <MenuItem eventKey={3.2} href="/currency/bch">Bitcoin Cash &nbsp;&nbsp;bch</MenuItem>
                 <MenuItem eventKey={3.3} href="/currency/eth">Ethereum &nbsp;&nbsp;eth</MenuItem>
-                <MenuItem eventKey={3.4} href="/currency/ltc">Litecoin &nbsp;&nbsp;ltc</MenuItem>
-                <MenuItem eventKey={3.5} href="/currency/xrp">Ripple &nbsp;&nbsp;xmr</MenuItem>
-                <MenuItem eventKey={3.6} href="/currency/xmr">Monero &nbsp;&nbsp;xrp</MenuItem>
+                <MenuItem eventKey={3.4} href="/currency/ltc">Litecoin &nbsp;&nbsp;ltc &nbsp;&nbsp;<img src='images/wolfHead.png' className='woolfVision' /></MenuItem>
+                <MenuItem eventKey={3.5} href="/currency/xrp">Ripple &nbsp;&nbsp;xrp</MenuItem>
+                <MenuItem eventKey={3.6} href="/currency/xmr">Monero &nbsp;&nbsp;xmr</MenuItem>
               </NavDropdown>
             </Nav>
          
