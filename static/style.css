@@ -240,6 +240,7 @@ th, td {
   border-top: none;
   width: 100%;
   text-align: center;
+  margin-bottom: 80px;
 }
 .leaderboard-entry {
   cursor: pointer;
@@ -306,3 +307,20 @@ th, td {
   background-color: #994d00 !important;
   border-color: #ff8100 !important;
 } */
+tbody tr:nth-child(odd) {
+  background-color: rgba(66, 206, 244, 0.1);
+}
+
+.leaderboardTableData {
+  padding: 14px;
+}
+
+.thead-default {
+  border-bottom: 1px solid lightgray;
+}
+
+@media (min-width: 768px) {
+  .navbar {
+    border-radius: 0 !important;
+  }
+} 

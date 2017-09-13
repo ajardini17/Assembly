@@ -59,19 +59,20 @@ export default class Leaderboard extends React.Component {
         </div>
         <div className='row'>
           <div className='col-xs-12'>
-            <h1 style={{'marginTop':'100px'}} className='text-center'>Leaderboards</h1>
+            <h1 style={{'marginTop':'90px', 'marginBottom':'30px'}} className='text-center'>Leaderboard</h1>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
               
               <Tab eventKey={1} title="Total Value">
                 <table className='table-responsive table-hover leaderboardTable'>
-                  <tbody>
+                  <thead className='thead-default'>
                     <tr>
                       <th style={{ 'textAlign':'center' }}>Rank</th>
                       <th style={{ 'textAlign':'center' }}>Username</th>
-                      <th style={{ 'textAlign':'center' }}>portfolio name</th>
+                      <th style={{ 'textAlign':'center' }}>Portfolio Name</th>
                       <th style={{ 'textAlign':'center' }}>Value</th>
                     </tr>
-
+                  </thead>
+                  <tbody>
                     {this.state.total.length > 0 ?
                     this.state.total.map((item, index) => (
                       <LeaderboardEntry item={item} key={index} index={index}  /> 
@@ -83,15 +84,16 @@ export default class Leaderboard extends React.Component {
                 </table>
               </Tab>
               <Tab eventKey={2} title="Hourly Gain">
-              <table className='table-responsive table-hover leaderboardTable'>
-                  <tbody>
+                <table className='table-responsive table-hover leaderboardTable'>
+                  <thead className='thead-default'>  
                     <tr>
                       <th style={{ 'textAlign':'center' }}>Rank</th>
                       <th style={{ 'textAlign':'center' }}>Username</th>
-                      <th style={{ 'textAlign':'center' }}>portfolio name</th>
+                      <th style={{ 'textAlign':'center' }}>Portfolio Name</th>
                       <th style={{ 'textAlign':'center' }}>Value</th>
                     </tr>
-
+                  </thead>
+                  <tbody>
                     {this.state.hourly.length > 0 ?
                     this.state.hourly.map((item, index) => (
                       <LeaderboardEntry item={item} key={index} index={index}  /> 
