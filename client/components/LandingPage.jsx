@@ -13,11 +13,6 @@ export default class LandingPage extends React.Component {
     this.closeModal = this.closeModal.bind(this)
   }
 
-  componentWillMount() {
-    axios.get('/api/getUserData', {headers: {authorization:localStorage.getItem('token')}})
-    .then(() => {window.location = '/simulator'})
-  }
-
   openModal(e) {
     this.setState({
       showModal: true

@@ -55,6 +55,7 @@ const fetchPortfolios = (coins, cb) => {
 }
 
 const storePortfolioData = (coins, portfolios) => {
+  let time = Date.now();
   addDailyHistoricalGraphData(coins);
   portfolios.forEach((portfolio, i) => {
     Model.PortfolioStock.findAll({where:{id:portfolio.id}})
@@ -64,10 +65,10 @@ const storePortfolioData = (coins, portfolios) => {
       for(let i = 0; i < stocks.length; i++) {
         currencyValue += (coins[stocks[i].ticker] * stocks[i].shares);
       }
-      Model.dailyBalance.create({
-        portfolioId: portfolio.id,
-        liquid: portfolio.balance,
-        currencies: Math.round(currencyValue * 100) / 100
+      Model.PortfolioHistory.create({
+        portfolio_id: portfolio.id,
+        balance: Math.round((currencyValue + portfolio.balance) * 100) / 100,
+        entry_date: time
       })
     })
   });

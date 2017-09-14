@@ -30,7 +30,7 @@ class LeaderboardEntry extends React.Component {
         <td className='leaderboardTableData'>{this.state.index} </td>
         <td className='leaderboardTableData'>{this.state.username} </td>
         <td className='leaderboardTableData'>{this.state.portfolioName} </td>
-        <td className='leaderboardTableData'>${this.state.value.toFixed(2)} </td>
+        <td className='leaderboardTableData'>{this.state.value < 0 ? <span>-</span> : null}${Math.abs(this.state.value).toFixed(2)} </td>
       </tr></LinkContainer>
     );
   }

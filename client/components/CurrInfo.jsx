@@ -403,7 +403,17 @@ export default class CurrInfo extends React.Component {
       },
       plotOptions: {
         series: {
-          showInNavigator: true
+          showInNavigator: true,
+          cursor: 'pointer',
+          point: {
+            events: {
+              click: function(e){
+                console.log('CLICKED')
+                //this.x === Date in unix 
+                //this.y === price 
+              }
+            }
+          }
         }
       },
       tooltip: {
@@ -416,6 +426,7 @@ export default class CurrInfo extends React.Component {
         data: this.state.data,
         color: '#42cef4'
       },
+    
       {
         name: 'predicted',
         data: this.state.predictions ? this.state.predictions : [],
