@@ -16,6 +16,9 @@ body {
   width: 50%;
   margin: 7% 0 0 25%; 
 }
+.historyModalText {
+  text-align: center;
+}
 #portfolioTableFade {
 
   -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */

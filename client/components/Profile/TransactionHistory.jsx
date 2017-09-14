@@ -34,15 +34,15 @@ export default class TransactionHistory extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div >
          
               <div className='row'>
-              <div className='col-xs-2 col-xs-offset-1'>Coin</div>
-              <div className='col-xs-2'>Buy/Sell?</div>
-              <div className='col-xs-2'>Quantity</div>
-              <div className='col-xs-2'>Coin price</div>
-              <div className='col-xs-3'>When</div>
-            </div>
+               <div className='col-xs-2 col-xs-offset-1'>Coin</div>
+               <div className='col-xs-2'>Buy/Sell?</div>
+               <div className='col-xs-2'>Quantity</div>
+               <div className='col-xs-2'>Coin price</div>
+               <div className='col-xs-3'>When</div>
+             </div >
              <hr/>
                 {this.state.transactions ? this.state.transactions.map((item, index) => (
                     <TransactionHistoryEntry item={item} key={index} timeHandler={this.timeHandler}/>
