@@ -1,8 +1,6 @@
 import React from 'react'
 import PortfolioEntry from './PortfolioEntry'
 
-const currency = {'btc':0,'bch':0,'xrp':0,'xmr':0,'ltc':0,'eth': 0}
-
 export default class PortfolioTable extends React.Component {
   constructor(props) {
     super(props)
@@ -10,7 +8,8 @@ export default class PortfolioTable extends React.Component {
       entries: [],
       stockValues: {}, 
       portfolioValue: '',
-      showSpinner: true
+      showSpinner: true,
+      currency: {'btc':0,'bch':0,'xrp':0,'xmr':0,'ltc':0,'eth': 0}
     }
   }
   componentDidMount() {
@@ -23,12 +22,12 @@ export default class PortfolioTable extends React.Component {
       for(var i = 0; i < nextProps.portfolioStocks.length; i++){
         coins.push(nextProps.portfolioStocks[i]);
         coinValue[nextProps.portfolioStocks[i].ticker] = nextProps.stockValues[nextProps.portfolioStocks[i].ticker];
-        currency[nextProps.portfolioStocks[i].ticker] = 1;
+        this.state.currency[nextProps.portfolioStocks[i].ticker] = 1;
       }
-      for(let key in currency){
-        if(currency[key] === 0){
+      for(let key in this.state.currency){
+        if(this.state.currency[key] === 0){
           coins.push({ticker: key, shares: 0})
-          coinValue[key] = 0
+          coinValue[key] = 0;
         }
       }
     }
