@@ -575,7 +575,7 @@ export default class CurrInfo extends React.Component {
             </Modal.Header>
             <Modal.Body>
               <form onSubmit={this.handleSubmitPriceCheck}>
-                <input id='currBuyInput' type='number' className='text-center' placeholder='Enter amount' onChange={this.handleInputChange} />
+                <input type='text' maxLength="7" className='text-center currBuyInput' placeholder='Enter amount' onChange={this.handleInputChange} />
                 { displayPurchasePrice }
               </form>
 

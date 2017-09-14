@@ -282,9 +282,11 @@ th, td {
   margin-left: -40px;
 }
 
-#currBuyInput {
-  margin-left: -12px;
-}
+.currBuyInput {
+  margin-left: 2.7%;
+  margin-bottom: -1%;
+  margin-top: 3.5%;
+} 
 
 .landingChart {
   height: 400px;
