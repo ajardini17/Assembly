@@ -27,7 +27,8 @@ buy: (req, res) => {
             transactionType: 'buy',
             transactionPrice: req.body.buyPrice,
             transactionTotal: req.body.finalPrice,
-            portfolioId: req.body.portfolioId
+            portfolioId: req.body.portfolioId,
+            createdAt: Date.now()
           })
           .then(() => {
             stockData.dataValues.shares = Number(stockData.dataValues.shares) + Number(req.body.shares);
@@ -56,7 +57,8 @@ buy: (req, res) => {
                 transactionType: 'buy',
                 transactionPrice: req.body.buyPrice,
                 transactionTotal: req.body.finalPrice,
-                portfolioId: req.body.portfolioId
+                portfolioId: req.body.portfolioId,
+                createdAt: Date.now()
               })
               .then(() => res.json(stock.dataValues));
           });
@@ -100,7 +102,8 @@ sell: (req, res) => {
             transactionType: 'sell',
             transactionPrice: query.sellPrice,
             transactionTotal: query.finalPrice,
-            portfolioId: query.portfolioId
+            portfolioId: query.portfolioId,
+            createdAt: Date.now()
           })
           .then(() => {
             stockData.dataValues.shares = Number(stockData.dataValues.shares) - Number(query.shares);
@@ -134,7 +137,8 @@ sellAll: (req, res) => {
         transactionType: 'sell',
         transactionPrice: query.sellPrice,
         transactionTotal: query.finalPrice,
-        portfolioId: query.portfolioId
+        portfolioId: query.portfolioId,
+        createdAt: Date.now()
       })
       .then(() => res.send('sucessfully sold'))
     })

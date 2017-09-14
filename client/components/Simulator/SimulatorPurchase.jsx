@@ -89,7 +89,7 @@ export default class StockSimulator extends React.Component {
         }
         axios.post('/api/buy', buyObj, {headers: {authorization:localStorage.getItem('token')}})
         .then(reply => {
-          this.props.successfulBuy(finalPrice, reply.data);
+          this.props.successfulBuy(finalPrice, reply.data, this.state.displayedValue, this.state.input);
           document.getElementById('currBuyInput').value = '';
           this.setState({
             input: '',
@@ -117,7 +117,7 @@ export default class StockSimulator extends React.Component {
       
     }
   }
-  sellAll(sellObj){
+  sellAll(sellObj, sellPrice){
     axios({
       method: 'delete',
       url: '/api/sellAll',
@@ -125,7 +125,7 @@ export default class StockSimulator extends React.Component {
       params: sellObj
     })
     .then(reply => {
-      this.props.successfulPurge(sellObj.finalPrice, sellObj.ticker);
+      this.props.successfulPurge(sellObj.finalPrice, sellObj.ticker, sellPrice, this.state.input);
       document.getElementById('currBuyInput').value = '';
       this.setState({
         input: '',
@@ -159,8 +159,8 @@ export default class StockSimulator extends React.Component {
         portfolioId: this.state.portfolioId,
         finalPrice: finalPrice
       }
-      if(Math.abs(this.state.stocks[stockIndex].shares - this.state.input) < .2){
-        this.sellAll(sellObj);
+      if(Math.abs(this.state.stocks[stockIndex].shares - this.state.input) < .1){
+        this.sellAll(sellObj, this.state.displayedValue);
       } else if(this.state.stocks[stockIndex].shares > this.state.input){
         axios({
           method: 'put',
@@ -170,7 +170,7 @@ export default class StockSimulator extends React.Component {
         })
         .then(reply => {
           if(reply.data !== 'do not own'){
-            this.props.successfulSell(finalPrice, reply.data);     
+            this.props.successfulSell(finalPrice, reply.data, this.state.displayedValue, this.state.input);     
             document.getElementById('currBuyInput').value = '';
             this.setState({
               input: '',

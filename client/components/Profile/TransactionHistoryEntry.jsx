@@ -7,19 +7,27 @@ export default class TransactionHistoryEntry extends Component {
 
         }
     }
-
-    
+ 
     render() {
+        const transaction = this.props.item
 
         return (
-            <div>
-              <div>
-                <div>
-                  <div>
-                      wub
-                  </div>
+            <div className='row'>
+              <div className='col-xs-2 col-xs-offset-1'>
+                {transaction.ticker}
                 </div>
-              </div>
+                <div className='col-xs-2'>
+                  {transaction.transactionType}
+                  </div>
+                  <div className='col-xs-2'>
+                    {transaction.shares}
+                    </div>
+                  <div className='col-xs-2'>
+                    ${transaction.transactionPrice}
+                    </div>
+                  <div className='col-xs-3'>
+                    {this.props.timeHandler(Number(transaction.createdAt))}
+                      </div>
             </div>
         );
     }
