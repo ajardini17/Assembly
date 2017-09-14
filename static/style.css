@@ -68,7 +68,20 @@ body {
   background-color: #848484;
   cursor: pointer;
 }
+.loader {
+  border: 7px solid #f3f3f3 ; /* Light grey */
+  border-top: 7px solid #42cef4; /* Blue */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 1s linear infinite;
+  margin: 20% 0 0 42.8%; 
+}
 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 #modalChart {
   width: 100%;
   height: auto;

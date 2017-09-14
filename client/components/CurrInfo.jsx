@@ -408,9 +408,6 @@ export default class CurrInfo extends React.Component {
           point: {
             events: {
               click: function(e){
-                console.log('CLICKED')
-                //this.x === Date in unix 
-                //this.y === price 
               }
             }
           }

@@ -44,8 +44,9 @@ export default class PortfolioTable extends React.Component {
       <div>
       {this.state.showSpinner ?
 
+        <div className='loader'>
+          </div>
 
-      <img src={'/images/plainSpinner.gif'} className='portfolioSpinner' />
       :
     
       <table className='table-responsive table-hover portfolioEntryTable'>
