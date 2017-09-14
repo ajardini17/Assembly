@@ -49,6 +49,7 @@ export default class CurrInfo extends React.Component {
     this.handleArticleClick = this.handleArticleClick.bind(this)
     this.getPredictionData = this.getPredictionData.bind(this)
     this.handleLogOut = this.handleLogOut.bind(this)
+    this.counter = this.counter.bind(this)
   }
 
   componentDidMount() {
@@ -74,10 +75,7 @@ export default class CurrInfo extends React.Component {
         this.setState({ currentValue }, () => {
           let data = history.data
           this.setState({ data }, () => {
-            this.state.chartCounter += 1
-            if (this.state.chartCounter === 2) {
-              this.createChart()
-            }
+            this.counter()
           })
         })
       }))
@@ -92,6 +90,13 @@ export default class CurrInfo extends React.Component {
     .then(reply => this.setState({portfolios: reply.data,
                                   isLoggedIn: true}))
     .catch(err => console.log(err, 'error'))
+  }
+
+  counter() {
+    this.state.chartCounter++;
+    if(this.state.chartCounter === 2){
+      this.createChart();
+    }
   }
 
   getPredictionData() {
@@ -116,13 +121,12 @@ export default class CurrInfo extends React.Component {
           }
         })
       } else {
-        this.state.chartCounter++;
-        if(this.state.chartCounter === 2){
-          this.createChart();
-        }
+        this.counter()
       }
     })
-    .catch(err => console.log('error', err))
+    .catch(err => {
+      this.counter()
+    })
   }
 
   handleBuy() {
@@ -600,10 +604,20 @@ export default class CurrInfo extends React.Component {
                 <h1>{this.state.currencyName.toUpperCase()} - {this.state.currentValue}</h1>
                 <p style={{ color: this.state.valueIncrease ? 'green' : 'red' }}><i className={this.state.valueIncrease ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i> {this.state.valueChange}% </p>
               </div>
-              <div className='col-xs-4 col-xs-offset-2'>
-                <button className='btn btn-primary buy-btn' onClick={this.handleBuy} style={buttonStyle}>Buy</button>
-                <button className='btn btn-danger sell-btn' onClick={this.handleSell} style={buttonStyle}>Sell</button>
-              </div>
+
+                {this.state.isLoggedIn ? 
+
+                <div className='col-xs-4 col-xs-offset-2'>
+                  <button className='btn btn-primary buy-btn' onClick={this.handleBuy} style={buttonStyle}>Buy</button>
+                  <button className='btn btn-danger sell-btn' onClick={this.handleSell} style={buttonStyle}>Sell</button>
+                </div>
+
+                :
+
+                null
+
+                }
+
             </div>
             <div className='row'>
               <div className='col-xs-10 col-xs-offset-1'>
