@@ -5,16 +5,14 @@ export default class PortfolioTable extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      entries: [],
+      entries: null,
       stockValues: {}, 
       portfolioValue: '',
       showSpinner: true,
       currency: {'btc':0,'bch':0,'xrp':0,'xmr':0,'ltc':0,'eth': 0}
     }
   }
-  componentDidMount() {
-    setTimeout(() => this.setState({showSpinner: false}), 800);
-  }
+
   componentWillReceiveProps(nextProps) {
     const coins = [];
     const coinValue = {};
@@ -30,26 +28,28 @@ export default class PortfolioTable extends React.Component {
           coinValue[key] = 0;
         }
       }
+      this.setState({
+        entries: coins,
+        stockValues: coinValue,
+        portfolioValue: nextProps.portfolioValue,
+        showSpinner: false
+      })
+    } else {
+      portfolioValue: nextProps.portfolioValue
     }
     
-    this.setState({
-      entries: coins,
-      stockValues: coinValue,
-      portfolioValue: nextProps.portfolioValue
-    })
   }
 
   render() {
     return (
       <div>
       {this.state.showSpinner ?
-
         <div className='loader'>
           </div>
 
-      :
-    
-      <table className='table-responsive table-hover portfolioEntryTable'>
+      :   
+
+      <table id='portfolioTableFade'className='table-responsive table-hover portfolioEntryTable'>
         <caption id="table-caption">Portfolio</caption>
         <thead className='thead-default'>
           <tr>
