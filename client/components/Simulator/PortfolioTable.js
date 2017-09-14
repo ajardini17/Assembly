@@ -9,18 +9,48 @@ export default class PortfolioTable extends React.Component {
       stockValues: {}, 
       portfolioValue: '',
       showSpinner: true,
+      wasMounted: false,
       currency: {'btc':0,'bch':0,'xrp':0,'xmr':0,'ltc':0,'eth': 0}
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    
+    if(this.props.portfolioStocks){
+      if(!prevProps.portfolioStocks) {
+        const coins = [];
+        const coinValue = {};      
+        const sorted = this.props.portfolioStocks.sort((x,y) => this.props.stockValues[y.ticker] - this.props.stockValues[x.ticker]);     
+        for(var i = 0; i < sorted.length; i++){
+          coins.push(sorted[i]);   
+          coinValue[sorted[i].ticker] = this.props.stockValues[sorted[i].ticker];
+          this.state.currency[sorted[i].ticker] = 1;
+        }
+        for(let key in this.state.currency){
+          if(this.state.currency[key] === 0){
+            coins.push({ticker: key, shares: 0})
+            coinValue[key] = 0;
+          }
+        }
+        this.setState({
+          entries: coins,
+          stockValues: coinValue,
+          showSpinner: false,
+          wasMounted: true, 
+          currency: {'btc':0,'bch':0,'xrp':0,'xmr':0,'ltc':0,'eth': 0}
+        }, () => console.log(this.state.stockValues,'AFTER SET STATE'))      
+      }
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const coins = [];
-    const coinValue = {};
-    if(nextProps.portfolioStocks){
-      for(var i = 0; i < nextProps.portfolioStocks.length; i++){
-        coins.push(nextProps.portfolioStocks[i]);
-        coinValue[nextProps.portfolioStocks[i].ticker] = nextProps.stockValues[nextProps.portfolioStocks[i].ticker];
-        this.state.currency[nextProps.portfolioStocks[i].ticker] = 1;
+    if(this.state.wasMounted){
+      const coins = [];
+      const coinValue = {}; 
+      const sorted = this.props.portfolioStocks.sort((x,y) => this.props.stockValues[y.ticker] - this.props.stockValues[x.ticker]);     
+      for(var i = 0; i < sorted.length; i++){
+        coins.push(sorted[i]);   
+        coinValue[sorted[i].ticker] = this.props.stockValues[sorted[i].ticker];
+        this.state.currency[sorted[i].ticker] = 1;
       }
       for(let key in this.state.currency){
         if(this.state.currency[key] === 0){
@@ -31,16 +61,16 @@ export default class PortfolioTable extends React.Component {
       this.setState({
         entries: coins,
         stockValues: coinValue,
-        portfolioValue: nextProps.portfolioValue,
-        showSpinner: false
-      })
+        showSpinner: false,
+        portfolioValue: nextProps.portfolioValue
+      })  
     } else {
-      portfolioValue: nextProps.portfolioValue
+      this.setState({portfolioValue: nextProps.portfolioValue})
     }
-    
   }
 
   render() {
+
     return (
       <div>
       {this.state.showSpinner ?
