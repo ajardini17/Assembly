@@ -134,7 +134,9 @@ export default class LandingPage extends React.Component {
               <a href='#' style={{'textDecoration': 'underline'}}>eddiekeller@woolfey.com</a>
               <p><a href='http://github.com/116ekg' style={{'textDecoration': 'underline'}}>Github</a></p>
               <p>
-                Here is some flavor text about Eddie Keller. What a guy. Look at this guy go. You go guy.
+                Eddie is a software engineer with a passion for technology. Before coming to Woolfey, Eddie earned a Master's 
+                degree from Arizona State University and worked in the news industry. Now, he enjoys finding new tech to work 
+                with, competitive gaming and eSports, and provides voice overs for commercials, animation, and games.
               </p>
             </div>
 
