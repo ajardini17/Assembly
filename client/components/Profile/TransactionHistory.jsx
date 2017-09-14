@@ -11,7 +11,7 @@ export default class TransactionHistory extends React.Component {
         this.timeHandler = this.timeHandler.bind(this);
     }
     componentWillReceiveProps(nextProps) {
-      this.setState({transactions: nextProps.transactions}, () => { console.log('TRANSACTIONS', this.state.transactions) })
+      this.setState({transactions: nextProps.transactions})
     } 
     timeHandler(date){
       if(Date.now() - date < 1000 * 60 * 15){
