@@ -6,7 +6,8 @@ export default class TransactionModal extends Component{
   constructor(props){
     super(props)
     this.state = {
-      showModal: false
+      showModal: false,
+      transactions: []
     }
     this.close = this.close.bind(this)
 
