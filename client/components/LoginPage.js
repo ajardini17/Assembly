@@ -6,6 +6,7 @@ import axios from 'axios'
 import Navigation from './Navbar';
 import {Tab, Tabs} from 'react-bootstrap'
 import {Carousel} from 'react-bootstrap'
+import Footer from './Footer'
 
 export default class LoginPage extends React.Component {
   constructor() {
@@ -38,49 +39,25 @@ export default class LoginPage extends React.Component {
   render() {
 
     return (
-      <div className='container'>
-        <Navigation handleLogOut={this.handleLogOut} isLoggedIn={this.state.isLoggedIn}/>
+      <div> 
+        <div className='container'>
 
-        <div className='row'>
+          <Navigation handleLogOut={this.handleLogOut} isLoggedIn={this.state.isLoggedIn}/>
 
-          {/* <div className='col-xs-6'>
-          <Carousel style={{'marginTop':'100px'}}>
-            <Carousel.Item>
-              <img width={500} height={900} alt="500x900" src="/images/portfoliolanding.png"/>
-              <Carousel.Caption>
-                <h3>First slide label</h3>
-              </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-              <img width={500} height={900} alt="500x900" src="/images/simpurchase.png"/>
-              <Carousel.Caption>
-                <h3>Second slide label</h3>
-              </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-              <img width={500} height={900} alt="500x900" src="/images/portfoliograph.png"/>
-              <Carousel.Caption>
-                <h3>Third slide label</h3>
-              </Carousel.Caption>
-            </Carousel.Item>
-          </Carousel>
-          </div> */}
-
-          <div className='col-xs-6 col-xs-offset-3'>
-            <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" style={{'marginTop':'100px'}}>
-              <Tab eventKey={1} title="Login">
-                <Login fetch={this.handleFetchData} handleLogin={this.handleLogin}/>
-              </Tab>
-              <Tab eventKey={2} title="Signup">
-                <Signup fetch={this.handleFetchData} handleSignUp={this.handleSignUp}/>
-              </Tab>
-            </Tabs>
+          <div className='row'>
+            <div className='col-sm-6 col-sm-offset-3'>
+              <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" style={{'marginTop':'100px'}}>
+                <Tab eventKey={1} title="Login">
+                  <Login fetch={this.handleFetchData} handleLogin={this.handleLogin}/>
+                </Tab>
+                <Tab eventKey={2} title="Signup">
+                  <Signup fetch={this.handleFetchData} handleSignUp={this.handleSignUp}/>
+                </Tab>
+              </Tabs>
+            </div>
           </div>
-        </div>
 
-        {/* <Navigation handleLogOut={this.handleLogOut} isLoggedIn={this.state.isLoggedIn}/>  
-        <Login fetch={this.handleFetchData} handleLogin={this.handleLogin}/>
-        <Signup fetch={this.handleFetchData} handleSignUp={this.handleSignUp}/> */}
+        </div>
       </div>
     )
   }
