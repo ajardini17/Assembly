@@ -3,15 +3,6 @@ const Redis = require('../../database/redis/redis.js');
 const chunk = require('lodash.chunk');
 
 module.exports = {
-  weeklyTopPortfolioBalances: (req, res) => {
-      
-  },
-  dailyTopPortfoliosBalances: (req, res) => {
-
-  },
-  currentTopPortfoliosBalances: (req, res) => {
-
-  },
   fetchLeaderboard: (req, res) => {
     // leaderboard
     // hourlyLeaderboard
