@@ -559,10 +559,10 @@ export default class CurrInfo extends React.Component {
     }
 
     var spanStyle = {
-      fontSize: '1.5em'
+      fontSize: '1.3em'
     }
 
-    let displayPurchasePrice = this.state.purchasePrice ? <span style={spanStyle}>  x  {this.state.currentValue}  =  {`$${this.state.purchasePrice}`}</span> : null
+    let displayPurchasePrice = this.state.purchasePrice && this.state.purchasePrice !== 'NaN' ? <span style={spanStyle}>  x  {this.state.currentValue}  =  {`$${this.state.purchasePrice}`}</span> : null
 
     return (
       <div>
