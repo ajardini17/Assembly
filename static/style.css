@@ -77,6 +77,15 @@ body {
   animation: spin 1s linear infinite;
   margin: 20% 0 0 42.8%; 
 }
+.currency-loader {
+  border: 7px solid #f3f3f3 ; /* Light grey */
+  border-top: 7px solid #42cef4; /* Blue */
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  animation: spin 1s linear infinite;
+  margin: 28% auto 35% auto; 
+}
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -276,6 +285,10 @@ th, td {
 .sell-btn {
   width: 90px;
   margin-right: 10px;
+}
+
+.transaction-modal-title {
+  text-align: center;
 }
 
 @media screen and (max-width: 840px) {

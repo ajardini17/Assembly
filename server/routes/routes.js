@@ -36,7 +36,7 @@ router.post('/createPortfolio', auth.authenticate, portfolio.createPortfolio);
 router.get('/getPortfolioHistory', portfolio.getPortfolioHistory);
 
 
-router.get('/portfolioTransactionHistory', auth.authenticate, transactionController.portfolioHistory);
+router.get('/portfolioTransactionHistory', transactionController.portfolioHistory);
 router.get('/fetchLeaderboard', leaderboard.fetchLeaderboard);
 
 router.get('/getNewsFeed', function(req, res) {

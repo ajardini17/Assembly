@@ -2,7 +2,8 @@ import React from 'react'
 import axios from 'axios'
 import PortfolioTable from './PortfolioTable.js'
 import SimulatorPurchase from './SimulatorPurchase.jsx'
-import TransactionHistory from '../Profile/TransactionHistory.jsx'
+import TransactionModal from '../Profile/TransactionModal.jsx'
+import {Button} from 'react-bootstrap'
 
 export default class PortfolioInfo extends React.Component {
   constructor(props) {
@@ -15,12 +16,15 @@ export default class PortfolioInfo extends React.Component {
       portfolioName: '',
       history: [],
       portfolioRank: this.props.portfolioRank,
-      totalPortfolios: this.props.totalPortfolios
+      totalPortfolios: this.props.totalPortfolios,
+      showModal: false
     }
+    this.handleTransactionModal = this.handleTransactionModal.bind(this)
     this.createGraph = this.createGraph.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
+
     this.setState({
       portfolioValue: nextProps.portfolioValue,
       cash: nextProps.cash,
@@ -28,9 +32,12 @@ export default class PortfolioInfo extends React.Component {
       annualReturn: nextProps.annualReturn,
       history: nextProps.history,
       portfolioRank: nextProps.portfolioRank,
-      totalPortfolios: nextProps.totalPortfolios,
+      totalPortfolios: nextProps.totalPortfolios
 
     }, () => this.createGraph(this.state.history))
+  }
+  handleTransactionModal(){
+    this.setState({showModal: true}, () => this.setState({showModal: false}))
   }
 
   createGraph(data) {
@@ -262,7 +269,9 @@ export default class PortfolioInfo extends React.Component {
             <h2>{this.state.portfolioName} <span className='rank'>&nbsp; Ranked: {this.state.portfolioRank}</span></h2>
             <p>Portfolio Value: ${this.state.portfolioValue}</p>
             <p>Cash: ${this.state.cash}</p>
-            <p>Annual Return: {(this.state.annualReturn * 100).toFixed(2)}%</p>
+            <p>Annual Return: {isNaN(this.state.annualReturn) ? 'Calculating...' : (Number(this.state.annualReturn) * 100).toFixed(2)}%</p>
+            <Button bsSize="xsmall" onClick={this.handleTransactionModal}>Buy/Sell History</Button>
+            <TransactionModal transactions={this.props.transactions} showModal={this.state.showModal} />
             <hr />
             <SimulatorPurchase successfulPurge = {this.props.successfulPurge} portfolioStocks={this.props.portfolio.stocks} 
               portfolioId ={this.props.portfolioId} portfolio = {this.props.portfolio} portfolioBalance={this.props.cash} 

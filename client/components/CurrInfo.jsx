@@ -526,11 +526,9 @@ export default class CurrInfo extends React.Component {
   handleArticleClick(e, article){
     
     let newsArticle = article[1].slice(42);
-    let url = newsArticle.slice(newsArticle.indexOf('www'), newsArticle.indexOf('.com/')+4);
-    if(!url){
-      url = newsArticle.slice(newsArticle.indexOf('http'), newsArticle.indexOf('.com')+4);
-    }
-    if(confirm(`You are leaving Woolfey and going to ${url}`)){
+    const re = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)/im;
+
+    if(confirm(`You are leaving Woolfey and going to ${re.exec(newsArticle)[1]}`)){
       window.location = article[1];
     }
   }
@@ -626,7 +624,7 @@ export default class CurrInfo extends React.Component {
           : 
           
 
-          <img id="loadingGif" src="/images/loading.gif"/>
+          <div className='currency-loader'></div>
 
           }
       </div>

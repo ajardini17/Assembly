@@ -99,8 +99,12 @@ const TransactionHistory = db.define('transaction_history', {
   transactionTotal: {
     type: Sequelize.FLOAT,
     allowNull: false
+  },
+  createdAt: {
+    type: Sequelize.STRING,
+    allowNull: false
   }
-});
+}, {timestamps: false});
 
 const dailyBalance = db.define('daily_balance', {
   liquid: {

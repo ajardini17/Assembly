@@ -4,6 +4,7 @@ import PortfolioTable from './PortfolioTable'
 import SimulatorPurchase from './SimulatorPurchase.jsx'
 import Leaderboard from '../Leaderboard/Leaderboard.jsx'
 import Navigation from '../Navbar'
+import TransactionModal from '../Profile/TransactionModal.jsx'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
 
@@ -21,9 +22,11 @@ export default class PortfolioPage extends React.Component {
       stockValues: {},
       annualReturn: 'Calculating...',
       history: [],
+      transactions: [],
       isOwner: false
     }
     this.checkForOwner = this.checkForOwner.bind(this)
+    this.fetchPortfolioTransactions = this.fetchPortfolioTransactions.bind(this)
     this.handleFetchData = this.handleFetchData.bind(this)
     this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this)
     this.successfulBuy = this.successfulBuy.bind(this)
@@ -32,13 +35,17 @@ export default class PortfolioPage extends React.Component {
     this.calculateReturn = this.calculateReturn.bind(this)
     this.getPortfolioHistory = this.getPortfolioHistory.bind(this)
     this.successfulPurge = this.successfulPurge.bind(this)
+    this.appendTransactions = this.appendTransactions.bind(this)
     this.isEmpty = this.isEmpty.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
+    
   }
   componentDidMount() {
     this.checkForOwner()
+    this.fetchPortfolioTransactions()
   }
   checkForOwner(){
+
     axios({
       method: 'get',
       url: '/api/isOwnerOfPortfolio',
@@ -49,9 +56,35 @@ export default class PortfolioPage extends React.Component {
       this.setState({isOwner: reply.data}, () => {this.handleFetchData(); this.getPortfolioHistory()})
     })
   }
+
+  fetchPortfolioTransactions(){
+    axios({
+      method: 'get',
+      url:'/api/portfolioTransactionHistory',
+      params: {portfolioId: this.state.portfolioId}
+    })
+    .then(reply => {
+      this.setState({transactions: reply.data});
+    })
+    .catch(err => 'ERROR')
+  }
+
   handleLogOutAndRedirect(){
     localStorage.removeItem('token');
   }
+
+  fetchTransactionHistory(){
+    axios({
+      method: 'get',
+      url:'/api/portfolioTransactionHistory', 
+      headers: {authorization: localStorage.getItem('token')},
+      params: {portfolioId: this.props.portfolioId}
+    })
+    .then(reply => {
+      this.setState({transactions: reply.data});
+    })
+  }
+  
   handleFetchData(){
     axios({
       method: 'get',
@@ -82,6 +115,7 @@ export default class PortfolioPage extends React.Component {
   }
 
   calculatePortfolioValue(currencyArr) {
+    
     let tempVal = 0
     let count = 0
 
@@ -108,7 +142,8 @@ export default class PortfolioPage extends React.Component {
       })
     }
   }
-  successfulBuy(cashChange, stockData){
+  successfulBuy(cashChange, stockData, transPrice, shares){
+    this.appendTransactions(stockData.ticker, shares, 'buy', transPrice, cashChange)
     let stocks = this.state.portfolio.stocks;
     let found = false;
     for(var i = 0; i < stocks.length; i++){
@@ -133,7 +168,8 @@ export default class PortfolioPage extends React.Component {
       })
     }
   }
-  successfulSell(cashChange, stockData){
+  successfulSell(cashChange, stockData, transPrice, shares){
+    this.appendTransactions(stockData.ticker, shares, 'sell', transPrice, cashChange)
     let stocks = this.state.portfolio.stocks;
     for(var i = 0; i < stocks.length; i++){
       if(stocks[i].ticker === stockData.ticker){
@@ -148,8 +184,9 @@ export default class PortfolioPage extends React.Component {
       }
     }
   }
-  successfulPurge(cashChange, ticker){
+  successfulPurge(cashChange, ticker, transPrice, shares){
     let stocks = this.state.portfolio.stocks;
+    this.appendTransactions(ticker, shares, 'sell', transPrice, cashChange)
     for(var i = 0; i < stocks.length; i++){
       if(stocks[i].ticker === ticker){
         stocks.splice(i,1);
@@ -161,6 +198,18 @@ export default class PortfolioPage extends React.Component {
         });
       }
     }
+  }
+  appendTransactions(ticker, shares, transactionType, transactionPrice, transactionTotal){
+    const newTransaction = {
+      ticker,
+      shares,
+      transactionType,
+      transactionPrice,
+      transactionTotal,
+      createdAt: Date.now()
+    }
+    this.state.transactions.unshift(newTransaction);
+    this.setState({ transactions: this.state.transactions });
   }
   handleDelete(){
     if(confirm('Are you sure you want to delete this portfolio?')){
@@ -204,11 +253,12 @@ export default class PortfolioPage extends React.Component {
     return (
       <div className='container' id='portPage'>
         <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true} handleDelete={this.handleDelete}/> 
+ 
         <PortfolioInfo totalPortfolios={this.state.totalPortfolios} portfolioRank={this.state.portfolioRank} portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} history={this.state.history} 
           portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} 
           annualReturn={this.state.annualReturn} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} 
           portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}
-          successfulPurge={this.successfulPurge} isOwner={this.state.isOwner}
+          successfulPurge={this.successfulPurge} isOwner={this.state.isOwner} transactions = {this.state.transactions}
         />
        
         
