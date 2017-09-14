@@ -11,6 +11,12 @@ body {
 #table-caption{
   text-align: center;
 }
+.portfolioSpinner {
+  height: 50%;
+  width: 50%;
+  margin: 7% 0 0 25%; 
+}
+
 /* Create a Parallax Effect */
 .bgimg-1, .bgimg-2, .bgimg-3 {
     background-attachment: fixed;

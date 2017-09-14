@@ -24,8 +24,8 @@ export default class PortfolioEntry extends React.Component {
       <tr>
         <td>{this.props.item.ticker} </td>
         <td>{Math.round(this.props.item.shares * 1000) / 1000} </td>
-        <td>${this.state.stockValue} </td>
-        <td>{this.state.mixValue}%</td>
+        <td>${(Math.round(this.state.stockValue * 100) / 100).toFixed(2)} </td>
+        <td>{isNaN(this.state.mixValue) ? '0.00' : this.state.mixValue}%</td>
       </tr>
     )
   }
