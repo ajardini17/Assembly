@@ -538,3 +538,15 @@ tbody tr:nth-child(odd) {
 .pull-left, .pull-right {
   padding-top: 12px;
 }
+
+.founderPics {
+  width: 90%;
+  height: auto;
+  /* transform: rotate(90deg); */
+  z-index: -1;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
