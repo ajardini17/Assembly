@@ -120,8 +120,9 @@ export default class LandingPage extends React.Component {
               <a href='#' style={{'textDecoration': 'underline'}}>zander@woolfey.com</a>
               <p><a href='http://github.com/ajardini17' style={{'textDecoration': 'underline'}}>Github</a></p>
               <p>
-                Born in Los Angeles, Zander is a dedicated Clippers fan. You can find him sporting a Clippers hat most days of the week 
-                and getting into heated arguments with anyone who dares insult his team. Favorite player: Austin Rivers.
+              Zander is known for both his drive to craft elegant, software solutions as well as noted devotion to the LA Clippers. 
+              Where he's as comfortable making ravioli from scratch as on a rugby pitch. The only desire that can possibly match 
+              growing as a software developer is the call to adventure of world travel. 
               </p>
             </div>
 
