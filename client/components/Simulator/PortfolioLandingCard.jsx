@@ -7,7 +7,8 @@ export default class PortfolioLandingCard extends React.Component {
     this.state = {
       portfolioValue: 0,
       stockValues: {},
-      portfolioCash: 0
+      portfolioCash: 0,
+      renderCard: false
     }
     this.calculatePortfolioValue = this.calculatePortfolioValue.bind(this)
     this.isEmpty = this.isEmpty.bind(this)
@@ -52,7 +53,8 @@ export default class PortfolioLandingCard extends React.Component {
               this.setState({
                 portfolioValue: newValue,
                 stockValues: this.state.stockValues,
-                portfolioCash: Math.round(this.props.item.balance * 100) / 100
+                portfolioCash: Math.round(this.props.item.balance * 100) / 100,
+                renderCard: true
               })
             }
           })
@@ -63,11 +65,23 @@ export default class PortfolioLandingCard extends React.Component {
   render() {
     return (
 
-      <button className='btn btn-default btn-lg port-list-btn' onClick={this.handleClick}>
-        <h3>{this.props.item.name}</h3>
-        <p>Portfolio value: ${this.state.portfolioValue}</p>
-        <p>Cash: ${this.state.portfolioCash}</p>
-      </button>
+      <div>
+
+        {this.state.renderCard ?
+
+          <button className='btn btn-default btn-lg port-list-btn' onClick={this.handleClick}>
+            <h3>{this.props.item.name}</h3>
+            <p>Portfolio value: ${this.state.portfolioValue}</p>
+            <p>Cash: ${this.state.portfolioCash}</p>
+          </button>
+
+          :
+
+          <img id='loadingGif' src='/images/loading.gif' />
+
+        }
+
+      </div>
 
     )
   }

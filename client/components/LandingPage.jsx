@@ -90,15 +90,56 @@ export default class LandingPage extends React.Component {
 
         <div className="bgimg-2 w3-display-container w3-opacity-min">
           <div className="w3-display-middle">
-            <span className="w3-xxlarge w3-text-white w3-wide">CRYPTO TRADER</span>
+            <span className="w3-xxlarge w3-text-white w3-wide">MEET THE TEAM</span>
           </div>
         </div>
 
         <div className="w3-content w3-container w3-padding-64" id="portfolio">
-          <h3 className="w3-center">CONTACT US</h3>
-          <p className="w3-center"><em></em>
-            
-          </p>
+
+          <div className='w3-row'>
+
+            <div className='w3-col m4 w3-center'>
+              <h3>JR Gray</h3>
+              <img src='/images/jr.jpg' className='founderPics w3-opacity-min w3-image w3-hover-opacity-off' />
+              <br />
+              <br />
+              <p><em>Founder / Developer</em></p>
+              <a href='#' style={{'textDecoration': 'underline'}}>jrgray@woolfey.com</a>
+              <p><a href='http://github.com/jr-gray' style={{'textDecoration': 'underline'}}>Github</a></p>
+              <p>
+              
+              </p>
+            </div>
+
+            <div className='w3-col m4 w3-center'>
+              <h3>Zander Jardini</h3>
+              <img src='/images/zander.jpg' className='founderPics w3-opacity-min w3-image w3-hover-opacity-off' />
+              <br />
+              <br />
+              <p><em>Founder / Developer</em></p>
+              <a href='#' style={{'textDecoration': 'underline'}}>zander@woolfey.com</a>
+              <p><a href='http://github.com/ajardini17' style={{'textDecoration': 'underline'}}>Github</a></p>
+              <p>
+                Born in Los Angeles, Zander is a dedicated Clippers fan. You can find him sporting a Clippers hat most days of the week 
+                and getting into heated arguments with anyone who dares insult his team. Favorite player: Austin Rivers.
+              </p>
+            </div>
+
+            <div className='w3-col m4 w3-center'>
+              <h3>Eddie Keller</h3>
+              <img src='/images/eddie.jpg' className='founderPics w3-opacity-min w3-image w3-hover-opacity-off' />
+              <br />
+              <br />
+              <p><em>Founder / Developer</em></p>
+              <a href='#' style={{'textDecoration': 'underline'}}>eddiekeller@woolfey.com</a>
+              <p><a href='http://github.com/116ekg' style={{'textDecoration': 'underline'}}>Github</a></p>
+              <p>
+                Here is some flavor text about Eddie Keller. What a guy. Look at this guy go. You go guy.
+              </p>
+            </div>
+
+          </div>
+
           <br />
         </div>
 
