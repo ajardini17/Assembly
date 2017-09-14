@@ -11,7 +11,6 @@ import CurrInfo from './CurrInfo.jsx'
 import LoginPage from './LoginPage.js'
 import Leaderboard from './Leaderboard/Leaderboard.jsx'
 
-
 export default class App extends React.Component {
   constructor() {
     super()
