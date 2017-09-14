@@ -73,18 +73,6 @@ export default class PortfolioPage extends React.Component {
   handleLogOutAndRedirect(){
     localStorage.removeItem('token');
   }
-
-  fetchTransactionHistory(){
-    axios({
-      method: 'get',
-      url:'/api/portfolioTransactionHistory', 
-      headers: {authorization: localStorage.getItem('token')},
-      params: {portfolioId: this.props.portfolioId}
-    })
-    .then(reply => {
-      this.setState({transactions: reply.data});
-    })
-  }
   
   handleFetchData(){
     axios({
@@ -259,7 +247,7 @@ export default class PortfolioPage extends React.Component {
             portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} 
             annualReturn={this.state.annualReturn} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} 
             portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}
-            successfulPurge={this.successfulPurge} isOwner={this.state.isOwner}
+            successfulPurge={this.successfulPurge} isOwner={this.state.isOwner} transactions = {this.state.transactions}
           />
         
           
