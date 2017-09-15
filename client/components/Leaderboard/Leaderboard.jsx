@@ -8,19 +8,20 @@ export default class Leaderboard extends React.Component {
   constructor(){
     super();
     this.state = {
-      total: null,
-      hourly: null,
-      daily: null,
+      leaderboard: null,
+      hourlyLeaderboard: null,
+      dailyLeaderboard: null,
       loggedIn: false,
+      key: 'leaderboard',
       spinner: true
     }
-    this.fetchTotalLeaderboard = this.fetchTotalLeaderboard.bind(this);
-    this.fetchAdditionalLeaderboardInfo = this.fetchAdditionalLeaderboardInfo.bind(this);
+    this.fetchLeaderboard = this.fetchLeaderboard.bind(this);
+    this.handleSelect = this.handleSelect.bind(this)
     this.handleLogOut = this.handleLogOut.bind(this);
   }
   
   componentWillMount() {
-    this.fetchTotalLeaderboard();
+    this.fetchLeaderboard('leaderboard');
     if (localStorage.getItem('token')) {
       this.setState({ loggedIn: true })
     }
@@ -37,9 +38,19 @@ export default class Leaderboard extends React.Component {
     axios.get('/api/fetchSpecificLeaderboard', {params: {leaderboard: board}})
     .then(reply => {
       this.setState({
-        [board]: reply.data
+        [board]: reply.data,
+        spinner: false
       })
     })
+  }
+
+  handleSelect(key){
+    if(!this.state[key]){
+      this.setState({key, spinner: true}, () => {
+        this.fetchLeaderboard(key)});
+    } else{
+      this.setState({ key });
+    }
   }
   
   render() {
@@ -56,9 +67,9 @@ export default class Leaderboard extends React.Component {
 
                 <div className='leaderboard-loader'></div>
                 :
-              <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+              <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="uncontrolled-tab-example">
                 
-                <Tab eventKey={1} title="Total Value">
+                <Tab eventKey={'leaderboard'} title="Total Value">
                   <table className='table-responsive table-hover leaderboardTable'>
                     <thead className='thead-default'>
                       <tr>
@@ -69,8 +80,8 @@ export default class Leaderboard extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {this.state.total ?
-                      this.state.total.map((item, index) => (
+                      {this.state.leaderboard !== null ?
+                      this.state.leaderboard.map((item, index) => (
                         <LeaderboardEntry item={item} key={index} index={index}  /> 
                       ))
                       :
@@ -79,7 +90,7 @@ export default class Leaderboard extends React.Component {
                     </tbody>
                   </table>
                 </Tab>
-                <Tab eventKey={2} id="hourlyLeaderboard" title="Hourly Gain" onClick={(e) => console.log(e)}>
+                <Tab eventKey={'hourlyLeaderboard'} title="Hourly Gain" >
                   <table className='table-responsive table-hover leaderboardTable'>
                     <thead className='thead-default'>  
                       <tr>
@@ -90,8 +101,8 @@ export default class Leaderboard extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {this.state.hourly  ?
-                      this.state.hourly.map((item, index) => (
+                      {this.state.hourlyLeaderboard !== null  ?
+                      this.state.hourlyLeaderboard.map((item, index) => (
                         <LeaderboardEntry item={item} key={index} index={index}  /> 
                       ))
                       :
@@ -100,7 +111,7 @@ export default class Leaderboard extends React.Component {
                     </tbody>
                   </table>
                 </Tab>
-                <Tab eventKey={3} id="dailyLeaderboard" title='Daily Gain' onClick={(e) => console.log(e)}>
+                <Tab eventKey={'dailyLeaderboard'}  title='Daily Gain' >
                 <table className='table-responsive table-hover leaderboardTable'>
                     <thead className='thead-default'>  
                       <tr>
@@ -111,8 +122,8 @@ export default class Leaderboard extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {this.state.daily ?
-                      this.state.daily.map((item, index) => (
+                      {this.state.dailyLeaderboard !== null ?
+                      this.state.dailyLeaderboard.map((item, index) => (
                         <LeaderboardEntry item={item} key={index} index={index}  /> 
                       ))
                       :
