@@ -8,9 +8,9 @@ export default class Leaderboard extends React.Component {
   constructor(){
     super();
     this.state = {
-      total: [],
-      hourly: [],
-      daily: [],
+      total: null,
+      hourly: null,
+      daily: null,
       loggedIn: false,
       spinner: true,
       boards: ['leaderboard', 'hourlyLeaderboard', 'dailyLeaderboard']
@@ -33,13 +33,23 @@ export default class Leaderboard extends React.Component {
     })
   }
 
-  fetchLeaderboards(){
-    axios.get('/api/fetchLeaderboard', {params: {leaderboard: this.state.boards}})
+  fetchTotalLeaderboard(){
+    axios.get('/api/fetchTotalLeaderboard', {params: {leaderboard: 'leaderboard'}})
     .then(reply => {
       this.setState({
         total: reply.data.leaderboard,
         hourly: reply.data.hourlyLeaderboard,
         daily: reply.data.dailyLeaderboard,
+        spinner: false
+      })
+    })
+  }
+  fetchOtherLeaderboard(board){
+    this.setState({spinner: true});
+    axios.get('/api/fetchSpecificLeaderboard', {params: {leaderboard: board}})
+    .then(reply => {
+      this.setState({
+        [board]: board,
         spinner: false
       })
     })
@@ -58,9 +68,7 @@ export default class Leaderboard extends React.Component {
               {this.state.spinner ? 
 
                 <div className='leaderboard-loader'></div>
-
                 :
-
               <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
                 
                 <Tab eventKey={1} title="Total Value">
