@@ -210,7 +210,7 @@ const leaderboard = () => {
 const getCoinsData = new CronJob({cronTime:'00 */2 * * * *', onTick: () => {coinSet()}, start: false,timeZone:'America/Los_Angeles', runOnInit: true});
 const collectDailyPortfolioData = new CronJob({cronTime:'00 30 23 * * *', onTick: () => {fetchCoins(storePortfolioData)}, start: false, timeZone:'America/Los_Angeles', runOnInit: false});
 const hourlyLeaderboard = new CronJob({cronTime: '00 00 * * * *', onTick: () => {nonCurrentLeaderboardHandler('hourlyLeaderboard')}, start: false, timeZone: 'America/Los_Angeles', runOnInit: true});
-const dailyLeaderboard = new CronJob({cronTime: '00 */2 * * * *', onTick: () => {nonCurrentLeaderboardHandler('dailyLeaderboard')}, start: false, timeZone: 'America/Los_Angeles', runOnInit: true});
+const dailyLeaderboard = new CronJob({cronTime: '00 00 */6 * * *', onTick: () => {nonCurrentLeaderboardHandler('dailyLeaderboard')}, start: false, timeZone: 'America/Los_Angeles', runOnInit: true});
 
 getCoinsData.start();
 collectDailyPortfolioData.start();

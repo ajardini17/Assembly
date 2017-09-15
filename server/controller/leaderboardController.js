@@ -3,15 +3,14 @@ const Redis = require('../../database/redis/redis.js');
 const chunk = require('lodash.chunk');
 
 module.exports = {
+  
   fetchLeaderboard: (req, res) => {
-    // leaderboard
-    // hourlyLeaderboard
-    // Redis.zcard(`${req.query.leaderboard}`, )
-    Redis.zrevrange(`${req.query.leaderboard}`, 0, -1, 'withscores', (err, data) => {
+    let counter = req.query.leaderboard.length;
+    const responseObj = {};
+    req.query.leaderboard.forEach((board,i) => Redis.zrevrange(board, 0, -1, 'withscores', (err, data) => {
       if(data){
         const leaderboard = chunk(data,2);
         Promise.all(leaderboard.map(x => new Promise((resolve, reject) => {
-
           const element = {};
           Model.Portfolio.findOne({where: {id:x[0]}})
           .then(portfolio => {
@@ -27,13 +26,22 @@ module.exports = {
         })
       ))
       .then(totalLeaderboard => {
-        res.send(totalLeaderboard);
+        counter--;
+        responseObj[board] = totalLeaderboard;
+        if(!counter){
+          res.json(responseObj)
+        }
       })
 
       } else {
-        res.send()
+        counter--;
+        responseObj[board] = [];
+        if(!counter){
+          res.json(responseObj)
+        }
       }
-   })
+   }))
+  
   }
 
 }

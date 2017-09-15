@@ -238,18 +238,18 @@ th, td {
   font-size: 100px;
 }
 
-#loadingGif {
-  position: absolute;
-  top:0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 400px;
-  height: 400px;
-}
 .leaderboardHeader {
   border-bottom: 1px dashed;
+}
+.leaderboard-loader {
+
+  border: 7px solid #f3f3f3 ; /* Light grey */
+  border-top: 7px solid #42cef4; /* Blue */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 1s linear infinite;
+  margin: 18% 0 0 46%; 
 }
 .navbar {
   position: fixed;
