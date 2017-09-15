@@ -23,8 +23,7 @@ export default class Footer extends React.Component {
                 <div className="pull-left"> Copyright © woolfey.com</div>
                 <div className="pull-right">
                     <ul>
-                        <li><a href="">About</a></li>
-                        <li><a href="">Careers</a></li>
+                        <li><a href="/#portfolio">About</a></li>
                     </ul> 
                 </div>
             </div>
