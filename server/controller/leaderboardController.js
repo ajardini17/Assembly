@@ -5,9 +5,7 @@ const chunk = require('lodash.chunk');
 module.exports = {
   
   fetchLeaderboard: (req, res) => {
-    let counter = req.query.leaderboard.length;
-    const responseObj = {};
-    req.query.leaderboard.forEach((board,i) => Redis.zrevrange(board, 0, -1, 'withscores', (err, data) => {
+    Redis.zrevrange(req.query.leaderboard, 0, -1, 'withscores', (err, data) => {
       if(data){
         const leaderboard = chunk(data,2);
         Promise.all(leaderboard.map(x => new Promise((resolve, reject) => {
@@ -26,22 +24,16 @@ module.exports = {
         })
       ))
       .then(totalLeaderboard => {
-        counter--;
-        responseObj[board] = totalLeaderboard;
-        if(!counter){
-          res.json(responseObj)
-        }
+        res.send(totalLeaderboard);
       })
 
       } else {
-        counter--;
-        responseObj[board] = [];
-        if(!counter){
-          res.json(responseObj)
+        res.send();
         }
-      }
-   }))
-  
+      
+   })
   }
+  
+  
 
 }
