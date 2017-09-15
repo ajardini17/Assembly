@@ -15,6 +15,9 @@ export default class Navigation extends React.Component {
         <Navbar inverse collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
+              <img src='/images/wolfHead.png' className='woolfVisionBig' />
+            </Navbar.Brand>
+            <Navbar.Brand>
               <a href="/">Woolfey</a>
             </Navbar.Brand>
             <Navbar.Toggle />
@@ -43,7 +46,7 @@ export default class Navigation extends React.Component {
             
             <Nav pullRight>
               <NavDropdown eventKey={5} title="Profile" id="basic-nav-dropdown">
-                <MenuItem eventKey={5.1} href="/">My Portfolios</MenuItem>
+                <MenuItem eventKey={5.1} href="/portfolio">My Portfolios</MenuItem>
                 <MenuItem eventKey={5.2} href="/" onClick={this.props.handleLogOut}>Logout</MenuItem>
               </NavDropdown>
             </Nav>

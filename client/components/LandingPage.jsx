@@ -37,11 +37,22 @@ export default class LandingPage extends React.Component {
           <div className="w3-display-middle needNoWrap">
             <span className="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">WOOLFEY</span>
           </div>
-          <Link to='/login'>
-            <div className='w3-display-middle needNoWrap'>
-              <h3 id='landingBegin' className='w3-center w3-padding-large w3-wide w3-animate-opacity'>BEGIN</h3>
-            </div>
-          </Link>
+          
+          {localStorage.getItem('token') ? 
+            <Link to='/portfolio'>
+              <div className='w3-display-middle needNoWrap'>
+                <h3 id='landingBegin' className='w3-center w3-padding-large w3-wide w3-animate-opacity'>BEGIN</h3>
+              </div>
+            </Link>
+
+            :
+
+            <Link to='/login'>
+              <div className='w3-display-middle needNoWrap'>
+                <h3 id='landingBegin' className='w3-center w3-padding-large w3-wide w3-animate-opacity'>BEGIN</h3>
+              </div>
+            </Link>
+          }
         </div>
 
         

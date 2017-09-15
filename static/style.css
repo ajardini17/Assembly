@@ -356,6 +356,13 @@ th, td {
   margin-top: -8px;
 }
 
+.woolfVisionBig {
+  width: 30%;
+  height: auto;
+  margin-top: -3px;
+  margin-right: -8px;
+}
+
 /* .btn-primary {
   background-color: #42cef4 !important;
   border-color: #42cef4 !important;

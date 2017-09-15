@@ -22,7 +22,7 @@ class Signup extends React.Component {
         this.Auth.signup(this.state.username, this.state.password, (reply) => {
             if(reply !== 'invalid'){
               this.props.handleSignUp();
-              window.location = '/'
+              window.location = '/portfolio'
             }
 
         })

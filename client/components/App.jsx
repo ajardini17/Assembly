@@ -22,7 +22,9 @@ export default class App extends React.Component {
       <Router>
 
         <div>
-          {localStorage.getItem('token') ? <Route exact path='/' render={() => <PortfolioLanding />} /> : <Route exact path='/' render={() => <LandingPage />} />}
+          {/* {localStorage.getItem('token') ? <Route exact path='/' render={() => <PortfolioLanding />} /> : <Route exact path='/' render={() => <LandingPage />} />} */}
+          <Route exact path='/' render={() => <LandingPage />} />
+          <Route path='/portfolio' render={() => <PortfolioLanding />} />
           <Route path='/currency/:ticker' render={() => <CurrInfo />} />
           <Route path='/simulator/:portfolioId' render={(props) => <PortfolioPage userInfo={props}/>} />
           <Route exact path='/login' render={() => <LoginPage />} />

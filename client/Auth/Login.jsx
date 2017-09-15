@@ -22,7 +22,7 @@ class Login extends React.Component {
         this.Auth.login(this.state.username, this.state.password, (reply) => {
             if(reply !== 'invalid'){
               this.props.handleLogin();
-              window.location = '/'
+              window.location = '/portfolio'
             }
         })
         this.setState({username: '', password: ''});
