@@ -209,7 +209,7 @@ export default class PortfolioPage extends React.Component {
         params: {portfolioId: this.state.portfolioId}
       })
       .then(() => {
-        window.location = '/';
+        window.location = '/portfolio';
       })
     }
   }
