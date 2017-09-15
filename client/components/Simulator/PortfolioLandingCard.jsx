@@ -37,8 +37,7 @@ export default class PortfolioLandingCard extends React.Component {
     let count = 0
 
     if (this.isEmpty(currencyArr)) {
-      this.setState({ portfolioValue: this.props.item.balance,
-                        portfolioCash: this.props.item.balance })
+      this.setState({ portfolioValue: this.props.item.balance,portfolioCash: this.props.item.balance, renderCard: true })
     } else {
       currencyArr.forEach((x, i) => {
         axios.get('/api/coinQuery', {params: x.ticker})
