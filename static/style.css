@@ -572,5 +572,9 @@ tbody tr:nth-child(odd) {
 
 div a:hover {
   text-decoration: none;
+  color: black;
+}
+
+.about-link a:hover {
   color: white;
 }

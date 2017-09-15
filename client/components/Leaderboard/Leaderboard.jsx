@@ -20,7 +20,7 @@ export default class Leaderboard extends React.Component {
     this.handleLogOut = this.handleLogOut.bind(this);
   }
   
-  componentWillMount() {
+  componentDidMount() {
     this.fetchLeaderboard('leaderboard');
     if (localStorage.getItem('token')) {
       this.setState({ loggedIn: true })

@@ -99,25 +99,6 @@ const appendCoinHistoricalData = (coin, price, date) => {
   })
 }
 
-/////////////////////////////////////////////////////
-// const fetchHistory = () => {
-//   let current_time = Math.round((new Date()).getTime() / 1000);
-//   Promise.all(coins.map(coin => axios({
-//     url:`https://min-api.cryptocompare.com/data/histoday?fsym=${coin.toUpperCase()}&tsym=USD&aggregate=1&toTs=${current_time}&allData=true`,
-//     method: 'get'
-//   })))
-//   .then(results => {
-//     const coinData = results.map(x=>x.data.Data);
-//     coinData.forEach((coin,i)=>{
-//       let historicalData = []
-//       coinData[i].forEach((data, j) => {
-//         historicalData.push([coinData[i][j].time * 1000, coinData[i][j].close]);
-//       });
-//       Redis.set(`${coins[i]}:history`, JSON.stringify(historicalData));
-//     })
-//   })
-//   .catch(err => console.log(err))
-// }
 ///////////////////////////// LEADERBOARD /////////////////////////////////////
 
 const setCurrentLeaderboard = (coins,portfolios, cb) => {
