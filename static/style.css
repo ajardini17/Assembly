@@ -199,6 +199,24 @@ th, td {
   padding-bottom: 20px;
 }
 
+.lgPortBtn{
+   display: inline-block;
+}
+
+.smPortBtn{
+   display: none;
+}
+
+ @media screen and (max-width: 600px) {
+  .lgPortBtn{
+    display: none;
+  }
+
+  .smPortBtn{
+    display: inline-block;
+  }
+} 
+
 @media screen and (max-width: 1000px) {
   .port-list-div {
     width: 50%;
