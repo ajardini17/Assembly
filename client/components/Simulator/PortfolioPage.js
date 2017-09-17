@@ -23,7 +23,8 @@ export default class PortfolioPage extends React.Component {
       annualReturn: 'Calculating...',
       history: [],
       transactions: [],
-      isOwner: false
+      isOwner: false,
+      origValues: {}
     }
     this.checkForOwner = this.checkForOwner.bind(this)
     this.fetchPortfolioTransactions = this.fetchPortfolioTransactions.bind(this)
@@ -38,6 +39,7 @@ export default class PortfolioPage extends React.Component {
     this.appendTransactions = this.appendTransactions.bind(this)
     this.isEmpty = this.isEmpty.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
+    this.calculateOriginalStockValues = this.calculateOriginalStockValues.bind(this)
     
   }
   componentDidMount() {
@@ -64,13 +66,36 @@ export default class PortfolioPage extends React.Component {
       params: {portfolioId: this.state.portfolioId}
     })
     .then(reply => {
-      this.setState({transactions: reply.data});
+      this.setState({transactions: reply.data}, () => { 
+        this.calculateOriginalStockValues()  
+      });
     })
     .catch(err => 'ERROR')
   }
 
   handleLogOutAndRedirect(){
     localStorage.removeItem('token');
+  }
+
+  calculateOriginalStockValues() {
+
+    let origValues = { 
+      'btc': 0,
+      'bch': 0,
+      'ltc': 0,
+      'eth': 0,
+      'xrp': 0,
+      'xmr': 0
+    }
+
+    const transactions = this.state.transactions
+
+    for (let i = 0; i < transactions.length; i++) {
+      transactions[i].transactionType === "buy" ? 
+      origValues[transactions[i].ticker] += (transactions[i].shares*transactions[i].transactionPrice) : 
+      origValues[transactions[i].ticker] -= (transactions[i].shares*transactions[i].transactionPrice)
+    }
+    this.setState({ origValues })
   }
   
   handleFetchData(){
@@ -246,6 +271,7 @@ export default class PortfolioPage extends React.Component {
           annualReturn={this.state.annualReturn} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} 
           portfolioBalance={this.state.cash} successfulBuy={this.successfulBuy} successfulSell={this.successfulSell}
           successfulPurge={this.successfulPurge} isOwner={this.state.isOwner} transactions = {this.state.transactions}
+          origValues={this.state.origValues}
         />
       
         
