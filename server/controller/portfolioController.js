@@ -8,6 +8,7 @@ module.exports ={
       userId: req.token.id
     })
     .then(portfolio => {
+      console.log(portfolio.dataValues);
       Redis.hmset(`portfolio:${portfolio.dataValues.id}:hash`, ['liquid', portfolio.dataValues.balance, 'total', portfolio.dataValues.balance]);
       Redis.zadd('leaderboard', portfolio.dataValues.balance, portfolio.dataValues.id);
       res.send(portfolio);
