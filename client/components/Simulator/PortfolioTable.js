@@ -88,7 +88,7 @@ export default class PortfolioTable extends React.Component {
             <th style={{ 'textAlign':'center' }}>Qty</th>
             <th style={{ 'textAlign':'center' }}>Value</th>
             <th style={{ 'textAlign':'center' }}>Mix</th>     
-            <th style={{ 'textAlign':'center' }}>Lifetime</th>     
+            <th style={{ 'textAlign':'center' }}>Overall Return</th>     
           </tr>
         </thead>
         <tbody>
