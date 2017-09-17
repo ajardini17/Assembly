@@ -257,7 +257,7 @@ export default class PortfolioInfo extends React.Component {
 
     var highchartStyle = {
       height: '400px',
-      maxWidth: '1400px',
+      maxWidth: '90%',
       midWidth: '310px',
       margin: '10px auto',
       marginBottom: '60px'
