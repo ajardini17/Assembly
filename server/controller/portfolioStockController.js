@@ -17,7 +17,7 @@ buy: (req, res) => {
       Redis.hmget(`portfolio:${req.body.portfolioId}:hash`, 'total', `${req.body.ticker}:amount`, 'liquid', (err, data) => {
         if(data){
 
-          Redis.hmset(`portfolio:${req.body.portfolioId}:hash`, `${req.body.ticker}:shares`, stockData.dataValues.shares + req.body.shares, `${req.body.ticker}:amount`, newStockValue, 'total', data[0] - data[1] + newStockValue);
+          Redis.hmset(`portfolio:${req.body.portfolioId}:hash`, `${req.body.ticker}:shares`, stockData.dataValues.shares + req.body.shares, `${req.body.ticker}:amount`, newStockValue, 'total', data[0] - data[1] + newStockValue, 'liquid', Math.round((Number(data[2]) - req.body.finalPrice)*100)/100);
         } else {
           console.log('Redis error', req.body.portfolioId)
         }

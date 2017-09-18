@@ -470,7 +470,7 @@ export default class CurrInfo extends React.Component {
           this.setState({
             input: '',
             purchasePrice: ''
-          }, () => { alert('Success!') })
+          })
         });
       } else {
         alert('Insufficient Funds');
@@ -505,7 +505,7 @@ export default class CurrInfo extends React.Component {
               this.setState({
                 input: '',
                 purchasePrice: ''
-              }, () => alert('Success!'))
+              })
             }
           })
         }

@@ -59,7 +59,7 @@ const storePortfolioData = (coins, portfolios) => {
   let time = Date.now();
   addDailyHistoricalGraphData(coins);
   portfolios.forEach((portfolio, i) => {
-    Model.PortfolioStock.findAll({where:{id:portfolio.id}})
+    Model.PortfolioStock.findAll({where:{portfolioId:portfolio.id}})
     .then(reply => {
       const stocks = reply.map(x => x.dataValues);
       let currencyValue = 0;
