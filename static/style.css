@@ -301,7 +301,6 @@ th, td {
 .purchasePrice {
   margin-left: -40px;
 }
-
 @media screen and (max-width: 840px){
   #selectedCurrencyText {
     display: block;
@@ -321,10 +320,18 @@ th, td {
   #bottomSimPurchase {
     margin-left: 3%;
   }
+  .portfolio-landing-responsive {
+    margin-left: -46%;
+  }
   /* #simulatorSelectedCurrency {
     padding-top: 10px;
     display: block;
   } */
+}
+@media screen and (max-width: 568px){
+  .display-price-mobile {
+    margin-top: 7%;
+  }
 }
 .loginSignupSubmitBtn {
   margin-top: 10px;
