@@ -3,7 +3,6 @@ const Redis = require('../../database/redis/redis.js');
 const chunk = require('lodash.chunk');
 
 module.exports = {
-  
   fetchLeaderboard: (req, res) => {
     Redis.zrevrange(req.query.leaderboard, 0, -1, 'withscores', (err, data) => {
       if(data){
@@ -18,7 +17,7 @@ module.exports = {
                 element.username = user.dataValues.handle;
                 element.portfolioName = portfolio.dataValues.name;
                 element.portfolioValue = Math.round(x[1] * 100) / 100;
-                element.portfolioId = portfolio.dataValues.id;
+                element.portfolioId = x[0];
                 resolve(element);
               })
             } else {
