@@ -257,8 +257,7 @@ export default class PortfolioInfo extends React.Component {
 
     var highchartStyle = {
       height: '400px',
-      maxWidth: '1400px',
-      midWidth: '310px',
+      maxWidth: '90%',
       margin: '10px auto',
       marginBottom: '60px'
     };
@@ -280,7 +279,7 @@ export default class PortfolioInfo extends React.Component {
           </div>
           <div className='col-xs-12 col-sm-8'>
             <PortfolioTable portfolioStocks={this.props.portfolioStocks} stockValues={this.props.stockValues} 
-              portfolioValue={this.props.portfolioValue} 
+              portfolioValue={this.props.portfolioValue} origValues={this.props.origValues}
             />
           </div>
         </div>
