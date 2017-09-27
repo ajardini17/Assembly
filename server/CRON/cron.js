@@ -15,10 +15,9 @@ const coinSet = () => {
       Redis.set(`${coins[i]}:price`, coin.last_price, (err, data) => {
         Redis.get(`${coins[i]}:previous:price`, (err, oldData) => {
           if(oldData === 'null' || oldData == null) {
-            console.log('no old')
             Redis.set(`${coins[i]}:previous:price`, coin.last_price);
           }
-          else if(Math.abs((coin.last_price - oldData)/oldData) > .0002) {
+          else if(Math.abs((coin.last_price - oldData)/oldData) > .01) {
             triggerLeaderboardCalculation(coins[i], coin.last_price);
             updateHourlyLeaderboardChange(coins[i], oldData, coin.last_price);
             Redis.set(`${coins[i]}:previous:price`, coin.last_price);
@@ -119,7 +118,6 @@ const setCurrentLeaderboard = (coins,portfolios, cb) => {
         currencyArray.push(stockVal);
       }
       const completeCurrencyArray = currencyArray.concat('liquid').concat(portfolio.balance).concat('total').concat(Math.round((currencyValue + portfolio.balance) * 100) / 100);
-
       Redis.hmset(`portfolio:${portfolio.id}:hash`, completeCurrencyArray);
       Redis.zadd('leaderboard', Math.round((currencyValue + portfolio.balance) * 100) / 100, portfolio.id);
     })
@@ -196,9 +194,9 @@ const triggerLeaderboardCalculation = (ticker, newValue) => {
   Redis.smembers(`${ticker}:members`, (err, members) => {
     members.forEach(id => {
       Redis.hmget(`portfolio:${id}:hash`, `${ticker}:shares`, `${ticker}:amount`,'total', (err, data) => {   
-        let newCurrencyValue = Math.round(Number(data[0]) * Number(data[1]) * 100) / 100;
+        let newCurrencyValue = Math.round(Number(data[0]) * newValue * 100) / 100;
         let newTotal = Math.round((Number(data[2]) - Number(data[1]) + newCurrencyValue) * 100) / 100;
-        Redis.hmset(`portfolio:${data}:hash`, `${ticker}:amount`, newCurrencyValue, 'total', newTotal);
+        Redis.hmset(`portfolio:${id}:hash`, `${ticker}:amount`, newCurrencyValue, 'total', newTotal);
         Redis.zadd('leaderboard', newTotal, id);
       })
     })
