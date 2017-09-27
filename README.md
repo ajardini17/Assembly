@@ -4,28 +4,30 @@ Woolfey is an investment simulator that lets you trade cryptocurrencies like Bit
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Requirements
-
-pip for Python 3 and npm
+npm: '3.10.10',
+node: '6.11.0',
+Python: '3.6.2',
+pip: '9.0.1'
 
 ### Installing
 
 You'll need to install both JavaScript and Python dependencies.
 From root directory of repo:
 
-to download JavaScript dependencies:
+download JavaScript dependencies
 ```
 npm install
 ```
 
-to download Python dependencies:
+download Python dependencies
 ```
 pip3 install -r requirements.txt
 ```
 
-Start the Node.js, Python Flask, and Redis servers:
+Once dependecies are installed, start the Node.js, Python Flask, and Redis servers:
 ```
 npm start
 ```
@@ -33,9 +35,9 @@ npm start
 ## Built With
 
 * [React](https://facebook.github.io/react/docs/hello-world.html) - JavaScript client side framework
-* [Node](https://nodejs.org/en/docs/) - JavaScript server framework
-* [Express](http://expressjs.com/en/api.html) - Express server framework
-* [Flask](http://flask.pocoo.org/docs/0.12/) - Python server framework for machine learning model
+* [Node](https://nodejs.org/en/docs/) - JavaScript server side framework
+* [Express](http://expressjs.com/en/api.html) - JavaScript server side framework
+* [Flask](http://flask.pocoo.org/docs/0.12/) - Python server framework, used for our machine learning model
 * [Redis](https://redis.io/documentation) - In memory storage
 * [PostgreSQL](https://www.postgresql.org/docs/) - Database
 
@@ -47,4 +49,4 @@ npm start
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License
