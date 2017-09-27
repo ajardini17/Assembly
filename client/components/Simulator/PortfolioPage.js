@@ -265,7 +265,7 @@ export default class PortfolioPage extends React.Component {
   render() {
     return (
       <div className='container' id='portPage'>
-        <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true} handleDelete={this.handleDelete}/> 
+        <Navigation handleLogOut={this.handleLogOutAndRedirect} loggedIn={true} handleDelete={this.handleDelete} isOwner={this.state.isOwner}/> 
         <PortfolioInfo totalPortfolios={this.state.totalPortfolios} portfolioRank={this.state.portfolioRank} portfolioStocks={this.state.portfolio.stocks} stockValues={this.state.stockValues} history={this.state.history} 
           portfolioValue={this.state.portfolioValue} cash={this.state.cash} portfolioName={this.state.portfolioName} 
           annualReturn={this.state.annualReturn} portfolioId ={this.state.portfolioId} portfolio = {this.state.portfolio} 

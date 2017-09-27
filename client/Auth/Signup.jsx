@@ -28,17 +28,22 @@ class Signup extends React.Component {
       }
     }
     checkPasswordRequirements(){
-
+      let password = this.state.password;
+      return password.toLowerCase() !== password && password.toUpperCase() !== password && /\d/.test(password) && password.length <= 10 && password.length >= 5;
     }
     handleSubmit(event) {
         event.preventDefault();
         if(this.checkSpecialCharacters()){
-          this.Auth.signup(this.state.username, this.state.password, (reply) => {
-            if(reply !== 'invalid'){
-              this.props.handleSignUp();
-              window.location = '/portfolio'
-            }
-          })
+          if(this.checkPasswordRequirements()){
+            this.Auth.signup(this.state.username, this.state.password, (reply) => {
+              if(reply !== 'invalid'){
+                this.props.handleSignUp();
+                window.location = '/portfolio'
+              }
+            })
+          } else {
+            alert('Password doesn\'t meet requirements')
+          }
         } else {
           alert('No special characters');
         }
