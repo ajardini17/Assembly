@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom';
 class Login extends React.Component {
     constructor(props){
         super(props);
-        this.Auth = new Auth;
         this.state = {username: '', password: ''};
         this.handleUsername = this.handleUsername.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
