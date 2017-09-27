@@ -30,7 +30,6 @@ export default class Auth {
         headers: {'Authorization': `Basic ${base64login}`}
       })
       .then(reply => {
-        console.log(reply.data,' REPLY . DATA')
         if(reply.data === 'invalid'){
           alert('Username or password invalid')
           callback('invalid');

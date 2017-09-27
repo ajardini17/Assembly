@@ -47,7 +47,6 @@ export default class PortfolioPage extends React.Component {
     this.fetchPortfolioTransactions()
   }
   checkForOwner(){
-
     axios({
       method: 'get',
       url: '/api/isOwnerOfPortfolio',
@@ -56,6 +55,9 @@ export default class PortfolioPage extends React.Component {
     })
     .then(reply => {
       this.setState({isOwner: reply.data}, () => {this.handleFetchData(); this.getPortfolioHistory()})
+    })
+    .catch(() => {
+      this.setState({isOwner: false}, () => {this.handleFetchData(); this.getPortfolioHistory()})
     })
   }
 
